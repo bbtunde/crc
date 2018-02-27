@@ -1,0 +1,15 @@
+node{
+    stage('Build') {
+        echo 'Building...'
+        checkout scm
+        dir('paga') {
+            sh 'npm install'
+        }
+    }
+
+    stage('Unit Tests') {
+        echo 'Checking out Paga configuration...'
+        sh 'cp config/dist.config.json config/config.json'
+        sh 'npm run test'
+    }
+}

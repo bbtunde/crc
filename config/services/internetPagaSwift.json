@@ -1,0 +1,91 @@
+{
+  "internet.paga.swift": {
+    "orderSummaryHandler": "internetOrderSummaryHandler",
+    "purchaseHandler": "internetPurchaseHandler",
+    "definition": {
+      "linetype": "21e818c7-db0a-4042-bc7a-a18da33ec3e5"
+    },
+    "extra_info": false,
+    "destination": "customer_id",
+    "steps": [
+      {
+        "fields": [
+          {
+            "key": "customer_id",
+            "template": "number",
+            "title": "What is your Customer ID?",
+            "label": "Customer ID",
+            "validators": [
+              {
+                "type": "required",
+                "options": [],
+                "message": "Customer ID cannot be empty"
+              },
+              {
+                "type": "textLength",
+                "options": [
+                  {
+                    "option": "min",
+                    "value": "5",
+                    "message": "Minimum 5 digits"
+                  },
+                  {
+                    "option": "max",
+                    "value": "13",
+                    "message": "Maximum 13 digits"
+                  }
+                ],
+                "message": "Invalid number of digits"
+              }
+            ],
+            "options": []
+          },
+          {
+            "key": "amount",
+            "template": "money",
+            "title": "How much do you want to top-up?",
+            "label": "Top-up amount",
+            "validators": [
+              {
+                "type": "required",
+                "options": [],
+                "message": "Amount cannot be empty"
+              },
+              {
+                "type": "money",
+                "options": [
+                  {
+                    "option": "currency",
+                    "value": "NGN",
+                    "message": "We only support Nigerian Nairas"
+                  },
+                  {
+                    "option": "min",
+                    "value": "10",
+                    "message": "Minimum amount: 10 NGN"
+                  },
+                  {
+                    "option": "max",
+                    "value": "100000",
+                    "message": "Maximum amount: 100000 NGN"
+                  }
+                ],
+                "message": "Invalid amount"
+              }
+            ],
+            "options": [
+              {
+                "label": "NGN",
+                "icon": "U+20A6",
+                "option_value": "NGN",
+                "message": "",
+                "preselected": true,
+                "form_elements": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

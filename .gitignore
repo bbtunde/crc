@@ -1,0 +1,26 @@
+### App ###
+errorLog
+config/config.json
+
+# ApiDocs
+docs/apidoc/generated/*
+!apidoc/generated/.gitkeep
+
+# NewRelic
+newrelic_agent.log
+
+# Coverage directory used by istanbul
+coverage
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+
+### VisualStudioCode ###
+.vscode/
+.history
+
+## IDE
+.idea/

@@ -1,0 +1,58 @@
+{
+  "name": "paga",
+  "version": "1.0.0",
+  "description": "paga forms adapter API",
+  "main": "app.js",
+  "scripts": {
+    "start": "NODE_ENV=default node app.js",
+    "dev": "NODE_ENV=default nodemon app.js",
+    "serve-prod": "export NODE_ENV=production && node app.js",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha 'test/**/*.spec.js'",
+    "test-one": "mocha 'test/**/*.spec.js' -g",
+    "debug": "mocha --inspect-brk",
+    "test-watch": "nodemon --exec 'npm test'",
+    "docs": "apidoc -i ./controllers -i ./docs/apidoc/definitions -o docs/apidoc/generated docs/apidoc/definitions/"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js",
+      "app.js",
+      "newrelic.js"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JumiaMDS/paga.git"
+  },
+  "author": "Jumia MDS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JumiaMDS/paga/issues"
+  },
+  "homepage": "https://github.com/JumiaMDS/paga#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "body-validator": "*",
+    "joi": "^13.1.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.20.1",
+    "newrelic": "^2.6.0",
+    "node-obj-validator": "*",
+    "request": "^2.83.0",
+    "restify": "^5.2.1",
+    "restify-cors-middleware": "^1.1.0",
+    "restify-validator": "^0.3.1",
+    "crypto": "*"
+  },
+  "devDependencies": {
+    "apidoc": "^0.17.6",
+    "chai": "^4.1.1",
+    "expect": "^1.20.2",
+    "mocha": "^3.5.0",
+    "nodemon": "^1.14.11",
+    "nyc": "11.2.1",
+    "rewire": "^2.5.2",
+    "sinon": "^3.2.1",
+    "supertest": "^3.0.0"
+  }
+}

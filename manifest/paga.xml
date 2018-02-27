@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <adapter>
+        <distributor>paga</distributor>
+        <version>1</version>
+        <last_update>2018-01-03 00:00:00</last_update>
+        <configs>
+            <endpoint>http://paga.one.svc.cluster.local/api/v1</endpoint>
+            <username>jone</username>
+            <password>J4v_7G_Gzw3U4r4umJR8A5PFN7_cjnza</password>
+        </configs>
+        <services>
+    
+             <!--INTERNET SPECTRANET-->
+            <service key="internet.paga.spectranet">Internet  Paga Spetranet</service>
+
+            <service key="internet.paga.swift">Internet  Paga Swift</service>
+
+            <service key="internet.paga.smile">Internet  Paga Smile</service>
+
+            
+
+        </services>
+    </adapter>

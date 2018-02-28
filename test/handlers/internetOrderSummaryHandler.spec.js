@@ -13,27 +13,25 @@ const AppError = require('./../../models/AppError');
 const ResponseCode = require('./../../models/ResponseCode');
 
 
-describe('Airtime Order Summary Handler',function()
+describe('Internet Order Summary Handler',function()
 {
-	var serviceKey="airtime.prepaid.paga.mtn";
+	var serviceKey="internet.paga.spectranet";
 	
-	it('airtime order summary- resolves with quoteResponse', async function()
+
+	it('internet order summary- resolves with quoteResponse',async function()
 	{
 		let body = {
-            "phone_number": {
-                "user_input": "NG_07034774592",
-                "national": "07034774592",
-                "international": "+23407034774592",
-                "country_code": "NG"
-            },
+            "customer_id": "10164177",
             "amount": "NGN_100"
         };
 		let amountValue=100;
 		let currency="NGN";
+        let fee=105;
+        let total_amount=amountValue+fee;
 		let mockQuoteResponse = new QuoteResponse(
                 availableServices[serviceKey].destination,
                 [],
-                [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
+                [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"amount":amountValue,"fee":fee }])]
             );
 		
 		let parseMoneyAmountStub=sinon.stub(ParseUtils,'parseMoneyAmountValue');
@@ -41,26 +39,21 @@ describe('Airtime Order Summary Handler',function()
 		let parseMoneyCurrencyStub=sinon.stub(ParseUtils,'parseMoneyCurrencyValue');
 		parseMoneyCurrencyStub.returns("NGN");
 		
-		let result=requestHandlers['airtimeOrderSummaryHandler'](serviceKey, body);
+		let result=requestHandlers['internetOrderSummaryHandler'](serviceKey, body);
 		const quoteResponse= await result;
 		assert.deepEqual(quoteResponse,mockQuoteResponse);
 		TestHelper.resetStubAndSpys([parseMoneyAmountStub,parseMoneyCurrencyStub]);
 
 	});
 
-	it('airtime order summary - reject with amount not properly formated',async function()
+	it('internet order summary - reject with amount not properly formated',async function()
 	{
 		let body = {
-            "phone_number": {
-                "user_input": "NG_07034774592",
-                "national": "07034774592",
-                "international": "+23407034774592",
-                "country_code": "NG"
-            },
+            "customer_id": "10164177",
             "amount": "NGN100"
         };
 
-		let result = requestHandlers['airtimeOrderSummaryHandler'](serviceKey, body);
+		let result = requestHandlers['internetOrderSummaryHandler'](serviceKey, body);
 
         try {
             const testResult = await result;
@@ -72,19 +65,14 @@ describe('Airtime Order Summary Handler',function()
 	});
 
 
-	it('airtime order summary - reject with amount value not number',async function()
+	it('internet order summary - reject with amount value not number',async function()
 	{
 		let body = {
-            "phone_number": {
-                "user_input": "NG_07034774592",
-                "national": "07034774592",
-                "international": "+23407034774592",
-                "country_code": "NG"
-            },
-            "amount": "NGN_AA0"
+            "customer_id": "10164177",
+            "amount": "NGN_100"
         };
 
-		let result = requestHandlers['airtimeOrderSummaryHandler'](serviceKey, body);
+		let result = requestHandlers['internetOrderSummaryHandler'](serviceKey, body);
 
         try {
             const testResult = await result;

@@ -27,7 +27,7 @@ const mapper = {
         service_key: 'internet.paga.spectranet',
         destination: 'customer_id',
         message_missing_destination: 'Missing Costumer ID',
-        order_summary_needs_prevalidation: false, 
+        order_summary_needs_prevalidation: false
     }
 };
 

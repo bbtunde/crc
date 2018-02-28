@@ -9,21 +9,16 @@ const PurchaseResponse = require('./../../models/PurchaseResponse');
 const AppError = require('./../../models/AppError');
 const ResponseCode = require('./../../models/ResponseCode');
 
-describe('Airtime Purchase Handler',function()
+describe('Internet Purchase Handler',function()
 {
-	var serviceKey="airtime.prepaid.paga.mtn";
+	var serviceKey="internet.paga.spectranet";
 	const requestHandlers = require('./../../config/requireHandlers').handlers;
 	
-	it('airtime purchase -with transaction reference', async function()
+	it('Internet purchase -with transaction reference', async function()
 	{
 		let body = {
-            "phone_number": {
-                "user_input": "NG_07034774592",
-                "national": "07034774592",
-                "international": "+23407034774592",
-                "country_code": "NG"
-            },
-            "amount": "NGN_10"
+            "customer_id": "10164177",
+            "amount": "NGN_100"
         };
         let mockDistributorResponse = {
                 status: 'Success',
@@ -38,31 +33,15 @@ describe('Airtime Purchase Handler',function()
 	});
 
 
-	it('airtime purchase - reject with Missing phone number ', async function()
-	{
-		let body = {
-            "amount": "NGN_10"
-        };
-		
-		let result = requestHandlers['airtimePurchaseHandler'](serviceKey, body);
-        let expectedAppError=new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "phone_number" in body`, []);
+	
 
-        try {
-            const testResult = await result;
-        } catch (error) {
-           	expect(error).to.deep.equal(expectedAppError);
-            };  
-
-       
-	});
-
-    it('airtime purchase - reject with Missing amount ', async function()
+    it('internet purchase - reject with Missing amount ', async function()
     {
         let body = {
-            "phone_number": {}
+            "customer_id": "10164177"
         };
         
-        let result = requestHandlers['airtimePurchaseHandler'](serviceKey, body);
+        let result = requestHandlers['internetPurchaseHandler'](serviceKey, body);
         let expectedAppError=new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []);
         try {
             const testResult = await result;

@@ -8,6 +8,7 @@ const PaymentDetailItem = require('./../models/PaymentDetailItem');
 const AppError = require('./../models/AppError');
 const PagaClient = require('./../services/pagaClient');
 const ResponseCode = require('./../models/ResponseCode');
+const fee=105;
 
 /* istanbul ignore next */
 const isValidLineType = (linetypeToValidate, matchingServiceKey) => {
@@ -138,26 +139,25 @@ module.exports = {
                
                 const generatedReference = `jone${Date.now()}`;
                 const url = config.paga.business_endpoint+config.paga.merchant_payment;
-                let amount=100;
+                let amount=0;
                 amount=amount.toFixed(2);
                 const args = {
                     referenceNumber:generatedReference,
                     amount:amount,
                     merchantAccount:linetype,
                     merchantReferenceNumber:destinationRef
-                    };
-               
+                };
+
                 const tohash=generatedReference+amount+linetype+destinationRef;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {
-                        return resolve(result);
                         try {
                             let quoteResponse = new QuoteResponse(
                                 availableServices[serviceKey].destination,
                                 [],
                                 [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
                             );
-
+                            return resolve(quoteResponse);
                         } catch (error) {
                             let errorMessage = null;
                             try {
@@ -174,10 +174,12 @@ module.exports = {
                         return reject(appError);
                     });
             } else { // no need for pre validation
+
+                let total_amount=amountValue+fee;
                 let quoteResponse = new QuoteResponse(
                     availableServices[serviceKey].destination,
                     [],
-                    [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency,"fee":100 }])]
+                    [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"fee":fee,"amount":amountValue }])]
                 );
 
                 return resolve(quoteResponse);

@@ -89,7 +89,7 @@ module.exports = {
                 "amount":amountValue,
                 "merchantAccount":linetype,
                 "merchantReferenceNumber":destinationRef,
-                "merchantService":"Internet"
+                "merchantService":"Data"
             };
 
             const tohash=generatedReference+amountValue+linetype+destinationRef;
@@ -100,7 +100,7 @@ module.exports = {
                     let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
                     return resolve(purchaseResponse);
                 } catch (error) {
-                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to eTranzact`, []));
+                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
                 }
             })
             .catch(appError => {

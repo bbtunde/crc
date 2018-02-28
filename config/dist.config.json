@@ -1,6 +1,6 @@
 {
   "errorLog": "errorLog",
-  "serverPort": 9334,
+  "serverPort": 3334,
   "newrelic_enable": false,
   "newrelic_license_key": "random_key",
   "newrelic_app_name": "dummy_name",
@@ -10,8 +10,9 @@
   },
   "paga":
   {
-    "business_endpoint":" https://mypaga.com/paga-webservices/business-rest/secured/business-rest/",
-    "merchant_payment":"business-rest",
+  
+    "business_endpoint":" https://qa1.mypaga.com/paga-webservices/business-rest/secured/",
+    "merchant_payment":"merchantPayment",
     "principal":"asdlflflffl",
     "credentials":"lx789=2",
     "hashkey":"aaaaaaaaaa"

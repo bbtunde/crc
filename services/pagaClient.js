@@ -7,11 +7,11 @@ const ResponseCode = require('./../models/ResponseCode');
 module.exports = class pagaClient {
 
     static isSuccessResponse(response) {
-        if ((response.response == undefined) || (response.response.error == undefined)) {
+        if ((response.responseCode == undefined) || (response.responseCode == undefined)) {
             return false;
         }
 
-        if ((response.response.error == 0) || (response.response.error == "0")) {
+        if ((response.responseCode == 0) || (response.responseCode == "0")) {
             return true;
         }
 
@@ -45,15 +45,15 @@ module.exports = class pagaClient {
                 json:true,
             }, function(error, response, body){
                 if (response.statusCode === 200) {
-                    
-                    if (pagaClient.isSuccessResponse(response)) {
+                    console.log(body);
+                    if (pagaClient.isSuccessResponse(body)) {
                         return resolve(body);
                     } else {
-                        return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, body.errorMessage, []));
+                        return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, body.message, []));
                     }
 
                 } else {
-                    return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, body.errorMessage, []));
+                    return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, error, []));
                 }
             });
 

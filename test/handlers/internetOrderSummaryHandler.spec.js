@@ -22,7 +22,7 @@ describe('Internet Order Summary Handler',function()
 	{
 		let body = {
             "customer_id": "10164177",
-            "amount": "NGN_100"
+            "amount": "NGN_400.5GB Night & Weekend Data Bundle"
         };
 		let amountValue=100;
 		let currency="NGN";

@@ -57,6 +57,7 @@ module.exports = class OrderService {
                         resolve(successPurchase);
                     })
                     .catch((error) => {
+                        console.log(error);
                         if (error instanceof AppError) {
                             return reject(error);
                         }                       

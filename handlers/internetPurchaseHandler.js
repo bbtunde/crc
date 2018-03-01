@@ -2,7 +2,7 @@ const availableServices = require('../config/requireServices').services;
 var ParseUtils = require('../services/parseUtils');
 var config = require('../config/config.json');
 const servicesMapper = require('./../pagaHelpers/servicesMapper');
-const PagaClient = require('./../services/pagaClient');
+const PagaClient = require('./../services/pagaClient');;
 const PurchaseResponse = require('./../models/PurchaseResponse');
 const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
@@ -74,12 +74,14 @@ module.exports = {
             }
 
             try {
-                var amountValue = ParseUtils.parseMoneyAmountValue(body.amount);
-                amountValue=amountValue.toFixed(2);
+                let amount = body['amount'];
+                amount=amount.split('.')[0];
+                var amountValue = ParseUtils.parseMoneyAmountValue(amount);
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-
+    
+             amountValue= amountValue.toFixed(2)
             // request purchase distributor
             const generatedReference = `jone${Date.now()}`;
             const url = config.paga.business_endpoint+config.paga.merchant_payment;
@@ -88,8 +90,7 @@ module.exports = {
                 "referenceNumber":generatedReference,
                 "amount":amountValue,
                 "merchantAccount":linetype,
-                "merchantReferenceNumber":destinationRef,
-                "merchantService":"Data"
+                "merchantReferenceNumber":destinationRef
             };
 
             const tohash=generatedReference+amountValue+linetype+destinationRef;

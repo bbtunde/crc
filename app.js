@@ -19,6 +19,20 @@ var server = {};
 
 if (env !== 'test') {
 
+// activate cron
+  if (((undefined != config.cron_active) && config.cron_active) &&
+    ((undefined != config.couchbase) && config.couchbase.enabled)) {
+    const cronService = require('./services/cronService');
+    cronService.cronTaskPlansSMILE.start();
+  
+  }
+
+  // activate cache
+  if ((undefined != config.couchbase) && config.couchbase.enabled && (undefined != config.plans_to_cache)) {
+    const cacheService = require('./services/cacheService');
+    cacheService.load(config.plans_to_cache);
+  }
+
   server = restify.createServer();
 
   server.use(restify.plugins.bodyParser());

@@ -8,7 +8,7 @@ const PaymentDetailItem = require('./../models/PaymentDetailItem');
 const AppError = require('./../models/AppError');
 const PagaClient = require('./../services/pagaClient');
 const ResponseCode = require('./../models/ResponseCode');
-const fee=105;
+
 
 /* istanbul ignore next */
 const isValidLineType = (linetypeToValidate, matchingServiceKey) => {
@@ -41,8 +41,6 @@ const getDestinationValue = (matchingServiceKey, body) => {
            
             case mapper.INTERNET_PAGA_SPECTRANET.service_key:
                 return body[mapper.INTERNET_PAGA_SPECTRANET.destination];
-            case mapper.INTERNET_PAGA_SWIFT.service_key:
-               return body[mapper.INTERNET_PAGA_SWIFT.destination];
             case mapper.INTERNET_PAGA_SMILE.service_key:
                 return body[mapper.INTERNET_PAGA_SMILE.destination];
         }
@@ -62,8 +60,6 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
             
             case mapper.INTERNET_PAGA_SPECTRANET.service_key:
                 return mapper.INTERNET_PAGA_SPECTRANET.prevalidation_error_message;
-            case mapper.INTERNET_PAGA_SWIFT.service_key:
-                return mapper.INTERNET_PAGA_SWIFT.prevalidation_error_message;
             case mapper.INTERNET_PAGA_SMILE.service_key:
                 return mapper.INTERNET_PAGA_SMILE.prevalidation_error_message;
         }
@@ -124,8 +120,11 @@ module.exports = {
                 if (!body.amount.includes("_")) {
                     return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
                 }
-                var amountValue = ParseUtils.parseMoneyAmountValue(body.amount);
-                var currency = ParseUtils.parseMoneyCurrencyValue(body.amount);
+
+                let amount = body['amount'];
+                amount=amount.split('.')[0];
+                var amountValue = ParseUtils.parseMoneyAmountValue(amount);
+                var currency = ParseUtils.parseMoneyCurrencyValue(amount);
                 if (typeof amountValue != "number") {
                     return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
                 }
@@ -139,23 +138,25 @@ module.exports = {
                
                 const generatedReference = `jone${Date.now()}`;
                 const url = config.paga.business_endpoint+config.paga.merchant_payment;
-                let amount=0;
-                amount=amount.toFixed(2);
+                
                 const args = {
                     referenceNumber:generatedReference,
-                    amount:amount,
+                    amount:0.00,
                     merchantAccount:linetype,
                     merchantReferenceNumber:destinationRef
                 };
+               
 
-                const tohash=generatedReference+amount+linetype+destinationRef;
+                const tohash=generatedReference+args.amount+linetype+destinationRef;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {
                         try {
+                            let fee=config.paga.service_fee;
+                            let total_amount=amountValue+fee;
                             let quoteResponse = new QuoteResponse(
                                 availableServices[serviceKey].destination,
                                 [],
-                                [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
+                                [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"fee":fee,"amount":amountValue }])]
                             );
                             return resolve(quoteResponse);
                         } catch (error) {
@@ -174,7 +175,7 @@ module.exports = {
                         return reject(appError);
                     });
             } else { // no need for pre validation
-
+                let fee=config.paga.service_fee;
                 let total_amount=amountValue+fee;
                 let quoteResponse = new QuoteResponse(
                     availableServices[serviceKey].destination,

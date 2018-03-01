@@ -26,13 +26,7 @@ module.exports = class pagaClient {
             const sha512 = crypto.createHash('sha512');
             tohash=tohash+config.paga.hashkey;
             var hash= sha512.update(tohash).digest('hex');
-            var  headers={
-                    'principal':config.paga.principal,
-                    'credentials':config.paga.credentials,
-                    'hash':hash,
-                    'Content-Type':'application/json'
-                };
-
+            
             request.post({
                 url: url,
                 headers:{
@@ -44,8 +38,8 @@ module.exports = class pagaClient {
                 body: args,
                 json:true,
             }, function(error, response, body){
+                
                 if (response.statusCode === 200) {
-                    console.log(body);
                     if (pagaClient.isSuccessResponse(body)) {
                         return resolve(body);
                     } else {
@@ -53,7 +47,8 @@ module.exports = class pagaClient {
                     }
 
                 } else {
-                    return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, error, []));
+                    let errorMessage=body.errorMessage===undefined ? error:body.errorMessage;
+                    return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE,errorMessage , []));
                 }
             });
 

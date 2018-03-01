@@ -42,47 +42,17 @@
           },
           {
             "key": "amount",
-            "template": "money",
-            "title": "How much do you want to top-up?",
-            "label": "Top-up amount",
+            "template": "plans",
+            "title": "Which package do you want?",
+            "label": "Package",
             "validators": [
               {
                 "type": "required",
                 "options": [],
-                "message": "Amount cannot be empty"
-              },
-              {
-                "type": "money",
-                "options": [
-                  {
-                    "option": "currency",
-                    "value": "NGN",
-                    "message": "We only support Nigerian Nairas"
-                  },
-                  {
-                    "option": "min",
-                    "value": "10",
-                    "message": "Minimum amount: 10 NGN"
-                  },
-                  {
-                    "option": "max",
-                    "value": "100000",
-                    "message": "Maximum amount: 100000 NGN"
-                  }
-                ],
-                "message": "Invalid amount"
+                "message": "You must select a package"
               }
             ],
-            "options": [
-              {
-                "label": "NGN",
-                "icon": "U+20A6",
-                "option_value": "NGN",
-                "message": "",
-                "preselected": true,
-                "form_elements": []
-              }
-            ]
+            "options": []
           }
         ]
       }

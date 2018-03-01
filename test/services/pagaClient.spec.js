@@ -11,10 +11,10 @@ describe('PagaClient', function () {
     let result = PagaClient.isSuccessResponse({});
     assert.equal(result, false);
 
-    result = PagaClient.isSuccessResponse({ response: { error: 0 } });
+    result = PagaClient.isSuccessResponse({ responseCode: 0 });
     assert.equal(result, true);
 
-    result = PagaClient.isSuccessResponse({ response: { error: 1 } });
+    result = PagaClient.isSuccessResponse({ responseCode: 1 });
     assert.equal(result, false);
   });
 })

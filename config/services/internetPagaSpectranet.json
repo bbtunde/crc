@@ -54,7 +54,8 @@
             ],
             "options": []
           }
-        ]
+        ],
+        "requestHandler":"formElementsPlansHandlerSPECTRANET"
       }
     ]
   }

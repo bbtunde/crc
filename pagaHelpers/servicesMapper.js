@@ -7,7 +7,7 @@ const mapper = {
         service_key: 'internet.paga.swift',
         destination: 'customer_id',
         message_missing_destination: 'Missing Costumer ID',
-        order_summary_needs_prevalidation: true, 
+        order_summary_needs_prevalidation: false, 
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
             'Otherwise, please check your account status with your operator.'
     },
@@ -17,7 +17,7 @@ const mapper = {
         service_key: 'internet.paga.smile',
         destination: 'customer_id',
         message_missing_destination: 'Missing Costumer ID',
-        order_summary_needs_prevalidation: true, 
+        order_summary_needs_prevalidation: false, 
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
             'Otherwise, please check your account status with your operator.'
     },

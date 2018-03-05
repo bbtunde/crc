@@ -37,44 +37,15 @@ module.exports = {
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-            const generatedReference = `jone${Date.now()}`;
-            const url = config.paga.business_endpoint+config.paga.merchant_payment;
-            const args = {
-                referenceNumber:generatedReference,
-                amount:0.00,
-                merchantAccount:linetype,
-                merchantReferenceNumber:body.customer_id
-            };
-           
-            const tohash=generatedReference+args.amount+linetype+body.customer_id;
-            PagaClient.getSuccessMessage(url,args,tohash)
-            .then(result => {
-                try {
-                        let fee=config.paga.service_fee;
-                        let total_amount=amountValue+fee;
-                        let quoteResponse = new QuoteResponse(
-                            availableServices[serviceKey].destination,
-                            [],
-                            [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"fee":fee,"amount":amountValue }])]
-                        );
-                        return resolve(quoteResponse);
-                } catch (error) {
-                    let errorMessage = null;
-                    try {
-                        errorMessage = 'Please make sure your customer ID is correct. ' +
-                        'Otherwise, please check your account status with your operator.';
-                    } catch (error) {
-                        errorMessage = 'Call to distributor resulted in error with provided order details.'
-                    }
-
-                    let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
-                    reject(appError);
-                }
-            })
-            .catch(appError => {
-                return reject(appError);
-            });
- 
+            
+            let fee=config.paga.service_fee;
+            let total_amount=amountValue+fee;
+            let quoteResponse = new QuoteResponse(
+                availableServices[serviceKey].destination,
+                [],
+                [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"fee":fee,"amount":amountValue }])]
+            );
+            return resolve(quoteResponse);
         });
     }
 }

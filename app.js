@@ -68,7 +68,7 @@ if (env !== 'test') {
   routes(server);
 
   server.listen(config.serverPort, function () {
-    console.log(`Etranzact Adapter REST server listening at http://localhost:${config.serverPort}`);
+    console.log(`Paga Adapter REST server listening at http://localhost:${config.serverPort}`);
   });
 }
 

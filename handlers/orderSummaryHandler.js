@@ -39,10 +39,9 @@ const getDestinationValue = (matchingServiceKey, body) => {
 
         switch (matchingServiceKey) {
            
-            case mapper.INTERNET_PAGA_SPECTRANET.service_key:
-                return body[mapper.INTERNET_PAGA_SPECTRANET.destination];
-            case mapper.INTERNET_PAGA_SMILE.service_key:
-                return body[mapper.INTERNET_PAGA_SMILE.destination];
+            case mapper.TV_PAGA_DSTV.service_key:
+                return body[mapper.TV_PAGA_DSTV.destination];
+            
         }
 
         throw new Error(`Destination value was not handled because there is no clause for key ${matchingServiceKey}`);
@@ -58,11 +57,9 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
 
         switch (matchingServiceKey) {
             
-            case mapper.INTERNET_PAGA_SPECTRANET.service_key:
-                return mapper.INTERNET_PAGA_SPECTRANET.prevalidation_error_message;
-            case mapper.INTERNET_PAGA_SMILE.service_key:
-                return mapper.INTERNET_PAGA_SMILE.prevalidation_error_message;
-        }
+            case mapper.TV_PAGA_DSTV.service_key:
+                return mapper.TV_PAGA_DSTV.prevalidation_error_message;
+        } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {
         throw new Error(error.message);
@@ -72,7 +69,7 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
 /* istanbul ignore next */
 module.exports = {
 
-    internetOrderSummaryHandler: (serviceKey, body) => {
+    orderSummaryHandler: (serviceKey, body) => {
         return new Promise(function (resolve, reject) {
             // validate service configuration issues
             let configServiceData = {

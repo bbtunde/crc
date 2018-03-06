@@ -18,7 +18,7 @@ describe('Health Controller', function () {
 
     let result = {
       "code": "SUCCESS",
-      "response" : "You know for Etranzact adapter",
+      "response" : "You know for PAGA adapter",
       "errors": []
     };
 

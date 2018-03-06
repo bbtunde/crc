@@ -4,6 +4,7 @@
   "newrelic_enable": false,
   "newrelic_license_key": "random_key",
   "newrelic_app_name": "dummy_name",
+  "smart_card_number_DSTV": "41157294764",
   "manifest": {
     "username" : "someuser",
     "password" : "somepassword"

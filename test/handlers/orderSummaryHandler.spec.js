@@ -13,18 +13,17 @@ const AppError = require('./../../models/AppError');
 const ResponseCode = require('./../../models/ResponseCode');
 
 
-describe('Internet Order Summary Handler',function()
+describe('Order Summary Handler',function()
 {
-	var serviceKey="internet.paga.spectranet";
+	var serviceKey="tv.paga.dstv";
 	
-
-	it('internet order summary- resolves with quoteResponse',async function()
+	it('order summary- resolves with quoteResponse',async function()
 	{
 		let body = {
-            "customer_id": "10164177",
-            "amount": "NGN_400.5GB Night & Weekend Data Bundle"
+            "smart_card_number":"41157294764",
+            "amount": "NGN_1500.ACCESS"
         };
-		let amountValue=100;
+		let amountValue=1500;
 		let currency="NGN";
         let fee=105;
         let total_amount=amountValue+fee;
@@ -35,25 +34,25 @@ describe('Internet Order Summary Handler',function()
             );
 		
 		let parseMoneyAmountStub=sinon.stub(ParseUtils,'parseMoneyAmountValue');
-		parseMoneyAmountStub.returns(100);
+		parseMoneyAmountStub.returns(1500);
 		let parseMoneyCurrencyStub=sinon.stub(ParseUtils,'parseMoneyCurrencyValue');
 		parseMoneyCurrencyStub.returns("NGN");
 		
-		let result=requestHandlers['internetOrderSummaryHandler'](serviceKey, body);
+		let result=requestHandlers['orderSummaryHandler'](serviceKey, body);
 		const quoteResponse= await result;
 		assert.deepEqual(quoteResponse,mockQuoteResponse);
 		TestHelper.resetStubAndSpys([parseMoneyAmountStub,parseMoneyCurrencyStub]);
 
 	});
 
-	it('internet order summary - reject with amount not properly formated',async function()
+	it('order summary - reject with amount not properly formated',async function()
 	{
 		let body = {
-            "customer_id": "10164177",
+            "smart_card_number": "41157294764",
             "amount": "NGN100"
         };
 
-		let result = requestHandlers['internetOrderSummaryHandler'](serviceKey, body);
+		let result = requestHandlers['orderSummaryHandler'](serviceKey, body);
 
         try {
             const testResult = await result;
@@ -65,14 +64,14 @@ describe('Internet Order Summary Handler',function()
 	});
 
 
-	it('internet order summary - reject with amount value not number',async function()
+	it('order summary - reject with amount value not number',async function()
 	{
 		let body = {
-            "customer_id": "10164177",
+            "smart_card_number": "41157294764",
             "amount": "NGN_100"
         };
 
-		let result = requestHandlers['internetOrderSummaryHandler'](serviceKey, body);
+		let result = requestHandlers['orderSummaryHandler'](serviceKey, body);
 
         try {
             const testResult = await result;

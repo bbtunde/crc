@@ -68,7 +68,7 @@ describe('ControllerUtils', function () {
     it('isRequestWithValidServiceKey', function () {
         let args = {
             request: {
-                params: {'service-key' : 'electricity.postpaid.jos'}
+                params: {'service-key' : 'tv.paga.dstv'}
             },
             request2: {
                 params: {'service-key' : 'dummy'}

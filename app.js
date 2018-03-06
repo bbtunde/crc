@@ -19,17 +19,15 @@ var server = {};
 
 if (env !== 'test') {
 
-// activate cron
+  // activate cron
   if (((undefined != config.cron_active) && config.cron_active) &&
     ((undefined != config.couchbase) && config.couchbase.enabled)) {
     const cronService = require('./services/cronService');
-    cronService.cronTaskPlansSMILE.start();
-    cronService.cronTaskPlansSPECTRANET.start();
-  
+    cronService.cronTaskPlansDSTV.start();
   }
 
   // activate cache
-  if ((undefined != config.couchbase) && config.couchbase.enabled && (undefined != config.plans_to_cache)) {
+ if ((undefined != config.couchbase) && config.couchbase.enabled && (undefined != config.plans_to_cache)) {
     const cacheService = require('./services/cacheService');
     cacheService.load(config.plans_to_cache);
   }
@@ -70,7 +68,7 @@ if (env !== 'test') {
   routes(server);
 
   server.listen(config.serverPort, function () {
-    console.log(`Paga Adapter REST server listening at http://localhost:${config.serverPort}`);
+    console.log(`Etranzact Adapter REST server listening at http://localhost:${config.serverPort}`);
   });
 }
 

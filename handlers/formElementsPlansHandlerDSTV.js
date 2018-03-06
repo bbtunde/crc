@@ -7,14 +7,14 @@ const ResponseCode = require('./../models/ResponseCode');
 
 /* istanbul ignore next */
 module.exports = {
-    formElementsPlansHandlerSMILE: (formElement, serviceKey, body) => {
+    formElementsPlansHandlerDSTV: (formElement, serviceKey, body) => {
         return new Promise((resolve, reject) => {
             if(config.couchbase && config.couchbase.enabled) {
                 try {
                     let linetype=availableServices[serviceKey].definition.linetype;
-                    CacheService.get('SMILE', (cachedPlans) => {
+                    CacheService.get('DSTV', (cachedPlans) => {
                         if (!cachedPlans) {
-                            plansService.getOptionsAndCachePlans('SMILE', linetype)
+                            plansService.getOptionsAndCachePlans('DSTV', linetype)
                                 .then(options => {
                                     formElement.elements[1].options = options;
                                     resolve(formElement)
@@ -34,7 +34,7 @@ module.exports = {
                     return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred retrieving plans', [])); 
                 }
             } else {
-                plansService.getPlans('SMILE', linetype)
+                plansService.getPlans('DSTV', linetype)
                 .then(plans => {
                     try {
                         let options = plansService.parsePlansToOptions(plans);

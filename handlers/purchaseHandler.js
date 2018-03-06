@@ -32,7 +32,7 @@ const isValidDestination = (destinationToValidate, matchingServiceKey) => {
 /* istanbul ignore next */
 module.exports = {
 
-    internetPurchaseHandler: (serviceKey, body) => {
+    purchaseHandler: (serviceKey, body) => {
         return new Promise(function (resolve, reject) {
 
             // validate service configuration issues
@@ -75,13 +75,15 @@ module.exports = {
 
             try {
                 let amount = body['amount'];
-                amount=amount.split('.')[0];
+                let amountArray=amount.split('.');
+                amount=amountArray[0];
+                var plan=amountArray[1];
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
     
-             amountValue= amountValue.toFixed(2)
+             amountValue= amountValue.toFixed(2);
             // request purchase distributor
             const generatedReference = `jone${Date.now()}`;
             const url = config.paga.business_endpoint+config.paga.merchant_payment;
@@ -90,9 +92,9 @@ module.exports = {
                 "referenceNumber":generatedReference,
                 "amount":amountValue,
                 "merchantAccount":linetype,
-                "merchantReferenceNumber":destinationRef
+                "merchantReferenceNumber":destinationRef,
+                "merchantService":plan
             };
-
             const tohash=generatedReference+amountValue+linetype+destinationRef;
             PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {

@@ -1,0 +1,166 @@
+{
+  "multistep.form": {
+    "orderSummaryHandler": "testOrderSummaryHandler",
+    "purchaseHandler": "noPurchaseHandler",
+    "definition": {
+      "network": "multistep"
+    },
+    "extra_info": false,
+    "destination": "phone_number_one",
+    "steps": [
+      {
+        "fields": [
+          {
+            "key": "phone_number_one",
+            "title": "What is your first phone number?",
+            "label": "First Phone Number",
+            "template": "phone_with_country",
+            "validators": [
+              {
+                "type": "required",
+                "options": [],
+                "message": "aaaa Phone number required"
+              },
+              {
+                "type": "phoneNumber",
+                "options": [],
+                "message": "bbbb This number is incorrect"
+              }
+            ],
+            "options": [
+              {
+                  "label": "Nigeria",
+                  "icon": "http://www.oorsprong.org/WebSamples.CountryInfo/Images/Nigeria.jpg",
+                  "option_value": "NG_+234",
+                  "message": "",
+                  "preselected": false,
+                  "form_elements": []
+              }
+            ]
+          },
+          {
+            "key": "amount",
+            "template": "money",
+            "title": "How much do you want to top-up?",
+            "label": "Top-up Amount",
+            "validators": [
+              {
+                "type": "required",
+                "options": [],
+                "message": "hhhhh this is required"
+              },
+              {
+                "type": "money",
+                "options": [
+                  {
+                    "option": "currency",
+                    "value": "NGN",
+                    "message": "ccccc We only support NGN"
+                  },
+                  {
+                    "option": "min",
+                    "value": "10",
+                    "message": "ddddd Minimum amount: 10"
+                  },
+                  {
+                    "option": "max",
+                    "value": "100000",
+                    "message": "eeeeee Maximum amount: 100000"
+                  },
+                  {
+                    "option": "decimals",
+                    "value": "true",
+                    "message": "ffffff Maximum decimals: 2"
+                  }
+                ],
+                "message": "gggggg Invalid amount"
+              }
+            ],
+            "options": [
+              {
+                "label": "NGN",
+                "icon": "U+20A6",
+                "option_value": "NGN",
+                "message": "",
+                "preselected": true,
+                "form_elements": []
+              },
+              {
+                "label": "EUR",
+                "icon": "U+20AC",
+                "option_value": "EUR",
+                "message": "",
+                "preselected": false,
+                "form_elements": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "fields": [
+          {
+            "key": "phone_number_two",
+            "title": "What is your second phone number?",
+            "label": "Second Phone Number",
+            "template": "phone_with_country",
+            "validators": [
+              {
+                "type": "required",
+                "options": [],
+                "message": "aaaa Phone number required"
+              },
+              {
+                "type": "phoneNumber",
+                "options": [],
+                "message": "bbbb This number is incorrect"
+              }
+            ],
+            "options": [
+              {
+                "label": "Nigeria",
+                "icon": "http://www.oorsprong.org/WebSamples.CountryInfo/Images/Nigeria.jpg",
+                "option_value": "NG_+234",
+                "message": "",
+                "preselected": false,
+                "form_elements": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "fields": [
+          {
+            "key": "phone_number_three",
+            "title": "What is your third phone number?",
+            "label": "Third Phone Number",
+            "template": "phone_with_country",
+            "validators": [
+              {
+                "type": "required",
+                "options": [],
+                "message": "aaaa Phone number required"
+              },
+              {
+                "type": "phoneNumber",
+                "options": [],
+                "message": "bbbb This number is incorrect"
+              }
+            ],
+            "options": [
+              {
+                "label": "Nigeria",
+                "icon": "http://www.oorsprong.org/WebSamples.CountryInfo/Images/Nigeria.jpg",
+                "option_value": "NG_+234",
+                "message": "",
+                "preselected": false,
+                "form_elements": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

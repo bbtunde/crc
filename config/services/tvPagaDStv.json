@@ -1,38 +1,38 @@
 {
-  "internet.paga.smile": {
-    "orderSummaryHandler": "internetOrderSummaryHandler",
-    "purchaseHandler": "internetPurchaseHandler",
+  "tv.paga.dstv": {
+    "orderSummaryHandler": "orderSummaryHandler",
+    "purchaseHandler": "purchaseHandler",
     "definition": {
-      "linetype": "E5E5CF1D-3F53-4273-83A7-6E678EBD7C15"
+      "linetype": "A3878DC1-F07D-48E7-AA59-8276C3C26647"
     },
     "extra_info": false,
-    "destination": "customer_id",
+    "destination": "smart_card_number",
     "steps": [
       {
         "fields": [
           {
-            "key": "customer_id",
+            "key": "smart_card_number",
             "template": "number",
-            "title": "What is your Customer ID?",
-            "label": "Customer ID",
+            "title": "What is your Smart Card number?",
+            "label": "Smart Card number",
             "validators": [
               {
                 "type": "required",
                 "options": [],
-                "message": "Customer ID cannot be empty"
+                "message": "Smart Card number cannot be empty"
               },
               {
                 "type": "textLength",
                 "options": [
                   {
                     "option": "min",
-                    "value": "5",
-                    "message": "Minimum 5 digits"
+                    "value": "10",
+                    "message": "Minimum 10 digits"
                   },
                   {
                     "option": "max",
-                    "value": "13",
-                    "message": "Maximum 13 digits"
+                    "value": "11",
+                    "message": "Maximum 11 digits"
                   }
                 ],
                 "message": "Invalid number of digits"
@@ -55,7 +55,7 @@
             "options": []
           }
         ],
-        "requestHandler":"formElementsPlansHandlerSMILE"
+        "requestHandler":"formElementsPlansHandlerDSTV"
       }
     ]
   }

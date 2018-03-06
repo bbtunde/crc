@@ -9,15 +9,15 @@ const PurchaseResponse = require('./../../models/PurchaseResponse');
 const AppError = require('./../../models/AppError');
 const ResponseCode = require('./../../models/ResponseCode');
 
-describe('Internet Purchase Handler',function()
+describe('purchase Handler',function()
 {
-	var serviceKey="internet.paga.spectranet";
+	var serviceKey="tv.paga.dstv";
 	const requestHandlers = require('./../../config/requireHandlers').handlers;
 	
-	it('Internet purchase -with transaction reference', async function()
+	it('purchase -with transaction reference', async function()
 	{
 		let body = {
-            "customer_id": "10164177",
+            "smart_card_number": "41157294764",
             "amount": "NGN_100"
         };
         let mockDistributorResponse = {
@@ -35,13 +35,13 @@ describe('Internet Purchase Handler',function()
 
 	
 
-    it('internet purchase - reject with Missing amount ', async function()
+    it('purchase - reject with Missing amount ', async function()
     {
         let body = {
-            "customer_id": "10164177"
+            "smart_card_number": "41157294764"
         };
         
-        let result = requestHandlers['internetPurchaseHandler'](serviceKey, body);
+        let result = requestHandlers['purchaseHandler'](serviceKey, body);
         let expectedAppError=new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []);
         try {
             const testResult = await result;

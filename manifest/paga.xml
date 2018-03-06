@@ -10,14 +10,9 @@
         </configs>
         <services>
     
-             <!--INTERNET SPECTRANET-->
-            <service key="internet.paga.spectranet">Internet  Paga Spetranet</service>
+             <!--TV SPECTRANET-->
+            <service key="tv.paga.dstv">TV  Paga Dstv</service>
 
-            <service key="internet.paga.swift">Internet  Paga Swift</service>
-
-            <service key="internet.paga.smile">Internet  Paga Smile</service>
-
-            
 
         </services>
     </adapter>

@@ -38,7 +38,6 @@ module.exports = class pagaClient {
                 body: args,
                 json:true,
             }, function(error, response, body){
-                
                 if (response.statusCode === 200) {
                     if (pagaClient.isSuccessResponse(body)) {
                         return resolve(body);

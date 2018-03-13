@@ -25,12 +25,11 @@ describe('Order Summary Handler',function()
         };
 		let amountValue=1500;
 		let currency="NGN";
-        let fee=105;
-        let total_amount=amountValue+fee;
+        
 		let mockQuoteResponse = new QuoteResponse(
                 availableServices[serviceKey].destination,
                 [],
-                [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"amount":amountValue,"fee":fee }])]
+                [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
             );
 		
 		let parseMoneyAmountStub=sinon.stub(ParseUtils,'parseMoneyAmountValue');

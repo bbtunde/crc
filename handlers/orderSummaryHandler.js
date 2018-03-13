@@ -132,10 +132,8 @@ module.exports = {
             // request pre validation to distributor if needed 
             if (configServiceData.order_summary_needs_prevalidation) { // needs pre validation
 
-               
                 const generatedReference = `jone${Date.now()}`;
                 const url = config.paga.business_endpoint+config.paga.merchant_payment;
-                
                 const args = {
                     referenceNumber:generatedReference,
                     amount:0.00,
@@ -143,17 +141,15 @@ module.exports = {
                     merchantReferenceNumber:destinationRef
                 };
                
-
                 const tohash=generatedReference+args.amount+linetype+destinationRef;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {
                         try {
-                            let fee=config.paga.service_fee;
-                            let total_amount=amountValue+fee;
+                    
                             let quoteResponse = new QuoteResponse(
                                 availableServices[serviceKey].destination,
                                 [],
-                                [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"fee":fee,"amount":amountValue }])]
+                                [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"amount":amountValue }])]
                             );
                             return resolve(quoteResponse);
                         } catch (error) {
@@ -172,12 +168,11 @@ module.exports = {
                         return reject(appError);
                     });
             } else { // no need for pre validation
-                let fee=config.paga.service_fee;
-                let total_amount=amountValue+fee;
+                
                 let quoteResponse = new QuoteResponse(
                     availableServices[serviceKey].destination,
                     [],
-                    [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"fee":fee,"amount":amountValue }])]
+                    [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
                 );
 
                 return resolve(quoteResponse);

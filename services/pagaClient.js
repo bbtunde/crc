@@ -26,7 +26,8 @@ module.exports = class pagaClient {
             const sha512 = crypto.createHash('sha512');
             tohash=tohash+config.paga.hashkey;
             var hash= sha512.update(tohash).digest('hex');
-            
+        
+        
             request.post({
                 url: url,
                 headers:{
@@ -38,6 +39,7 @@ module.exports = class pagaClient {
                 body: args,
                 json:true,
             }, function(error, response, body){
+                
                 if (response.statusCode === 200) {
                     if (pagaClient.isSuccessResponse(body)) {
                         return resolve(body);

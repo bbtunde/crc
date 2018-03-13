@@ -83,17 +83,17 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
     
-             amountValue= amountValue.toFixed(2);
+            
             // request purchase distributor
             const generatedReference = `jone${Date.now()}`;
             const url = config.paga.business_endpoint+config.paga.merchant_payment;
             const destinationRef=body[configServiceData.destination];
             const args = {
-                "referenceNumber":generatedReference,
-                "amount":amountValue,
-                "merchantAccount":linetype,
-                "merchantReferenceNumber":destinationRef,
-                "merchantService":plan
+                referenceNumber:generatedReference,
+                amount:amountValue,
+                merchantAccount:linetype,
+                merchantReferenceNumber:destinationRef,
+                merchantService:[plan]
             };
             const tohash=generatedReference+amountValue+linetype+destinationRef;
             PagaClient.getSuccessMessage(url,args,tohash)

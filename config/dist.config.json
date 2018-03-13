@@ -15,8 +15,8 @@
     "merchant_payment":"merchantPayment",
     "principal":"eeeeeee",
     "credentials":"rnjjjnffff",
-    "hashkey":"aaaaaaaaaaaaaaaaaaaaaa",
-    "service_fee":105
+    "hashkey":"aaaaaaaaaaaaaaaaaaaaaa"
+
   },
   "cron_active": false,
   "couchbase": {
@@ -28,13 +28,8 @@
   },
   "plans_to_cache": [
     {
-      "key":"SMILE",
-      "linetype": "E5E5CF1D-3F53-4273-83A7-6E678EBD7C15"
-    },
-    {
-      "key":"SPECTRANET",
-      "linetype": "F3B9CE63-3FB4-468B-83CE-2E3A0E2C8853"
+      "key":"DSTV",
+      "linetype": "A3878DC1-F07D-48E7-AA59-8276C3C26647"
     }
-    
   ]
 }

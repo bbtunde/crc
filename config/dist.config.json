@@ -13,6 +13,7 @@
   {
     "business_endpoint":"https://qa1.mypaga.com/paga-webservices/business-rest/secured/",
     "merchant_payment":"merchantPayment",
+    "merchant_service":"getMerchantServices",
     "principal":"eeeeeee",
     "credentials":"rnjjjnffff",
     "hashkey":"aaaaaaaaaaaaaaaaaaaaaa"

@@ -16,7 +16,7 @@
     "principal":"eeeeeee",
     "credentials":"rnjjjnffff",
     "hashkey":"aaaaaaaaaaaaaaaaaaaaaa",
-    "service_fee":105
+   
   },
   "cron_active": false,
   "couchbase": {

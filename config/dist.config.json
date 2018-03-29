@@ -15,7 +15,7 @@
     "merchant_payment":"merchantPayment",
     "principal":"eeeeeee",
     "credentials":"rnjjjnffff",
-    "hashkey":"aaaaaaaaaaaaaaaaaaaaaa",
+    "hashkey":"aaaaaaaaaaaaaaaaaaaaaa"
    
   },
   "cron_active": false,

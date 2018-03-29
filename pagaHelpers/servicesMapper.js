@@ -6,6 +6,7 @@ const mapper = {
         lynetype: 'A3878DC1-F07D-48E7-AA59-8276C3C26647',
         service_key: 'tv.paga.dstv',
         destination: 'smart_card_number',
+        has_plans:true,
         message_missing_destination: 'Missing Smart Card Number',
         order_summary_needs_prevalidation: false,
         prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +

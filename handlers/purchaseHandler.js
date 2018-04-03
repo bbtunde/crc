@@ -75,9 +75,13 @@ module.exports = {
 
             try {
                 let amount = body['amount'];
-                let amountArray=amount.split('.');
-                amount=amountArray[0];
-                var plan=amountArray[1];
+                var plan=[];
+                if(configServiceData.has_plans)
+                {
+                    let amountArray=amount.split('.');
+                    amount=amountArray[0];
+                    plan.push(amountArray[1]);
+                }
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
@@ -93,7 +97,7 @@ module.exports = {
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:destinationRef,
-                merchantService:[plan]
+                merchantService:plan
             };
             const tohash=generatedReference+amountValue+linetype+destinationRef;
             PagaClient.getSuccessMessage(url,args,tohash)

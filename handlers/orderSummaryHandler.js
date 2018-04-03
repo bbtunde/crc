@@ -76,6 +76,7 @@ module.exports = {
                 lynetype: null,
                 service_key: null,
                 destination: null,
+                has_plans:null,
                 message_missing_destination: null,
                 order_summary_needs_prevalidation: null
             };
@@ -85,6 +86,7 @@ module.exports = {
                 configServiceData.lynetype = data.lynetype;
                 configServiceData.service_key = data.service_key;
                 configServiceData.destination = data.destination;
+                configServiceData.has_plans=data.has_plans,
                 configServiceData.message_missing_destination = data.message_missing_destination;
                 configServiceData.order_summary_needs_prevalidation = data.order_summary_needs_prevalidation;
             } catch (error) {
@@ -119,7 +121,10 @@ module.exports = {
                 }
 
                 let amount = body['amount'];
-                amount=amount.split('.')[0];
+                if(configServiceData.has_plans)
+                {
+                    amount=amount.split('.')[0];
+                }
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
                 var currency = ParseUtils.parseMoneyCurrencyValue(amount);
                 if (typeof amountValue != "number") {

@@ -25,12 +25,16 @@
     "cluster": "couchbase://localhost",
     "bucket": "paga",
     "username": "Administrator",
-    "password": "password"
+    "password": ""
   },
   "plans_to_cache": [
     {
       "key":"DSTV",
       "linetype": "A3878DC1-F07D-48E7-AA59-8276C3C26647"
+    },
+    {
+      "key":"SMILE",
+      "linetype": "E5E5CF1D-3F53-4273-83A7-6E678EBD7C15"
     }
     
   ]

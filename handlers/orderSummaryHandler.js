@@ -154,6 +154,18 @@ module.exports = {
                     .then(result => {
                         try {
                             let customerName=result.customerName;
+                            if(customerName===null)
+                            {
+                                let errorMessage = null;
+                                try {
+                                    errorMessage = getPrevalidationErrorMessage(serviceKey);
+                                } catch (error) {
+                                    errorMessage = 'Call to distributor resulted in error with provided order details.'
+                                }
+
+                                 let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                                reject(appError);
+                            }
                             let additionalDetail = new AdditionalDetailItem('Customer Name', customerName);
                             let quoteResponse = new QuoteResponse(
                                 availableServices[serviceKey].destination,

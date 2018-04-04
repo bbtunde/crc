@@ -1,0 +1,91 @@
+{
+    "bet.1960bet": {
+      "orderSummaryHandler": "orderSummaryHandler",
+      "purchaseHandler": "purchaseHandler",
+      "definition": {
+        "linetype": "F444494D-0AA9-47FC-B6E0-6987535A5777"
+      },
+      "extra_info": false,
+      "destination": "account_number",
+      "steps": [
+        {
+          "fields": [
+            {
+              "key": "account_number",
+              "template": "number",
+              "title": "What is your account number?",
+              "label": "1960BET account number",
+              "validators": [
+                {
+                  "type": "required",
+                  "options": [],
+                  "message": "1960BET account number cannot be empty"
+                },
+                {
+                  "type": "textLength",
+                  "options": [
+                    {
+                      "option": "min",
+                      "value": "5",
+                      "message": "Minimum 5 digits"
+                    },
+                    {
+                      "option": "max",
+                      "value": "13",
+                      "message": "Maximum 13 digits"
+                    }
+                  ],
+                  "message": "Invalid number of digits"
+                }
+              ],
+              "options": []
+            },
+            {
+              "key": "amount",
+              "template": "money",
+              "title": "How much do you want to top-up?",
+              "label": "Top-up amount",
+              "validators": [
+                {
+                  "type": "required",
+                  "options": [],
+                  "message": "Amount cannot be empty"
+                },
+                {
+                  "type": "money",
+                  "options": [
+                    {
+                      "option": "currency",
+                      "value": "NGN",
+                      "message": "We only support Nigerian Nairas"
+                    },
+                    {
+                      "option": "min",
+                      "value": "10",
+                      "message": "Minimum amount: 10 NGN"
+                    },
+                    {
+                      "option": "max",
+                      "value": "100000",
+                      "message": "Maximum amount: 100000 NGN"
+                    }
+                  ],
+                  "message": "Invalid amount"
+                }
+              ],
+              "options": [
+                {
+                  "label": "NGN",
+                  "icon": "U+20A6",
+                  "option_value": "NGN",
+                  "message": "",
+                  "preselected": true,
+                  "form_elements": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }

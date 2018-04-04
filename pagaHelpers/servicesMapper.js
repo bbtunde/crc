@@ -45,6 +45,18 @@ const mapper = {
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
         'Otherwise, please check your account status with your operator.'
+    },
+
+    //BET
+    BET_1960BET: {
+        lynetype: 'F444494D-0AA9-47FC-B6E0-6987535A5777',
+        service_key: 'bet.1960bet',
+        destination: 'account_number',
+        has_plans:false,
+        message_missing_destination: 'Missing Account Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your account number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
     }
 };
 

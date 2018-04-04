@@ -21,6 +21,9 @@
             <!--TOLL-->
             <service key="toll.ltc">Toll Ltc</service>
 
+             <!--BET-->
+            <service key="bet.1960bet">Bet 1960Bet</service>
+
 
         </services>
     </adapter>

@@ -13,24 +13,25 @@
   {
     "business_endpoint":"https://qa1.mypaga.com/paga-webservices/business-rest/secured/",
     "merchant_payment":"merchantPayment",
-    "principal":"eeeeeee",
-    "credentials":"rnjjjnffff",
-    "hashkey":"aaaaaaaaaaaaaaaaaaaaaa"
-   
+    "merchant_service":"getMerchantServices",
+    "merchant_account":"getMerchantAccountDetails",
+    "principal":"dummy_principal",
+    "credentials":"dummy_credential",
+    "hashkey":"dummy_haskey"
   },
   "cron_active": false,
   "couchbase": {
     "enabled": true,
     "cluster": "couchbase://localhost",
-    "bucket": "",
+    "bucket": "paga",
     "username": "Administrator",
-    "password": ""
+    "password": "password"
   },
   "plans_to_cache": [
     {
       "key":"DSTV",
       "linetype": "A3878DC1-F07D-48E7-AA59-8276C3C26647"
     }
-  
+    
   ]
 }

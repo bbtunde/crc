@@ -121,9 +121,12 @@ module.exports = {
                 }
 
                 let amount = body['amount'];
+                var plan="";
                 if(configServiceData.has_plans)
                 {
-                    amount=amount.split('.')[0];
+                    let amount_plan=amount.split('.');
+                    amount=amount_plan[0];
+                    plan=amount_plan[1];
                 }
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
                 var currency = ParseUtils.parseMoneyCurrencyValue(amount);
@@ -138,26 +141,40 @@ module.exports = {
             if (configServiceData.order_summary_needs_prevalidation) { // needs pre validation
 
                 const generatedReference = `jone${Date.now()}`;
-                const url = config.paga.business_endpoint+config.paga.merchant_payment;
+                const url = config.paga.business_endpoint+config.paga.merchant_account;
                 const args = {
                     referenceNumber:generatedReference,
-                    amount:0.00,
                     merchantAccount:linetype,
-                    merchantReferenceNumber:destinationRef
+                    merchantReferenceNumber:destinationRef,
+                    merchantServiceProductCode:plan
                 };
                
-                const tohash=generatedReference+args.amount+linetype+destinationRef;
+                const tohash=generatedReference+linetype+destinationRef+plan;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {
                         try {
-                    
+                            let customerName=result.customerName;
+                            if(customerName===null)
+                            {
+                                let errorMessage = null;
+                                try {
+                                    errorMessage = getPrevalidationErrorMessage(serviceKey);
+                                } catch (error) {
+                                    errorMessage = 'Call to distributor resulted in error with provided order details.'
+                                }
+
+                                 let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                                reject(appError);
+                            }
+                            let additionalDetail = new AdditionalDetailItem('Customer Name', customerName);
                             let quoteResponse = new QuoteResponse(
                                 availableServices[serviceKey].destination,
-                                [],
-                                [new PaymentDetailItem('total_price', total_amount, [{ "currency": currency,"amount":amountValue }])]
+                                additionalDetail,
+                                [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency,"amount":amountValue }])]
                             );
                             return resolve(quoteResponse);
                         } catch (error) {
+                            
                             let errorMessage = null;
                             try {
                                 errorMessage = getPrevalidationErrorMessage(serviceKey);

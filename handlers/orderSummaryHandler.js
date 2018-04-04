@@ -45,6 +45,8 @@ const getDestinationValue = (matchingServiceKey, body) => {
                 return body[mapper.INTERNET_PAGA_SWIFT.destination];
             case mapper.INTERNET_PAGA_SMILE.service_key:
                 return body[mapper.INTERNET_PAGA_SMILE.destination];
+            case mapper.TOLL_LTC.service_key:
+                return body[mapper.TOLL_LTC.destination];
             
         }
 
@@ -63,11 +65,12 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
             
             case mapper.TV_PAGA_DSTV.service_key:
                 return mapper.TV_PAGA_DSTV.prevalidation_error_message;
-
             case mapper.INTERNET_PAGA_SMILE.service_key:
                 return mapper.INTERNET_PAGA_SMILE.prevalidation_error_message;
             case mapper.INTERNET_PAGA_SWIFT.service_key:
                 return mapper.INTERNET_PAGA_SWIFT.prevalidation_error_message;
+            case mapper.TOLL_LTC.service_key:
+                return mapper.TOLL_LTC.prevalidation_error_message;
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {

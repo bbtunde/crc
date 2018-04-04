@@ -10,8 +10,16 @@
         </configs>
         <services>
     
-             <!--TV SPECTRANET-->
+             <!--TV -->
             <service key="tv.paga.dstv">TV  Paga Dstv</service>
+
+            <!--INTERNET-->
+            <service key="internet.paga.smile">Internet  Paga Smile</service>
+
+            <service key="internet.paga.swift">Internet  Paga Swift</service>
+
+            <!--TOLL-->
+            <service key="toll.ltc">Toll Ltc</service>
 
 
         </services>

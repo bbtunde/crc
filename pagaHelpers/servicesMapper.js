@@ -34,6 +34,17 @@ const mapper = {
         order_summary_needs_prevalidation: true, 
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
             'Otherwise, please check your account status with your operator.'
+    },
+     //TOLL
+     TOLL_LTC: {
+        lynetype: '29abd794-f91f-43c2-a42e-23425d15cab6',
+        service_key: 'toll.ltc',
+        destination: 'account_number',
+        has_plans:false,
+        message_missing_destination: 'Missing Account Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your account number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
     }
 };
 

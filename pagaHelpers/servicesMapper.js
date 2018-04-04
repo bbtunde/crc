@@ -8,7 +8,7 @@ const mapper = {
         destination: 'smart_card_number',
         has_plans:true,
         message_missing_destination: 'Missing Smart Card Number',
-        order_summary_needs_prevalidation: false,
+        order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +
             'Otherwise, please check your account status with your operator.'
     }

@@ -78,9 +78,9 @@ module.exports = {
                 var plan=[];
                 if(configServiceData.has_plans)
                 {
-                    let amountArray=amount.split('.');
-                    amount=amountArray[0];
-                    plan.push(amountArray[1]);
+                    let amount_plan=amount.split('.');
+                    amount=amount_plan[0];
+                    plan.push(amount_plan[1]);
                 }
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
             } catch (error) {

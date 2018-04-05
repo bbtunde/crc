@@ -57,6 +57,29 @@ const mapper = {
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
         'Otherwise, please check your account status with your operator.'
+    },
+
+    BET_WASERE: {
+        lynetype: '20b23920-b100-4026-ab89-34a29c48d67f',
+        service_key: 'bet.wasere',
+        destination: 'account_number',
+        has_plans:false,
+        message_missing_destination: 'Missing Account Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your account number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
+    },
+
+    
+    BET_9JAPREDICT: {
+        lynetype: 'c4adef5e-55b5-463c-a055-efd5c28cacbd',
+        service_key: 'bet.9japredict',
+        destination: 'account_number',
+        has_plans:false,
+        message_missing_destination: 'Missing Account Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your account number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
     }
 };
 

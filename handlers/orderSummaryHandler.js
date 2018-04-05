@@ -49,6 +49,10 @@ const getDestinationValue = (matchingServiceKey, body) => {
                 return body[mapper.TOLL_LTC.destination];    
             case mapper.BET_1960BET.service_key:
                 return body[mapper.BET_1960BET.destination];
+            case mapper.BET_WASERE.service_key:
+                return body[mapper.BET_WASERE.destination];
+            case mapper.BET_9JAPREDICT.service_key:
+                return body[mapper.BET_9JAPREDICT.destination];
             
         }
 
@@ -75,6 +79,10 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.TOLL_LTC.prevalidation_error_message;
             case mapper.BET_1960BET.service_key:
                 return mapper.BET_1960BET.prevalidation_error_message;
+            case mapper.BET_WASERE.service_key:
+                return mapper.BET_WASERE.prevalidation_error_message;
+            case mapper.BET_9JAPREDICT.service_key:
+                return mapper.BET_9JAPREDICT.prevalidation_error_message;
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {
@@ -164,7 +172,6 @@ module.exports = {
                     merchantReferenceNumber:destinationRef,
                     merchantServiceProductCode:plan
                 };
-               
                 const tohash=generatedReference+linetype+destinationRef+plan;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {

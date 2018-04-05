@@ -40,6 +40,7 @@ module.exports = {
                 lynetype: null,
                 service_key: null,
                 destination: null,
+                has_plans:null,
                 message_missing_destination: null,
             };
 
@@ -48,6 +49,7 @@ module.exports = {
                 configServiceData.lynetype = data.lynetype;
                 configServiceData.service_key = data.service_key;
                 configServiceData.destination = data.destination;
+                configServiceData.has_plans=data.has_plans;
                 configServiceData.message_missing_destination = data.message_missing_destination;
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error in adapter. Config file from service "${serviceKey}" does not have defined all necessary fields.`, []));

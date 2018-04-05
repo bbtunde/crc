@@ -24,6 +24,12 @@
              <!--BET-->
             <service key="bet.1960bet">Bet 1960Bet</service>
 
+             <service key="bet.wasere">Bet Wasere</service>
+
+              <service key="bet.9japredict">Bet 9jaPredict</service>
+
+
+
 
         </services>
     </adapter>

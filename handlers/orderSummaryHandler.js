@@ -53,6 +53,12 @@ const getDestinationValue = (matchingServiceKey, body) => {
                 return body[mapper.BET_WASERE.destination];
             case mapper.BET_9JAPREDICT.service_key:
                 return body[mapper.BET_9JAPREDICT.destination];
+            case mapper.ELECTRICITY_PREPAID_ABUJA.service_key:
+                return body[mapper.ELECTRICITY_PREPAID_ABUJA.destination];
+            case mapper.ELECTRICITY_PREPAID_KADUNA.service_key:
+                return body[mapper.ELECTRICITY_PREPAID_KADUNA.destination];
+            case mapper.ELECTRICITY_PREPAID_PORTHARCOUT.service_key:
+                return body[mapper.ELECTRICITY_PREPAID_PORTHARCOUT.destination];
             
         }
 
@@ -83,6 +89,12 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.BET_WASERE.prevalidation_error_message;
             case mapper.BET_9JAPREDICT.service_key:
                 return mapper.BET_9JAPREDICT.prevalidation_error_message;
+            case mapper.ELECTRICITY_PREPAID_ABUJA.service_key:
+                return mapper.ELECTRICITY_PREPAID_ABUJA.prevalidation_error_message;
+            case mapper.ELECTRICITY_PREPAID_KADUNA.service_key:
+                return mapper.ELECTRICITY_PREPAID_KADUNA.prevalidation_error_message;
+            case mapper.ELECTRICITY_PREPAID_PORTHARCOUT.service_key:
+                return mapper.ELECTRICITY_PREPAID_PORTHARCOUT.prevalidation_error_message;
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {

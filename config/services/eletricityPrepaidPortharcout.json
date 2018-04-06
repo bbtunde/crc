@@ -1,25 +1,25 @@
 {
-    "toll.ltc": {
+    "electricity.prepaid.portharcout": {
       "orderSummaryHandler": "orderSummaryHandler",
-      "purchaseHandler": "purchaseHandler",
+      "purchaseHandler": "orderPurchaseHandler",
       "definition": {
-        "linetype": "29abd794-f91f-43c2-a42e-23425d15cab6"
+        "linetype": "A5B4DACC-0391-4887-A76E-2B0584A8C985"
       },
-      "extra_info": false,
-      "destination": "account_number",
+      "extra_info": true,
+      "destination": "meter_number",
       "steps": [
         {
           "fields": [
             {
-              "key": "account_number",
-              "template": "text",
-              "title": "What is your account number?",
-              "label": "LTC account number",
+              "key": "meter_number",
+              "template": "number",
+              "title": "What is your meter number?",
+              "label": "Meter number",
               "validators": [
                 {
                   "type": "required",
                   "options": [],
-                  "message": "LTC account number cannot be empty"
+                  "message": "Meter number cannot be empty"
                 },
                 {
                   "type": "textLength",
@@ -27,15 +27,15 @@
                     {
                       "option": "min",
                       "value": "5",
-                      "message": "Minimum 5 digits"
+                      "message": "Minimum 5 characters"
                     },
                     {
                       "option": "max",
-                      "value": "13",
-                      "message": "Maximum 13 digits"
+                      "value": "20",
+                      "message": "Maximum 20 characters"
                     }
                   ],
-                  "message": "Invalid number of digits"
+                  "message": "Invalid text length"
                 }
               ],
               "options": []
@@ -61,8 +61,8 @@
                     },
                     {
                       "option": "min",
-                      "value": "10",
-                      "message": "Minimum amount: 10 NGN"
+                      "value": "1000",
+                      "message": "Minimum amount: 1000 NGN"
                     },
                     {
                       "option": "max",
@@ -89,3 +89,4 @@
       ]
     }
   }
+  

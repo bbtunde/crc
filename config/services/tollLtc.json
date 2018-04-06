@@ -12,7 +12,7 @@
           "fields": [
             {
               "key": "account_number",
-              "template": "number",
+              "template": "text",
               "title": "What is your account number?",
               "label": "LTC account number",
               "validators": [

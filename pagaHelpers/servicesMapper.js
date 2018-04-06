@@ -80,7 +80,42 @@ const mapper = {
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
         'Otherwise, please check your account status with your operator.'
+    },
+
+    //ELECTRICITY
+    ELECTRICITY_PREPAID_ABUJA: {
+        lynetype: 'B590205C-4C01-458D-9CC5-D7DAE2942478',
+        service_key: 'electricity.prepaid.abuja',
+        destination: 'meter_number',
+        has_plans:false,
+        message_missing_destination: 'Missing Meter Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your meter number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
+    },
+
+    ELECTRICITY_PREPAID_KADUNA: {
+        lynetype: '2258C05A-F6DF-4CCB-900D-481962F7E026',
+        service_key: 'electricity.prepaid.kaduna',
+        destination: 'meter_number',
+        has_plans:false,
+        message_missing_destination: 'Missing Meter Number',
+        order_summary_needs_prevalidation: false,
+        prevalidation_error_message: 'Please make sure your meter number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
+    },
+
+    ELECTRICITY_PREPAID_PORTHARCOUT: {
+        lynetype: 'A5B4DACC-0391-4887-A76E-2B0584A8C985',
+        service_key: 'electricity.prepaid.portharcout',
+        destination: 'meter_number',
+        has_plans:false,
+        message_missing_destination: 'Missing Meter Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your meter number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
     }
+
 };
 
 const services = Object.keys(mapper);

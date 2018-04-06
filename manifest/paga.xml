@@ -23,10 +23,16 @@
 
              <!--BET-->
             <service key="bet.1960bet">Bet 1960Bet</service>
+            <service key="bet.wasere">Bet Wasere</service>
+            <service key="bet.9japredict">Bet 9jaPredict</service>
 
-             <service key="bet.wasere">Bet Wasere</service>
+             <!--ELECTRICITY-->
+            <service key="electricity.prepaid.abuja">Electricity Prepaid Abuja</service>
+            <service key="electricity.prepaid.kaduna">Electricity Prepaid Kaduna</service>
+            <service key="electricity.prepaid.portharcout">Electricity Prepaid Port Harcout</service>
 
-              <service key="bet.9japredict">Bet 9jaPredict</service>
+
+            
 
 
 

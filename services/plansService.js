@@ -38,7 +38,7 @@ var parsePlansToOptions = (plans) => {
                                     plans[i].name, 
                                     "", 
                                     `NGN_${plans[i].price}.${plans[i].name}`, 
-                                    `NGN ${plans[i].name}`, 
+                                    `NGN ${plans[i].price}`, 
                                     "", 
                                     false, 
                                     []);

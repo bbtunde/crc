@@ -189,7 +189,7 @@ module.exports = {
                     merchantServiceProductCode:plan
                 };
 
-                console.log(args);
+    
                 const tohash=generatedReference+linetype+destinationRef+plan;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {

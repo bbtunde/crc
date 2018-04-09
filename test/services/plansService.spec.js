@@ -48,7 +48,7 @@ var mockOptions = [
       "label": "ACCESS",
       "icon": "",
       "option_value": "NGN_1500.ACCESS",
-      "display_value": "NGN ACCESS",
+      "display_value": "NGN 1500",
       "message": "",
       "preselected": false,
       "form_elements": []
@@ -57,7 +57,7 @@ var mockOptions = [
         "label": "FAMILY",
         "icon": "",
         "option_value": "NGN_3000.FAMILY",
-        "display_value": "NGN FAMILY",
+        "display_value": "NGN 3000",
         "message": "",
         "preselected": false,
         "form_elements": []

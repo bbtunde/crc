@@ -25,6 +25,7 @@
             <service key="bet.1960bet">Bet 1960Bet</service>
             <service key="bet.wasere">Bet Wasere</service>
             <service key="bet.9japredict">Bet 9jaPredict</service>
+            <service key="bet.bet.bonanzawin">Bet Bonanzawin</service>
 
              <!--ELECTRICITY-->
             <service key="electricity.prepaid.abuja">Electricity Prepaid Abuja</service>

@@ -1,7 +1,7 @@
 {
     "electricity.prepaid.kaduna": {
-      "orderSummaryHandler": "orderSummaryHandler",
-      "purchaseHandler": "orderPurchaseHandler",
+      "orderSummaryHandler": "electricityPrepaidOrderSummaryHandler",
+      "purchaseHandler": "electricityPrepaidPurchaseHandler",
       "definition": {
         "linetype": "2258C05A-F6DF-4CCB-900D-481962F7E026"
       },

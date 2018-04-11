@@ -47,7 +47,7 @@ module.exports = {
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.meter_number,
-                merchantService:service
+                merchantService:[service]
             };
             const tohash=generatedReference+amountValue+linetype+body.meter_number;
             PagaClient.getSuccessMessage(url,args,tohash)

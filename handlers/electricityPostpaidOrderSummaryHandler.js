@@ -95,7 +95,7 @@ module.exports = {
                             let additionalDetail = new AdditionalDetailItem('Customer Name', customerName);
                             let quoteResponse = new QuoteResponse(
                                 availableServices[serviceKey].destination,
-                                additionalDetail,
+                                [additionalDetail],
                                 [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
                             );
                             return resolve(quoteResponse);

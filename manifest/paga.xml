@@ -6,7 +6,7 @@
         <configs>
             <endpoint>http://paga.one.svc.cluster.local/api/v1</endpoint>
             <username>jone</username>
-            <password>J4v_7G_Gzw3U4r4umJR8A5PFN7_cjnza</password>
+            <password>sEXmuMQW_zNY433j9V3RM-9B</password>
         </configs>
         <services>
     
@@ -25,6 +25,7 @@
             <service key="bet.1960bet">Bet 1960Bet</service>
             <service key="bet.wasere">Bet Wasere</service>
             <service key="bet.9japredict">Bet 9jaPredict</service>
+            <service key="bet.bet.bonanzawin">Bet Bonanzawin</service>
 
              <!--ELECTRICITY-->
             <service key="electricity.prepaid.abuja">Electricity Prepaid Abuja</service>

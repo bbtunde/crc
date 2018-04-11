@@ -1,9 +1,9 @@
 {
-    "toll.ltc": {
+    "bet.bonanzawin": {
       "orderSummaryHandler": "orderSummaryHandler",
       "purchaseHandler": "purchaseHandler",
       "definition": {
-        "linetype": "29abd794-f91f-43c2-a42e-23425d15cab6"
+        "linetype": "e51b5753-ddc7-4b11-88b3-4ea25d72c33c"
       },
       "extra_info": false,
       "destination": "account_number",
@@ -12,14 +12,14 @@
           "fields": [
             {
               "key": "account_number",
-              "template": "text",
+              "template": "number",
               "title": "What is your account number?",
-              "label": "LTC account number",
+              "label": "BonanzaWin account number",
               "validators": [
                 {
                   "type": "required",
                   "options": [],
-                  "message": "LTC account number cannot be empty"
+                  "message": "BonanzaWin account number cannot be empty"
                 },
                 {
                   "type": "textLength",
@@ -42,46 +42,42 @@
             },
             {
               "key": "amount",
-              "template": "money",
+              "template": "list",
               "title": "How much do you want to top-up?",
-              "label": "Top-up amount",
+              "label": "Amount",
               "validators": [
                 {
                   "type": "required",
                   "options": [],
-                  "message": "Amount cannot be empty"
-                },
-                {
-                  "type": "money",
-                  "options": [
-                    {
-                      "option": "currency",
-                      "value": "NGN",
-                      "message": "We only support Nigerian Nairas"
-                    },
-                    {
-                      "option": "min",
-                      "value": "10",
-                      "message": "Minimum amount: 10 NGN"
-                    },
-                    {
-                      "option": "max",
-                      "value": "100000",
-                      "message": "Maximum amount: 100000 NGN"
-                    }
-                  ],
-                  "message": "Invalid amount"
+                  "message": "You must select an amount"
                 }
               ],
               "options": [
                 {
-                  "label": "NGN",
-                  "icon": "U+20A6",
-                  "option_value": "NGN",
+                  "label": "Top Up NGN 1500",
+                  "icon": "",
+                  "option_value": "NGN_1500.Top Up n1500",
                   "message": "",
-                  "preselected": true,
+                  "preselected": false,
+                  "form_elements": []
+                },
+                {
+                  "label": "Top Up NGN 3000",
+                  "icon": "",
+                  "option_value": "NGN_3000.Top Up n3000",
+                  "message": "",
+                  "preselected": false,
+                  "form_elements": []
+                },
+                {
+                  "label": "Top Up NGN 5000",
+                  "icon": "",
+                  "option_value": "NGN_5000.Top Up n5000",
+                  "message": "",
+                  "preselected": false,
                   "form_elements": []
                 }
+
               ]
             }
           ]

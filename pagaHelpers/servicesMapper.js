@@ -81,6 +81,16 @@ const mapper = {
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
         'Otherwise, please check your account status with your operator.'
     },
+    BET_BONANZAWIN: {
+        lynetype: 'e51b5753-ddc7-4b11-88b3-4ea25d72c33c',
+        service_key: 'bet.bonanzawin',
+        destination: 'account_number',
+        has_plans:true,
+        message_missing_destination: 'Missing Account Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your account number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
+    },
 
     //ELECTRICITY
     ELECTRICITY_PREPAID_ABUJA: {
@@ -100,7 +110,7 @@ const mapper = {
         destination: 'meter_number',
         has_plans:false,
         message_missing_destination: 'Missing Meter Number',
-        order_summary_needs_prevalidation: false,
+        order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +
         'Otherwise, please check your account status with your operator.'
     },

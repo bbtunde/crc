@@ -1,7 +1,7 @@
 {
     "electricity.prepaid.portharcout": {
-      "orderSummaryHandler": "orderSummaryHandler",
-      "purchaseHandler": "orderPurchaseHandler",
+      "orderSummaryHandler": "electricityPrepaidOrderSummaryHandler",
+      "purchaseHandler": "electricityPrepaidPurchaseHandler",
       "definition": {
         "linetype": "A5B4DACC-0391-4887-A76E-2B0584A8C985"
       },

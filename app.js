@@ -1,4 +1,5 @@
 var nr = require('newrelic');
+var morgan = require('morgan');
 var restify = require('restify');
 var restifyValidator = require('restify-validator');
 var errs = require('restify-errors');
@@ -64,6 +65,13 @@ if (env !== 'test') {
       code: 'UNKNOWN_ERROR',
       response: err.message
     });
+  });
+
+  //activate request logging
+  morgan.token('payload', function (req, res) { return JSON.stringify(req.body) })
+  logger = morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" ":payload"');
+  server.on('after', function (req, res, route, error) {
+    logger(req, res, function (error) {})
   });
 
   routes(server);

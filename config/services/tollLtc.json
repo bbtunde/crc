@@ -44,7 +44,7 @@
               "key": "amount",
               "template": "money",
               "title": "How much do you want to top-up?",
-              "label": "Top-up amount",
+              "label": "Amount",
               "validators": [
                 {
                   "type": "required",

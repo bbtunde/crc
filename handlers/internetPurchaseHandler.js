@@ -8,7 +8,7 @@ const PagaClient = require('./../services/pagaClient');
 /* istanbul ignore next */
 module.exports = {
 
-    internetPurchaseHandlerSWIFT: (serviceKey, body) => {
+    internetPurchaseHandler: (serviceKey, body) => {
         return new Promise(function (resolve, reject) {
             try {
                 var linetype = availableServices[serviceKey].definition.linetype;

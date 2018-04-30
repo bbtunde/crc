@@ -42,7 +42,7 @@ const mapper = {
         destination: 'customer_id',
         has_plans:false,
         message_missing_destination: 'Missing Costumer ID',
-        order_summary_needs_prevalidation: false, 
+        order_summary_needs_prevalidation: true, 
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
             'Otherwise, please check your account status with your operator.'
     },

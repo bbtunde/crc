@@ -35,6 +35,17 @@ const mapper = {
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
             'Otherwise, please check your account status with your operator.'
     },
+    INTERNET_PAGA_SPECTRANET: {
+
+        lynetype: 'E5E5CF1D-3F53-4273-83A7-6E678EBD7C15',
+        service_key: 'internet.paga.spectranet',
+        destination: 'customer_id',
+        has_plans:false,
+        message_missing_destination: 'Missing Costumer ID',
+        order_summary_needs_prevalidation: false, 
+        prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
+            'Otherwise, please check your account status with your operator.'
+    },
      //TOLL
      TOLL_LTC: {
         lynetype: '29abd794-f91f-43c2-a42e-23425d15cab6',

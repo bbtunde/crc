@@ -11,7 +11,7 @@ const PagaClient = require('./../services/pagaClient');
 /* istanbul ignore next */
 module.exports = {
 
-    internetOrderSummaryHandlerSWIFT: (serviceKey, body) => {
+    internetOrderSummaryHandler: (serviceKey, body) => {
         return new Promise(function (resolve, reject) {
             // validate service configuration issues
             let configServiceData = {

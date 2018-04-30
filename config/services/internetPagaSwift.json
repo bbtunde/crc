@@ -1,7 +1,7 @@
 {
   "internet.paga.swift": {
-    "orderSummaryHandler": "internetOrderSummaryHandlerSWIFT",
-    "purchaseHandler": "internetPurchaseHandlerSWIFT",
+    "orderSummaryHandler": "internetOrderSummaryHandler",
+    "purchaseHandler": "internetPurchaseHandler",
     "definition": {
       "linetype": "21e818c7-db0a-4042-bc7a-a18da33ec3e5"
     },

@@ -29,7 +29,7 @@ describe('Order Summary Handler',function()
 		let additionalDetail = new AdditionalDetailItem('Customer Name', "Mock User");
 		let mockQuoteResponse = new QuoteResponse(
 			availableServices[serviceKey].destination,
-			additionalDetail,
+			[additionalDetail],
 			[new PaymentDetailItem('total_price', amountValue, [{ "currency": currency,"amount":amountValue }])]
 		);
 

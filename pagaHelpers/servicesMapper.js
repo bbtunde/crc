@@ -7,6 +7,8 @@ const mapper = {
         service_key: 'tv.paga.dstv',
         destination: 'smart_card_number',
         has_plans:true,
+        has_cascade:true,
+        cascade_name:"NGN_0.Box Office",
         message_missing_destination: 'Missing Smart Card Number',
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +
@@ -19,6 +21,7 @@ const mapper = {
         service_key: 'internet.paga.swift',
         destination: 'customer_id',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Costumer ID',
         order_summary_needs_prevalidation: true, 
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
@@ -30,6 +33,8 @@ const mapper = {
         service_key: 'internet.paga.smile',
         destination: 'customer_id',
         has_plans:true,
+        has_cascade:true,
+        cascade_name:"NGN_0.Buy Airtime",
         message_missing_destination: 'Missing Costumer ID',
         order_summary_needs_prevalidation: true, 
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
@@ -41,6 +46,8 @@ const mapper = {
         service_key: 'internet.paga.spectranet',
         destination: 'customer_id',
         has_plans:false,
+        has_cascade:true,
+        cascade_name:"Refill",
         message_missing_destination: 'Missing Costumer ID',
         order_summary_needs_prevalidation: true, 
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +
@@ -52,6 +59,7 @@ const mapper = {
         service_key: 'toll.ltc',
         destination: 'account_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Account Number',
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
@@ -64,8 +72,9 @@ const mapper = {
         service_key: 'bet.1960bet',
         destination: 'account_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Account Number',
-        order_summary_needs_prevalidation: true,
+        order_summary_needs_prevalidation: false,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
         'Otherwise, please check your account status with your operator.'
     },
@@ -75,8 +84,9 @@ const mapper = {
         service_key: 'bet.wasere',
         destination: 'account_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Account Number',
-        order_summary_needs_prevalidation: true,
+        order_summary_needs_prevalidation: false,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
         'Otherwise, please check your account status with your operator.'
     },
@@ -87,8 +97,9 @@ const mapper = {
         service_key: 'bet.9japredict',
         destination: 'account_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Account Number',
-        order_summary_needs_prevalidation: true,
+        order_summary_needs_prevalidation: false,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
         'Otherwise, please check your account status with your operator.'
     },
@@ -97,6 +108,7 @@ const mapper = {
         service_key: 'bet.bonanzawin',
         destination: 'account_number',
         has_plans:true,
+        has_cascade:false,
         message_missing_destination: 'Missing Account Number',
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
@@ -109,6 +121,7 @@ const mapper = {
         service_key: 'electricity.prepaid.abuja',
         destination: 'meter_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Meter Number',
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +
@@ -120,6 +133,7 @@ const mapper = {
         service_key: 'electricity.prepaid.kaduna',
         destination: 'meter_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Meter Number',
         order_summary_needs_prevalidation: false,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +
@@ -131,6 +145,7 @@ const mapper = {
         service_key: 'electricity.prepaid.portharcout',
         destination: 'meter_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Meter Number',
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +
@@ -144,6 +159,7 @@ const mapper = {
         service_key: 'electricity.postpaid.kaduna',
         destination: 'meter_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Meter Number',
         order_summary_needs_prevalidation: false,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +
@@ -155,6 +171,7 @@ const mapper = {
         service_key: 'electricity.postpaid.portharcout',
         destination: 'meter_number',
         has_plans:false,
+        has_cascade:false,
         message_missing_destination: 'Missing Meter Number',
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +

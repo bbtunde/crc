@@ -1,7 +1,7 @@
 {
   "internet.paga.smile": {
-    "orderSummaryHandler": "orderSummaryHandler",
-    "purchaseHandler": "purchaseHandler",
+    "orderSummaryHandler": "internetOrderSummaryHandlerSMILE",
+    "purchaseHandler": "internetPurchaseHandlerSMILE",
     "definition": {
       "linetype": "E5E5CF1D-3F53-4273-83A7-6E678EBD7C15"
     },
@@ -41,7 +41,7 @@
             "options": []
           },
           {
-            "key": "amount",
+            "key": "service",
             "template": "plans",
             "title": "Which package do you want?",
             "label": "Package",

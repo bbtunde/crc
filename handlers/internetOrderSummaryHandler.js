@@ -9,6 +9,26 @@ const ResponseCode = require('./../models/ResponseCode');
 const AdditionalDetailItem = require('./../models/AdditionalDetailItem');
 const PagaClient = require('./../services/pagaClient');
 /* istanbul ignore next */
+
+
+const getPrevalidationErrorMessage = (matchingServiceKey) => {
+    try {
+        let mapper = servicesMapper.mapper;
+
+        switch (matchingServiceKey) {
+        
+            case mapper.INTERNET_PAGA_SPECTRANET.service_key:
+                return mapper.INTERNET_PAGA_SPECTRANET.prevalidation_error_message;
+            case mapper.INTERNET_PAGA_SWIFT.service_key:
+                return mapper.INTERNET_PAGA_SWIFT.prevalidation_error_message;
+            
+        } 
+        throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 module.exports = {
 
     internetOrderSummaryHandler: (serviceKey, body) => {

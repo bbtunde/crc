@@ -9,6 +9,25 @@ const ResponseCode = require('./../models/ResponseCode');
 const AdditionalDetailItem = require('./../models/AdditionalDetailItem');
 const PagaClient = require('./../services/pagaClient');
 /* istanbul ignore next */
+
+const getPrevalidationErrorMessage = (matchingServiceKey) => {
+    try {
+        let mapper = servicesMapper.mapper;
+
+        switch (matchingServiceKey) {
+        
+            case mapper.ELECTRICITY_POSTPAID_KADUNA.service_key:
+                return mapper.ELECTRICITY_POSTPAID_KADUNA.prevalidation_error_message;
+            case mapper.ELECTRICITY_POSTPAID_PORTHARCOUT.service_key:
+                return mapper.ELECTRICITY_POSTPAID_PORTHARCOUT.prevalidation_error_message;
+        
+            
+        } 
+        throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
 module.exports = {
 
     electricityPostpaidOrderSummaryHandler: (serviceKey, body) => {

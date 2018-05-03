@@ -39,12 +39,7 @@ const getDestinationValue = (matchingServiceKey, body) => {
 
         switch (matchingServiceKey) {
            
-            case mapper.TV_PAGA_DSTV.service_key:
-                return body[mapper.TV_PAGA_DSTV.destination];
-            case mapper.INTERNET_PAGA_SWIFT.service_key:
-                return body[mapper.INTERNET_PAGA_SWIFT.destination];
-            case mapper.INTERNET_PAGA_SMILE.service_key:
-                return body[mapper.INTERNET_PAGA_SMILE.destination];
+           
             case mapper.TOLL_LTC.service_key:
                 return body[mapper.TOLL_LTC.destination];    
             case mapper.BET_1960BET.service_key:
@@ -55,12 +50,6 @@ const getDestinationValue = (matchingServiceKey, body) => {
                 return body[mapper.BET_9JAPREDICT.destination];
             case mapper.BET_BONANZAWIN.service_key:
                 return body[mapper.BET_BONANZAWIN.destination];
-            case mapper.ELECTRICITY_PREPAID_ABUJA.service_key:
-                return body[mapper.ELECTRICITY_PREPAID_ABUJA.destination];
-            case mapper.ELECTRICITY_PREPAID_KADUNA.service_key:
-                return body[mapper.ELECTRICITY_PREPAID_KADUNA.destination];
-            case mapper.ELECTRICITY_PREPAID_PORTHARCOUT.service_key:
-                return body[mapper.ELECTRICITY_PREPAID_PORTHARCOUT.destination];
             
         }
 
@@ -77,12 +66,7 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
 
         switch (matchingServiceKey) {
             
-            case mapper.TV_PAGA_DSTV.service_key:
-                return mapper.TV_PAGA_DSTV.prevalidation_error_message;
-            case mapper.INTERNET_PAGA_SMILE.service_key:
-                return mapper.INTERNET_PAGA_SMILE.prevalidation_error_message;
-            case mapper.INTERNET_PAGA_SWIFT.service_key:
-                return mapper.INTERNET_PAGA_SWIFT.prevalidation_error_message;
+           
             case mapper.TOLL_LTC.service_key:
                 return mapper.TOLL_LTC.prevalidation_error_message;
             case mapper.BET_1960BET.service_key:
@@ -93,12 +77,7 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.BET_9JAPREDICT.prevalidation_error_message;
             case mapper.BET_BONANZAWIN.service_key:
                 return mapper.BET_BONANZAWIN.prevalidation_error_message;
-            case mapper.ELECTRICITY_PREPAID_ABUJA.service_key:
-                return mapper.ELECTRICITY_PREPAID_ABUJA.prevalidation_error_message;
-            case mapper.ELECTRICITY_PREPAID_KADUNA.service_key:
-                return mapper.ELECTRICITY_PREPAID_KADUNA.prevalidation_error_message;
-            case mapper.ELECTRICITY_PREPAID_PORTHARCOUT.service_key:
-                return mapper.ELECTRICITY_PREPAID_PORTHARCOUT.prevalidation_error_message;
+           
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {

@@ -26,7 +26,7 @@ describe('Order Summary Handler',function()
         };
 		let amountValue=100;
 		let currency="NGN";
-		let additionalDetail = new AdditionalDetailItem('Customer Name', "P MOLOKWU");
+		let additionalDetail = new AdditionalDetailItem('Customer Name', "Mock User");
 		let mockQuoteResponse = new QuoteResponse(
 			availableServices[serviceKey].destination,
 			[additionalDetail],

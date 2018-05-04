@@ -11,7 +11,7 @@
   },
   "paga":
   {
-    "business_endpoint":"https://mypaga.com/paga-webservices/business-rest/secured/",
+    "business_endpoint":"https://qa1.mypaga.com/paga-webservices/business-rest/secured/",
     "merchant_payment":"merchantPayment",
     "merchant_service":"getMerchantServices",
     "merchant_account":"getMerchantAccountDetails",

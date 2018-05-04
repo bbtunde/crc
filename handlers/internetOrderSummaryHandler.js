@@ -17,8 +17,7 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
 
         switch (matchingServiceKey) {
         
-            case mapper.INTERNET_PAGA_SPECTRANET.service_key:
-                return mapper.INTERNET_PAGA_SPECTRANET.prevalidation_error_message;
+           
             case mapper.INTERNET_PAGA_SWIFT.service_key:
                 return mapper.INTERNET_PAGA_SWIFT.prevalidation_error_message;
             
@@ -122,7 +121,6 @@ module.exports = {
                             );
                             return resolve(quoteResponse);
                         } catch (error) {
-                            console.log(error);
                             let errorMessage = null;
                             try {
                                 errorMessage = getPrevalidationErrorMessage(serviceKey);

@@ -4,6 +4,7 @@ const availableServices = require('../config/requireServices').services;
 const CacheService = require('./../services/cacheService');
 const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
+const pagaHelpers = require('./../pagaHelpers/pagaHelpers');
 
 /* istanbul ignore next */
 module.exports = {
@@ -16,14 +17,16 @@ module.exports = {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('SMILE', linetype)
                                 .then(options => {
-                                    formElement.elements[1].options = options;
+                                    reFineOptions=pagaHelpers.addAmountFieldToOption("Buy Airtime",options);
+                                    formElement.elements[1].options = reFineOptions;
                                     resolve(formElement)
                                 })
                                 .catch(appError => reject(appError));
                         } else {
                             try {
                                 let options = plansService.parsePlansToOptions(cachedPlans);
-                                formElement.elements[1].options = options;
+                                reFineOptions=pagaHelpers.addAmountFieldToOption("Buy Airtime",options);
+                                formElement.elements[1].options = reFineOptions;
                                 resolve(formElement);
                              } catch (error) {
                                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred on parsing plans to options', [])); 

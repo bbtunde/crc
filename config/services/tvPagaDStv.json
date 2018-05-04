@@ -1,7 +1,7 @@
 {
   "tv.paga.dstv": {
-    "orderSummaryHandler": "orderSummaryHandler",
-    "purchaseHandler": "purchaseHandler",
+    "orderSummaryHandler": "tvOrderSummaryHandlerDSTV",
+    "purchaseHandler": "tvPurchaseHandlerDSTV",
     "definition": {
       "linetype": "A3878DC1-F07D-48E7-AA59-8276C3C26647"
     },
@@ -41,7 +41,7 @@
             "options": []
           },
           {
-            "key": "amount",
+            "key": "service",
             "template": "plans",
             "title": "Which package do you want?",
             "label": "Package",

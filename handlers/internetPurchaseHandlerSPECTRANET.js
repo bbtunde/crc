@@ -9,7 +9,7 @@ const servicesMapper = require('./../pagaHelpers/servicesMapper');
 /* istanbul ignore next */
 module.exports = {
 
-    tvPurchaseHandlerDSTV: (serviceKey, body) => {
+    internetPurchaseHandlerSPECTRANET: (serviceKey, body) => {
         return new Promise(function (resolve, reject) {
             let configServiceData = {
                 lynetype: null,
@@ -37,38 +37,30 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
             }
 
-            if (body.smart_card_number === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "smart_card_number" in body`, []));
+            if (body.customer_id === undefined) {
+                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "customer_id" in body`, []));
             }
-
             if (body.service === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
             }
-
             
-            var amount,service;
+            var amount;
+            var service=body.service;
             if(configServiceData.has_cascade)
             {
                 if(body.service==configServiceData.cascade_name)
                 {
                    
-                if (body.amount === undefined) {
-                    return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
+                    if (body.amount === undefined) {
+                        return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
+                    }
+                    else{
+                       amount=body.amount;
+                      
+                    }
+        
                 }
-                else{
-                   amount=body.amount;
-                   let amount_service=body.service.split('.');
-                   service=amount_service[1];
-                }
-    
-                }
-                else
-                {
-            
-                    let amount_service=body.service.split('.');
-                        amount=amount_service[0];
-                        service=amount_service[1];
-                }
+                
             }
 
             try {
@@ -90,11 +82,12 @@ module.exports = {
                 referenceNumber:generatedReference,
                 amount:amountValue,
                 merchantAccount:linetype,
-                merchantReferenceNumber:body.smart_card_number,
+                merchantReferenceNumber:body.customer_id,
                 merchantService:[service]
             };
+            
 
-            const tohash=generatedReference+amountValue+linetype+body.smart_card_number;
+            const tohash=generatedReference+amountValue+linetype+body.customer_id;
             PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {
                 try {

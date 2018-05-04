@@ -1,0 +1,73 @@
+{
+    "internet.paga.spectranet": {
+      "orderSummaryHandler": "internetOrderSummaryHandlerSPECTRANET",
+      "purchaseHandler": "internetPurchaseHandlerSPECTRANET",
+      "definition": {
+        "linetype": "F3B9CE63-3FB4-468B-83CE-2E3A0E2C8853"
+      },
+      "extra_info": false,
+      "destination": "customer_id",
+      "steps": [
+        {
+          "fields": [
+            {
+              "key": "customer_id",
+              "template": "number",
+              "title": "What is your Customer ID?",
+              "label": "Customer ID",
+              "validators": [
+                {
+                  "type": "required",
+                  "options": [],
+                  "message": "Customer ID cannot be empty"
+                },
+                {
+                  "type": "textLength",
+                  "options": [
+                    {
+                      "option": "min",
+                      "value": "5",
+                      "message": "Minimum 5 digits"
+                    },
+                    {
+                      "option": "max",
+                      "value": "13",
+                      "message": "Maximum 13 digits"
+                    }
+                  ],
+                  "message": "Invalid number of digits"
+                }
+              ],
+              "options": []
+            },
+  
+            {
+              "key": "service",
+              "template": "list",
+              "title": "Which service do you want?",
+              "label": "Service",
+              "validators": [
+                {
+                  "type": "required",
+                  "options": [],
+                  "message": "You must select a service"
+                }
+              ],
+              "options": [
+                {
+                  "label": "Refill",
+                  "icon": "",
+                  "option_value": "Refill",
+                  "message": "",
+                  "preselected": false,
+                  "form_elements": []
+                }
+              ]
+            }
+          ],
+          "requestHandler":"formElementsPlansHandlerSPECTRANET"
+        }
+      ]
+    }
+  }
+  

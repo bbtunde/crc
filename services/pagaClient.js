@@ -26,8 +26,7 @@ module.exports = class pagaClient {
             const sha512 = crypto.createHash('sha512');
             tohash=tohash+config.paga.hashkey;
             var hash= sha512.update(tohash).digest('hex');
-        
-        
+
             request.post({
                 url: url,
                 headers:{

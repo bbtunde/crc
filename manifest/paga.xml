@@ -18,6 +18,7 @@
 
             <service key="internet.paga.swift">Internet  Paga Swift</service>
 
+            <service key="internet.paga.spectranet">Internet  Paga Spectranet</service>
 
             <!--TOLL-->
             <service key="toll.ltc">Toll Ltc</service>

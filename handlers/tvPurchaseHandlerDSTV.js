@@ -93,7 +93,7 @@ module.exports = {
                 merchantReferenceNumber:body.smart_card_number,
                 merchantService:[service]
             };
-          
+
             const tohash=generatedReference+amountValue+linetype+body.smart_card_number;
             PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {

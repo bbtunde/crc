@@ -119,7 +119,6 @@ module.exports = {
                             );
                             return resolve(quoteResponse);
                         } catch (error) {
-                            console.log(error);
                             let errorMessage = null;
                             try {
                                 errorMessage = getPrevalidationErrorMessage(serviceKey);

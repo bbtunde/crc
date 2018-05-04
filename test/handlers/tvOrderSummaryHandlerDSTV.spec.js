@@ -22,23 +22,22 @@ describe('Order Summary Handler',function()
 	{
 		let body = {
             "smart_card_number":"41157294764",
-            "amount": "NGN_100.ACCESS"
+            "service": "NGN_100.ACCESS"
         };
 		let amountValue=100;
 		let currency="NGN";
-		let additionalDetail = new AdditionalDetailItem('Customer Name', "Mock User");
+		let additionalDetail = new AdditionalDetailItem('Customer Name', "P MOLOKWU");
 		let mockQuoteResponse = new QuoteResponse(
 			availableServices[serviceKey].destination,
 			[additionalDetail],
-			[new PaymentDetailItem('total_price', amountValue, [{ "currency": currency,"amount":amountValue }])]
+			[new PaymentDetailItem('total_price', amountValue, [{ "currency": currency}])]
 		);
-
 		
 		let parseMoneyAmountStub=sinon.stub(ParseUtils,'parseMoneyAmountValue');
 		parseMoneyAmountStub.returns(100);
 		let parseMoneyCurrencyStub=sinon.stub(ParseUtils,'parseMoneyCurrencyValue');
 		parseMoneyCurrencyStub.returns("NGN");
-		let result=requestHandlers['orderSummaryHandler'](serviceKey, body);
+		let result=requestHandlers['tvOrderSummaryHandlerDSTV'](serviceKey, body);
 		const quoteResponse= await result;
 		expect(quoteResponse).to.deep.equal(mockQuoteResponse);
 		TestHelper.resetStubAndSpys([parseMoneyAmountStub,parseMoneyCurrencyStub]);
@@ -49,10 +48,10 @@ describe('Order Summary Handler',function()
 	{
 		let body = {
             "smart_card_number": "41157294764",
-            "amount": "NGN100"
+            "service": "NGN100"
         };
 
-		let result = requestHandlers['orderSummaryHandler'](serviceKey, body);
+		let result = requestHandlers['tvOrderSummaryHandlerDSTV'](serviceKey, body);
 
         try {
             const testResult = await result;

@@ -17,7 +17,6 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
 
         switch (matchingServiceKey) {
         
-           
             case mapper.INTERNET_PAGA_SWIFT.service_key:
                 return mapper.INTERNET_PAGA_SWIFT.prevalidation_error_message;
             

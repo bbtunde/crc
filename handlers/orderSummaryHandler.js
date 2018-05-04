@@ -38,8 +38,7 @@ const getDestinationValue = (matchingServiceKey, body) => {
         let mapper = servicesMapper.mapper;
 
         switch (matchingServiceKey) {
-           
-           
+
             case mapper.TOLL_LTC.service_key:
                 return body[mapper.TOLL_LTC.destination];    
             case mapper.BET_1960BET.service_key:
@@ -66,7 +65,6 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
 
         switch (matchingServiceKey) {
             
-           
             case mapper.TOLL_LTC.service_key:
                 return mapper.TOLL_LTC.prevalidation_error_message;
             case mapper.BET_1960BET.service_key:
@@ -77,7 +75,7 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.BET_9JAPREDICT.prevalidation_error_message;
             case mapper.BET_BONANZAWIN.service_key:
                 return mapper.BET_BONANZAWIN.prevalidation_error_message;
-           
+
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {

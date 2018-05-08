@@ -23,7 +23,7 @@ module.exports = class CacheService {
                 callback.call(this, value);
             });
         } catch (err) {
-            console.log(`Error retrieving key ${key} from cache`);
+            console.log(`Error retrieving key ${key} from cache log: ${err}`);
             callback.call(this, false);
         }
     }
@@ -36,14 +36,14 @@ module.exports = class CacheService {
         try {
             cache.upsert(key, value, function (err, success) {
                 if (err) {
-                    console.log(`Error caching in ${key}, the value:`, value);
+                    console.log(`Error caching in ${key}, the value: ${value} log: ${err}`);
                 }
                 if (!err && success) {
                     console.log(`Successufly cached in ${key}, the value:`, value);
                 }
             });
         } catch (err) {
-            console.log(`Error saving key ${key} into cache`);
+            console.log(`Error saving key ${key} into cache log: ${err}`);
         }
     }
 

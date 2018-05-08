@@ -85,7 +85,7 @@ module.exports = class FormService {
                             if (error instanceof AppError) {
                                 return reject(error);
                             }
-                            return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error building form elements from handler', []));
+                            return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building form elements from handler ${error}`, []));
                         });
                 } else {
                     resolve(formElements);

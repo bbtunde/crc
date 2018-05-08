@@ -10,9 +10,10 @@ const pagaHelpers = require('./../pagaHelpers/pagaHelpers');
 module.exports = {
     formElementsPlansHandlerSMILE: (formElement, serviceKey, body) => {
         return new Promise((resolve, reject) => {
+            let linetype=availableServices[serviceKey].definition.linetype;
             if(config.couchbase && config.couchbase.enabled) {
                 try {
-                    let linetype=availableServices[serviceKey].definition.linetype;
+                
                     CacheService.get('SMILE', (cachedPlans) => {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('SMILE', linetype)

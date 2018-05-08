@@ -10,9 +10,9 @@ const pagaHelpers = require('./../pagaHelpers/pagaHelpers');
 module.exports = {
     formElementsPlansHandlerDSTV: (formElement, serviceKey, body) => {
         return new Promise((resolve, reject) => {
+            let linetype=availableServices[serviceKey].definition.linetype;
             if(config.couchbase && config.couchbase.enabled) {
                 try {
-                    let linetype=availableServices[serviceKey].definition.linetype;
                     CacheService.get('DSTV', (cachedPlans) => {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('DSTV', linetype)

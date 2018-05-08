@@ -17,10 +17,7 @@ var getPlans = (linetype) => {
         const tohash=generatedReference+args.merchantPublicId;
         PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {
-                if(linetype=="E5E5CF1D-3F53-4273-83A7-6E678EBD7C15")
-                {
-                    result.services.splice(0, 2);
-                }
+                
                 return resolve(result.services);
 
             })

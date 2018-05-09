@@ -31,11 +31,16 @@ var parsePlansToOptions = (plans) => {
     try {
         let options = [];
         for (let i = 0; i < plans.length; i++) {
+           let price=plans[i].price;
+           if(price==0)
+           {
+               price="";
+           }
             let option = new Option(
                                     plans[i].name, 
                                     "", 
-                                    `NGN_${plans[i].price}.${plans[i].name}`, 
-                                    `NGN ${plans[i].price}`, 
+                                    `NGN_${price}.${plans[i].name}`, 
+                                    `NGN ${price}`, 
                                     "", 
                                     false, 
                                     []);

@@ -14,12 +14,12 @@
               "key": "account_number",
               "template": "number",
               "title": "What is your account number?",
-              "label": "Wasere account number",
+              "label": "betPawa account number",
               "validators": [
                 {
                   "type": "required",
                   "options": [],
-                  "message": "Wasere account number cannot be empty"
+                  "message": "betPawa account number cannot be empty"
                 },
                 {
                   "type": "textLength",

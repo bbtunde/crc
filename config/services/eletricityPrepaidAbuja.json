@@ -3,7 +3,7 @@
       "orderSummaryHandler": "electricityPrepaidOrderSummaryHandler",
       "purchaseHandler": "electricityPrepaidPurchaseHandler",
       "definition": {
-        "linetype": "B590205C-4C01-458D-9CC5-D7DAE2942478"
+        "linetype": "13B5041B-7143-46B1-9A88-F355AD7EA1EC"
       },
       "extra_info": true,
       "destination": "meter_number",

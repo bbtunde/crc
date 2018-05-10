@@ -4,6 +4,7 @@
       "purchaseHandler": "purchaseHandler",
       "definition": {
         "linetype": "e51b5753-ddc7-4b11-88b3-4ea25d72c33c"
+        
       },
       "extra_info": false,
       "destination": "account_number",

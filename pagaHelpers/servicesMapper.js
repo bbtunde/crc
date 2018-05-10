@@ -68,7 +68,7 @@ const mapper = {
 
     //BET
     BET_1960BET: {
-        lynetype: 'F444494D-0AA9-47FC-B6E0-6987535A5777',
+        lynetype: '5784B1A2-4F01-4BAA-B2B0-EAFB1C9113EF',
         service_key: 'bet.1960bet',
         destination: 'account_number',
         has_plans:false,
@@ -93,7 +93,7 @@ const mapper = {
 
     
     BET_9JAPREDICT: {
-        lynetype: 'c4adef5e-55b5-463c-a055-efd5c28cacbd',
+        lynetype: 'd9754e95-0872-4762-b367-149df8182379',
         service_key: 'bet.9japredict',
         destination: 'account_number',
         has_plans:false,
@@ -117,7 +117,7 @@ const mapper = {
 
     //ELECTRICITY PREPAID
     ELECTRICITY_PREPAID_ABUJA: {
-        lynetype: 'B590205C-4C01-458D-9CC5-D7DAE2942478',
+        lynetype: '13B5041B-7143-46B1-9A88-F355AD7EA1EC',
         service_key: 'electricity.prepaid.abuja',
         destination: 'meter_number',
         has_plans:false,

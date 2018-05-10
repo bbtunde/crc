@@ -3,7 +3,7 @@
       "orderSummaryHandler": "orderSummaryHandler",
       "purchaseHandler": "purchaseHandler",
       "definition": {
-        "linetype": "29abd794-f91f-43c2-a42e-23425d15cab6"
+        "linetype": "602a536f-462e-4e56-aedd-72399469e772"
       },
       "extra_info": false,
       "destination": "account_number",

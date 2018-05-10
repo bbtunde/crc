@@ -106,6 +106,7 @@ module.exports = {
                 configServiceData.has_plans=data.has_plans,
                 configServiceData.message_missing_destination = data.message_missing_destination;
                 configServiceData.order_summary_needs_prevalidation = data.order_summary_needs_prevalidation;
+                
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error in adapter. Config file from service "${serviceKey}" does not have defined all necessary fields.`, []));
             }
@@ -141,10 +142,12 @@ module.exports = {
                 var plan="";
                 if(configServiceData.has_plans)
                 {
+    
                     let amount_plan=amount.split('.');
                     amount=amount_plan[0];
                     plan=amount_plan[1];
                 }
+                
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
                 var currency = ParseUtils.parseMoneyCurrencyValue(amount);
                 if (typeof amountValue != "number") {
@@ -166,7 +169,6 @@ module.exports = {
                     merchantServiceProductCode:plan
                 };
 
-    
                 const tohash=generatedReference+linetype+destinationRef+plan;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {

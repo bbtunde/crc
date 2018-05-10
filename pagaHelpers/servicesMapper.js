@@ -55,7 +55,7 @@ const mapper = {
     },
      //TOLL
      TOLL_LTC: {
-        lynetype: '29abd794-f91f-43c2-a42e-23425d15cab6',
+        lynetype: '602a536f-462e-4e56-aedd-72399469e772',
         service_key: 'toll.ltc',
         destination: 'account_number',
         has_plans:false,
@@ -107,10 +107,10 @@ const mapper = {
         lynetype: 'e51b5753-ddc7-4b11-88b3-4ea25d72c33c',
         service_key: 'bet.bonanzawin',
         destination: 'account_number',
-        has_plans:true,
+        has_plans:false,
         has_cascade:false,
         message_missing_destination: 'Missing Account Number',
-        order_summary_needs_prevalidation: true,
+        order_summary_needs_prevalidation: false,
         prevalidation_error_message: 'Please make sure your account number is correct. ' +
         'Otherwise, please check your account status with your operator.'
     },

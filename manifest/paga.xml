@@ -36,7 +36,6 @@
 
 
              <!--ELECTRICITY POSTPAID-->
-            <service key="electricity.postpaid.abuja">Electricity Postpaid Abuja</service>
             <service key="electricity.postpaid.kaduna">Electricity Postpaid Kaduna</service>
             <service key="electricity.postpaid.portharcout">Electricity Postpaid Port Harcout</service>
 

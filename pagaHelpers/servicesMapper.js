@@ -8,7 +8,7 @@ const mapper = {
         destination: 'smart_card_number',
         has_plans:true,
         has_cascade:true,
-        cascade_name:"NGN_0.Box Office",
+        cascade_name:"NGN_.Box Office",
         message_missing_destination: 'Missing Smart Card Number',
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +
@@ -34,7 +34,7 @@ const mapper = {
         destination: 'customer_id',
         has_plans:true,
         has_cascade:true,
-        cascade_name:"NGN_0.Buy Airtime",
+        cascade_name:"NGN_.Buy Airtime",
         message_missing_destination: 'Missing Costumer ID',
         order_summary_needs_prevalidation: true, 
         prevalidation_error_message: 'Please make sure your customer ID is correct. ' +

@@ -6,6 +6,7 @@ const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
 
 
+
 var getPlans = (linetype) => {
     return new Promise((resolve, reject) => {
         const url = config.paga.business_endpoint+config.paga.merchant_service;
@@ -17,8 +18,8 @@ var getPlans = (linetype) => {
         const tohash=generatedReference+args.merchantPublicId;
         PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {
-                
-                return resolve(result.services);
+                let services=result.services;
+                return resolve(services.sort(sortPlansByPrice));
 
             })
             .catch(appError => {
@@ -53,6 +54,20 @@ var parsePlansToOptions = (plans) => {
     }
 }
 
+var sortPlansByPrice = (a,b) => {
+    if (a.price < b.price)
+    {
+        return -1;
+    }
+   
+    if (a.price > b.price)
+    {
+        return 1;
+    }
+    
+     return 0;
+}
+
 /* istanbul ignore next */
 var getOptionsAndCachePlans = (key,linetype) => {
     return new Promise((resolve, reject) => {
@@ -81,3 +96,4 @@ var getOptionsAndCachePlans = (key,linetype) => {
 module.exports.getPlans = getPlans;
 module.exports.getOptionsAndCachePlans = getOptionsAndCachePlans;
 module.exports.parsePlansToOptions = parsePlansToOptions;
+module.exports.sortPlansByPrice = sortPlansByPrice;

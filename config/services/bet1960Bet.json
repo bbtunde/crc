@@ -61,8 +61,8 @@
                     },
                     {
                       "option": "min",
-                      "value": "10",
-                      "message": "Minimum amount: 10 NGN"
+                      "value": "500",
+                      "message": "Minimum amount: 500 NGN"
                     },
                     {
                       "option": "max",

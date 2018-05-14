@@ -14,8 +14,8 @@ module.exports = {
             try {
                 // Copy Object by reference so it doesn't add infinitely the field
                 let _formElement = JSON.parse(JSON.stringify(formElement));
-                reFineOptions=pagaHelpers.addAmountFieldToOption("Refill",_formElement.elements[_formElement.elements.length-1].options);
-                _formElement.elements[_formElement.elements.length-1].options = reFineOptions;
+                let reFinedOptions=pagaHelpers.addAmountFieldToOption("Refill",_formElement.elements[_formElement.elements.length-1].options);
+                _formElement.elements[_formElement.elements.length-1].options = reFinedOptions;
                 resolve(_formElement)
                 
             } catch (error) {

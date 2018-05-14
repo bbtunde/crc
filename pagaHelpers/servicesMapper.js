@@ -135,7 +135,7 @@ const mapper = {
         has_plans:false,
         has_cascade:false,
         message_missing_destination: 'Missing Meter Number',
-        order_summary_needs_prevalidation: false,
+        order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +
         'Otherwise, please check your account status with your operator.'
     },

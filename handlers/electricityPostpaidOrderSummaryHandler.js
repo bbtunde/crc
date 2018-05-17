@@ -20,6 +20,10 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.ELECTRICITY_POSTPAID_KADUNA.prevalidation_error_message;
             case mapper.ELECTRICITY_POSTPAID_PORTHARCOUT.service_key:
                 return mapper.ELECTRICITY_POSTPAID_PORTHARCOUT.prevalidation_error_message;
+            case mapper.ELECTRICITY_POSTPAID_IKEJA.service_key:
+                return mapper.ELECTRICITY_POSTPAID_IKEJA.prevalidation_error_message;
+            case mapper.ELECTRICITY_POSTPAID_EKO.service_key:
+                return mapper.ELECTRICITY_POSTPAID_EKO.prevalidation_error_message;
         
             
         } 
@@ -105,6 +109,7 @@ module.exports = {
                                 try {
                                     errorMessage = getPrevalidationErrorMessage(serviceKey);
                                 } catch (error) {
+                                   
                                     errorMessage = 'Call to distributor resulted in error with provided order details.'
                                 }
 
@@ -123,6 +128,7 @@ module.exports = {
                             try {
                                 errorMessage = getPrevalidationErrorMessage(serviceKey);
                             } catch (error) {
+                            
                                 errorMessage = 'Call to distributor resulted in error with provided order details.'
                             }
 

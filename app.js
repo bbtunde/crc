@@ -25,6 +25,7 @@ if (env !== 'test') {
     ((undefined != config.couchbase) && config.couchbase.enabled)) {
     const cronService = require('./services/cronService');
     cronService.cronTaskPlansDSTV.start();
+    cronService.cronTaskPlansGOTV.start();
     cronService.cronTaskPlansSMILE.start();
   }
 

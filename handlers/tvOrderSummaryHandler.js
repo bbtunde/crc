@@ -11,6 +11,29 @@ const PagaClient = require('./../services/pagaClient');
 /* istanbul ignore next */
 
 
+/*--get service destination---*/
+const getDestinationValue = (matchingServiceKey, body) => {
+    try {
+        let mapper = servicesMapper.mapper;
+
+        switch (matchingServiceKey) {
+
+            case mapper.TV_PAGA_DSTV.service_key:
+                return body[mapper.TV_PAGA_DSTV.destination];  
+                
+            case mapper.TV_PAGA_GOTV.service_key:
+                return body[mapper.TV_PAGA_GOTV.destination];  
+            
+            
+        }
+
+        throw new Error(`Destination value was not handled because there is no clause for key ${matchingServiceKey}`);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+
 const getPrevalidationErrorMessage = (matchingServiceKey) => {
     try {
         let mapper = servicesMapper.mapper;
@@ -19,6 +42,8 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
         
             case mapper.TV_PAGA_DSTV.service_key:
                 return mapper.TV_PAGA_DSTV.prevalidation_error_message;
+            case mapper.TV_PAGA_GOTV.service_key:
+                return mapper.TV_PAGA_GOTV.prevalidation_error_message;
             
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
@@ -29,7 +54,7 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
 
 module.exports = {
 
-    tvOrderSummaryHandlerDSTV: (serviceKey, body) => {
+    tvOrderSummaryHandler: (serviceKey, body) => {
         return new Promise(function (resolve, reject) {
             // validate service configuration issues
             let configServiceData = {
@@ -63,9 +88,19 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
             }
 
-            if (body.smart_card_number === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "smart_card_number" in body`, []));
+           //check if destination is present in body 
+           let destination=configServiceData.destination;
+           if (body[destination] === undefined) {
+            return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "${destination}" in body`, []));
             }
+            
+             // get destination reference
+             try {
+                var destinationRef = getDestinationValue(serviceKey, body);
+            } catch (error) {
+                return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error getting destination.`, []));
+            }
+
             if (body.service === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
             }
@@ -94,6 +129,12 @@ module.exports = {
                         service=amount_service[1];
                 }
             }
+            else{
+                let amount_service=body.service.split('.');
+                amount=amount_service[0];
+                service=amount_service[1];
+
+            }
 
             
             try {
@@ -106,6 +147,7 @@ module.exports = {
                     return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
                 }
             } catch (error) {
+                
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
             
@@ -119,12 +161,13 @@ module.exports = {
                 const args = {
                     referenceNumber:generatedReference,
                     merchantAccount:linetype,
-                    merchantReferenceNumber:body.smart_card_number,
+                    merchantReferenceNumber:destinationRef,
                     merchantServiceProductCode:service
                 };
 
-               
-                const tohash=generatedReference+linetype+body.smart_card_number+service
+        
+                const tohash=generatedReference+linetype+destinationRef+service;
+                
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {
                         try {

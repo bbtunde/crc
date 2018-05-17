@@ -7,9 +7,31 @@ const PurchaseResponse = require('./../models/PurchaseResponse');
 const PagaClient = require('./../services/pagaClient');
 const servicesMapper = require('./../pagaHelpers/servicesMapper');
 /* istanbul ignore next */
+
+/*--get service destination---*/
+const getDestinationValue = (matchingServiceKey, body) => {
+    try {
+        let mapper = servicesMapper.mapper;
+
+        switch (matchingServiceKey) {
+
+            case mapper.TV_PAGA_DSTV.service_key:
+                return body[mapper.TV_PAGA_DSTV.destination];  
+                
+            case mapper.TV_PAGA_GOTV.service_key:
+                return body[mapper.TV_PAGA_GOTV.destination];  
+            
+            
+        }
+
+        throw new Error(`Destination value was not handled because there is no clause for key ${matchingServiceKey}`);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
 module.exports = {
 
-    tvPurchaseHandlerDSTV: (serviceKey, body) => {
+    tvPurchaseHandler: (serviceKey, body) => {
         return new Promise(function (resolve, reject) {
             let configServiceData = {
                 lynetype: null,
@@ -17,6 +39,7 @@ module.exports = {
                 has_plans:null,
                 has_cascade:null,
                 cascade_name:null,
+                destination: null,
                 
             };
 
@@ -27,6 +50,7 @@ module.exports = {
                 configServiceData.has_plans = data.has_plans;
                 configServiceData.has_cascade = data.has_cascade;
                 configServiceData.cascade_name = data.cascade_name;
+                configServiceData.destination = data.destination;
         
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error in adapter. Config file from service "${serviceKey}" does not have defined all necessary fields.`, []));
@@ -37,8 +61,17 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
             }
 
-            if (body.smart_card_number === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "smart_card_number" in body`, []));
+           //check if destination is present in body 
+           let destination=configServiceData.destination;
+           if (body[destination] === undefined) {
+            return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "${destination}" in body`, []));
+            }
+
+             // get destination reference
+             try {
+                var destinationRef = getDestinationValue(serviceKey, body);
+            } catch (error) {
+                return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error getting destination.`, []));
             }
 
             if (body.service === undefined) {
@@ -70,6 +103,11 @@ module.exports = {
                         service=amount_service[1];
                 }
             }
+            else{
+                let amount_service=body.service.split('.');
+                amount=amount_service[0];
+                service=amount_service[1];
+            }
 
             try {
                 if (!amount.includes("_")) {
@@ -90,11 +128,11 @@ module.exports = {
                 referenceNumber:generatedReference,
                 amount:amountValue,
                 merchantAccount:linetype,
-                merchantReferenceNumber:body.smart_card_number,
+                merchantReferenceNumber:destinationRef,
                 merchantService:[service]
             };
 
-            const tohash=generatedReference+amountValue+linetype+body.smart_card_number;
+            const tohash=generatedReference+amountValue+linetype+destinationRef;
             PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {
                 try {

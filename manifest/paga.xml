@@ -12,6 +12,7 @@
     
              <!--TV -->
             <service key="tv.paga.dstv">TV  Paga Dstv</service>
+            <service key="tv.paga.GOTV">TV  Paga Gotv</service>
 
             <!--INTERNET-->
             <service key="internet.paga.smile">Internet  Paga Smile</service>
@@ -33,11 +34,15 @@
             <service key="electricity.prepaid.abuja">Electricity Prepaid Abuja</service>
             <service key="electricity.prepaid.kaduna">Electricity Prepaid Kaduna</service>
             <service key="electricity.prepaid.portharcout">Electricity Prepaid Port Harcout</service>
+            <service key="electricity.prepaid.ikeja">Electricity Prepaid Ikeja</service>
+            <service key="electricity.prepaid.eko">Electricity Prepaid Eko</service>
 
 
              <!--ELECTRICITY POSTPAID-->
             <service key="electricity.postpaid.kaduna">Electricity Postpaid Kaduna</service>
             <service key="electricity.postpaid.portharcout">Electricity Postpaid Port Harcout</service>
+            <service key="electricity.postpaid.ikeja">Electricity Postpaid Ikeja</service>
+            <service key="electricity.postpaid.eko">Electricity Postpaid Eko</service>
 
 
             

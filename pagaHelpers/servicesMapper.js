@@ -14,6 +14,18 @@ const mapper = {
         prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +
             'Otherwise, please check your account status with your operator.'
     },
+
+    TV_PAGA_GOTV: {
+        lynetype: 'D66C40A6-CA65-4CF7-88A1-BDF748CF0627',
+        service_key: 'tv.paga.gotv',
+        destination: 'uic_number',
+        has_plans:true,
+        has_cascade:false,
+        message_missing_destination: 'Missing UIC Numbe',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your operator and UIC number are correct. ' +
+            'Otherwise, please check your account status with your operator.'
+    },
     // INTERNET
 
     INTERNET_PAGA_SWIFT: {
@@ -116,6 +128,30 @@ const mapper = {
     },
 
     //ELECTRICITY PREPAID
+
+    ELECTRICITY_PREPAID_IKEJA: {
+        lynetype: 'b0b29340-2bdb-43ae-b165-7e8606234e43',
+        service_key: 'electricity.prepaid.ikeja',
+        destination: 'meter_number',
+        has_plans:false,
+        has_cascade:false,
+        message_missing_destination: 'Missing Meter Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your meter number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
+    },
+    ELECTRICITY_PREPAID_EKO: {
+        lynetype: '8E7485D9-1A67-4205-A49D-691E5B78C20D',
+        service_key: 'electricity.prepaid.eko',
+        destination: 'meter_number',
+        has_plans:false,
+        has_cascade:false,
+        message_missing_destination: 'Missing Meter Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your meter number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
+    },
+
     ELECTRICITY_PREPAID_ABUJA: {
         lynetype: '13B5041B-7143-46B1-9A88-F355AD7EA1EC',
         service_key: 'electricity.prepaid.abuja',
@@ -153,6 +189,31 @@ const mapper = {
     },
 
     //ELECTRICITY POSTPAID
+
+    ELECTRICITY_POSTPAID_IKEJA: {
+        lynetype: 'b0b29340-2bdb-43ae-b165-7e8606234e43',
+        service_key: 'electricity.postpaid.ikeja',
+        destination: 'meter_number',
+        has_plans:false,
+        has_cascade:false,
+        message_missing_destination: 'Missing Meter Number',
+        order_summary_needs_prevalidation: false,
+        prevalidation_error_message: 'Please make sure your meter number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
+    },
+
+    ELECTRICITY_POSTPAID_EKO: {
+        lynetype: '8E7485D9-1A67-4205-A49D-691E5B78C20D',
+        service_key: 'electricity.postpaid.eko',
+        destination: 'meter_number',
+        has_plans:false,
+        has_cascade:false,
+        message_missing_destination: 'Missing Meter Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your meter number is correct. ' +
+        'Otherwise, please check your account status with your operator.'
+    },
+
    
     ELECTRICITY_POSTPAID_KADUNA: {
         lynetype: '2258C05A-F6DF-4CCB-900D-481962F7E026',

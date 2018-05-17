@@ -22,6 +22,10 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.ELECTRICITY_PREPAID_PORTHARCOUT.prevalidation_error_message;
             case mapper.ELECTRICITY_PREPAID_ABUJA.service_key:
                 return mapper.ELECTRICITY_PREPAID_ABUJA.prevalidation_error_message;
+            case mapper.ELECTRICITY_PREPAID_IKEJA.service_key:
+                return mapper.ELECTRICITY_PREPAID_IKEJA.prevalidation_error_message;
+            case mapper.ELECTRICITY_PREPAID_EKO.service_key:
+                return mapper.ELECTRICITY_PREPAID_EKO.prevalidation_error_message;
             
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);

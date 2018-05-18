@@ -91,13 +91,18 @@ module.exports = {
                 const generatedReference = `jone${Date.now()}`;
                 const url = config.paga.business_endpoint+config.paga.merchant_account;
                 var service="Pre Paid";
-
+                if(serviceKey=="electricity.prepaid.abuja")
+                {
+                    service="";
+                }
+            
                 const args = {
                     referenceNumber:generatedReference,
                     merchantAccount:linetype,
                     merchantReferenceNumber:body.meter_number,
                     merchantServiceProductCode:service
                 };
+               
 
                 const tohash=generatedReference+linetype+body.meter_number+service;
                 PagaClient.getSuccessMessage(url,args,tohash)

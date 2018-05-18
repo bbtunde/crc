@@ -40,15 +40,21 @@ module.exports = {
             
             const generatedReference = `jone${Date.now()}`;
             const url = config.paga.business_endpoint+config.paga.merchant_payment;
-            var service="Pre Paid";
+            var service=["Pre Paid"];
+        
+            if(serviceKey=="electricity.prepaid.abuja")
+            {
+                service=[];
+            }
             
             const args = {
                 referenceNumber:generatedReference,
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.meter_number,
-                merchantService:[service]
+                merchantService:service
             };
+           
             const tohash=generatedReference+amountValue+linetype+body.meter_number;
             PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {

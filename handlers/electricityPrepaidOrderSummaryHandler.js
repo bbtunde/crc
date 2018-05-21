@@ -95,7 +95,7 @@ module.exports = {
                 {
                     service="";
                 }
-            
+           
                 const args = {
                     referenceNumber:generatedReference,
                     merchantAccount:linetype,
@@ -103,7 +103,6 @@ module.exports = {
                     merchantServiceProductCode:service
                 };
                
-
                 const tohash=generatedReference+linetype+body.meter_number+service;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {

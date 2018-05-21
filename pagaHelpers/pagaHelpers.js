@@ -54,4 +54,16 @@ module.exports = class pagaHelpers {
         }
         return options;
     }
+
+
+    /**
+     * pass meter token from paga response
+     * @param { Object } pagaSuccessResponse 
+     */
+    static getMeterTokenExtraInfo(successMessage) {
+       
+        let meterNumber=successMessage.merchantTransactionReference;
+        return "Your meter token number is " + meterNumber;
+       
+    }
 }

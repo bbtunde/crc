@@ -51,7 +51,7 @@ describe('Order Summary Handler',function()
             "service": "NGN100"
         };
 
-		let result = requestHandlers['tvOrderSummaryHandlerDSTV'](serviceKey, body);
+		let result = requestHandlers['tvOrderSummaryHandler'](serviceKey, body);
 
         try {
             const testResult = await result;

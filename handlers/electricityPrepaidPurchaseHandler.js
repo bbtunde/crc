@@ -50,7 +50,7 @@ module.exports = {
             
             const args = {
                 referenceNumber:generatedReference,
-                amount:amountValue,
+                amount:amountValue.toString(),
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.meter_number,
                 merchantService:service

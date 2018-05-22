@@ -86,6 +86,10 @@ module.exports = {
                     }
         
                 }
+                else{
+                    //use a random amount
+                    amount="NGN_5000"
+                }
                 
             }
            
@@ -107,16 +111,20 @@ module.exports = {
 
                
                 const generatedReference = `jone${Date.now()}`;
-                const url = config.paga.business_endpoint+config.paga.merchant_account;
                 
+                const url= config.paga.business_endpoint+config.paga.merchant_account;
                 const args = {
                     referenceNumber:generatedReference,
                     merchantAccount:linetype,
                     merchantReferenceNumber:body.customer_id,
                     merchantServiceProductCode:service
                 };
+                const  tohash=generatedReference+linetype+body.customer_id+service
+                
+                
                
-                const tohash=generatedReference+linetype+body.customer_id+service
+               
+    
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {
                         try {

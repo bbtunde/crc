@@ -5,6 +5,7 @@ const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
 const PurchaseResponse = require('./../models/PurchaseResponse');
 const PagaClient = require('./../services/pagaClient');
+const pagaHelpers = require('./../pagaHelpers/pagaHelpers');
 /* istanbul ignore next */
 module.exports = {
 
@@ -41,7 +42,7 @@ module.exports = {
             const generatedReference = `jone${Date.now()}`;
             const url = config.paga.business_endpoint+config.paga.merchant_payment;
             var service=["Pre Paid"];
-        
+
             if(serviceKey=="electricity.prepaid.abuja")
             {
                 service=[];
@@ -54,13 +55,14 @@ module.exports = {
                 merchantReferenceNumber:body.meter_number,
                 merchantService:service
             };
-           
+     
             const tohash=generatedReference+amountValue+linetype+body.meter_number;
             PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {
                 try {
                     let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
-                    let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
+                    let extraInfo= pagaHelpers.getMeterTokenExtraInfo(result);
+                    let purchaseResponse = new PurchaseResponse(transactionReference, result, extraInfo);
                     return resolve(purchaseResponse);
                 } catch (error) {
                     return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));

@@ -86,6 +86,10 @@ module.exports = {
                     }
         
                 }
+                else{
+                    //use a random amount
+                    amount="NGN_5000"
+                }
                 
             }
            
@@ -108,6 +112,10 @@ module.exports = {
                
                 const generatedReference = `jone${Date.now()}`;
                 const url = config.paga.business_endpoint+config.paga.merchant_account;
+                if(body.service=="RENEW")
+                {
+                    url = config.paga.business_endpoint+config.paga.validate_merchant_payment;
+                }
                 
                 const args = {
                     referenceNumber:generatedReference,

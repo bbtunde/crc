@@ -22,7 +22,10 @@ const getDestinationValue = (matchingServiceKey, body) => {
                 return body[mapper.TV_PAGA_DSTV.destination];  
                 
             case mapper.TV_PAGA_GOTV.service_key:
-                return body[mapper.TV_PAGA_GOTV.destination];  
+                return body[mapper.TV_PAGA_GOTV.destination]; 
+
+            case mapper.TV_PAGA_STARTIMES.service_key:
+                return body[mapper.TV_PAGA_STARTIMES.destination];  
             
             
         }
@@ -44,6 +47,8 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.TV_PAGA_DSTV.prevalidation_error_message;
             case mapper.TV_PAGA_GOTV.service_key:
                 return mapper.TV_PAGA_GOTV.prevalidation_error_message;
+            case mapper.TV_PAGA_STARTIMES.service_key:
+                return mapper.TV_PAGA_STARTIMES.prevalidation_error_message;
             
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);

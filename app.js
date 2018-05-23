@@ -26,6 +26,7 @@ if (env !== 'test') {
     const cronService = require('./services/cronService');
     cronService.cronTaskPlansDSTV.start();
     cronService.cronTaskPlansGOTV.start();
+    cronService.cronTaskPlansSTARTIMES.start();
     cronService.cronTaskPlansSMILE.start();
   }
 

@@ -1,7 +1,7 @@
 {
     "electricity.postpaid.eko": {
-      "orderSummaryHandler": "electricityPrepaidOrderSummaryHandler",
-      "purchaseHandler": "electricityPrepaidPurchaseHandler",
+      "orderSummaryHandler": "electricityPostpaidOrderSummaryHandler",
+      "purchaseHandler": "electricityPostpaidPurchaseHandler",
       "definition": {
         "linetype": "8E7485D9-1A67-4205-A49D-691E5B78C20D"
       },

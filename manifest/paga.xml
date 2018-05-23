@@ -12,7 +12,8 @@
     
              <!--TV -->
             <service key="tv.paga.dstv">TV  Paga Dstv</service>
-            <service key="tv.paga.GOTV">TV  Paga Gotv</service>
+            <service key="tv.paga.gotv">TV  Paga Gotv</service>
+            <service key="tv.paga.startimes">TV  Paga STARTIMES</service>
 
             <!--INTERNET-->
             <service key="internet.paga.smile">Internet  Paga Smile</service>

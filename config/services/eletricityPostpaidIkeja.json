@@ -1,7 +1,7 @@
 {
     "electricity.postpaid.ikeja": {
-      "orderSummaryHandler": "electricityPrepaidOrderSummaryHandler",
-      "purchaseHandler": "electricityPrepaidPurchaseHandler",
+      "orderSummaryHandler": "electricityPostpaidOrderSummaryHandler",
+      "purchaseHandler": "electricityPostpaidPurchaseHandler",
       "definition": {
         "linetype": "b0b29340-2bdb-43ae-b165-7e8606234e43"
       },

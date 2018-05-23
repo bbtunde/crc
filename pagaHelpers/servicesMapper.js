@@ -21,9 +21,20 @@ const mapper = {
         destination: 'uic_number',
         has_plans:true,
         has_cascade:false,
-        message_missing_destination: 'Missing UIC Numbe',
+        message_missing_destination: 'Missing UIC Number',
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your operator and UIC number are correct. ' +
+            'Otherwise, please check your account status with your operator.'
+    },
+    TV_PAGA_STARTIMES: {
+        lynetype: '39BA1DC-5CE2-4EBC-B355-6011716192C8',
+        service_key: 'tv.paga.startimes',
+        destination: 'smart_card_number',
+        has_plans:true,
+        has_cascade:false,
+        message_missing_destination: 'Missing Smart Card Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +
             'Otherwise, please check your account status with your operator.'
     },
     // INTERNET
@@ -197,7 +208,7 @@ const mapper = {
         has_plans:false,
         has_cascade:false,
         message_missing_destination: 'Missing Meter Number',
-        order_summary_needs_prevalidation: false,
+        order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +
         'Otherwise, please check your account status with your operator.'
     },

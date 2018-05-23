@@ -50,7 +50,6 @@ module.exports = {
             {
                 if(body.service==configServiceData.cascade_name)
                 {
-                   
                     if (body.amount === undefined) {
                         return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
                     }
@@ -60,6 +59,10 @@ module.exports = {
                     }
         
                 }
+                else{
+                    //use an initial random amount
+                    amount="NGN_5000"
+                }
                 
             }
 
@@ -68,39 +71,73 @@ module.exports = {
                     return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
                 }
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
-                if (typeof amountValue != "number") {
-                    return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
-                }
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-            
             const generatedReference = `jone${Date.now()}`;
-            const url = config.paga.business_endpoint+config.paga.merchant_payment;
-            
-            const args = {
+            const url = config.paga.business_endpoint+config.paga.merchant_payment;        
+            var args = {
                 referenceNumber:generatedReference,
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.customer_id,
                 merchantService:[service]
             };
-            
+            var tohash=generatedReference+amountValue+linetype+body.customer_id;
+            if(body.service=="Renew")
+            {
+                //get current plan amount
+                PagaClient.getSpectranetPlanDetails(linetype,body.customer_id)
+                    .then(actualAmount=>
+                    {
+                        amountValue=actualAmount;
+                        args.amount=amountValue
+                        tohash=generatedReference+amountValue+linetype+body.customer_id;
+                       PagaClient.getSuccessMessage(url,args,tohash)
+                        .then(result => {
+                            try {
+                                let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
+                                let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
+                                return resolve(purchaseResponse);
+                            } catch (error) {
+                                return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
+                            }
+                                            })
+                        .catch(appError => {
+                            return reject(appError);
+                        });
+                        
 
-            const tohash=generatedReference+amountValue+linetype+body.customer_id;
-            PagaClient.getSuccessMessage(url,args,tohash)
-            .then(result => {
-                try {
-                    let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
-                    let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
-                    return resolve(purchaseResponse);
-                } catch (error) {
-                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
-                }
-            })
-            .catch(appError => {
-                return reject(appError);
-            });
+                    })
+                    .catch(appError => {
+                        return reject(appError);
+                    });
+                    
+            }
+            else
+            {
+                PagaClient.getSuccessMessage(url,args,tohash)
+                .then(result => {
+                    try {
+                        let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
+                        let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
+                        return resolve(purchaseResponse);
+                    } catch (error) {
+                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
+                    }
+                })
+                .catch(appError => {
+                    return reject(appError);
+                });
+                                
+
+            }
+               
+               
+                
+           
+            
+            
         });
     }
 }

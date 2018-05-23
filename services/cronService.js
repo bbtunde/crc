@@ -46,8 +46,23 @@ var cronTaskPlansSMILE = cron.schedule('0 0,12 * * *', function() {
 
 }, false);
 
+var cronTaskPlansSTARTIMES = cron.schedule('0 0,12 * * *', function() {
+    console.log('Trying to retrieve plans for STARTIMES...');
+    plansService.getPlans("39BA1DC-5CE2-4EBC-B355-6011716192C8")
+    .then(plans => {
+        CacheService.set('STARTIMES', plans);
+        console.log('Plans for STARTIMES successfully cached!');
+    })
+    .catch(appError => {
+        console.log('Error retrieving plans for STARTIMES. Plans will not be cached');
+        console.log('Error cause:', appError);
+    }); 
+
+}, false);
+
 
 module.exports.cronTaskPlansSMILE = cronTaskPlansSMILE;
 module.exports.cronTaskPlansDSTV = cronTaskPlansDSTV;
 module.exports.cronTaskPlansGOTV = cronTaskPlansGOTV;
+module.exports.cronTaskPlansSTARTIMES = cronTaskPlansSTARTIMES;
 

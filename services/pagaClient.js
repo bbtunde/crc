@@ -54,4 +54,47 @@ module.exports = class pagaClient {
 
         });
     };
+
+    /*---get customer current spectranet plan details---*/
+      
+    static getSpectranetPlanDetails(linetype,customer_id) {
+        
+        var pagaClient = this;
+        return new Promise(function (resolve, reject) {
+
+            const generatedReference = `jone${Date.now()}`;
+            let amountValue=5000
+            const url = config.paga.business_endpoint+config.paga.validate_merchant_payment;
+            const args = {
+                referenceNumber:generatedReference,
+                merchantAccount:linetype,
+                amount:amountValue,
+                merchantReferenceNumber:customer_id,
+                merchantServiceProductCode:"RENEW"
+            };
+            
+           const tohash=generatedReference+amountValue+linetype+customer_id
+                
+    
+           pagaClient.getSuccessMessage(url,args,tohash)
+                .then(result => {
+                    
+                    try {
+                        let amount=result.overrideAmount
+                        return resolve(amount);
+
+                    } catch (error) {
+                        let errorMessage = 'Problem getting customer current plan details'
+                        let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                        reject(appError);
+                    }
+                })
+                .catch(error => {
+                    
+                    let appError = new AppError(400, 'PREVALIDATION_FAILED', error, []);
+                    return reject(appError);
+                });
+               
+            });
+    }
 }

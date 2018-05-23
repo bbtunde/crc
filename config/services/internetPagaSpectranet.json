@@ -61,6 +61,14 @@
                   "message": "",
                   "preselected": false,
                   "form_elements": []
+                },
+                {
+                  "label": "Renew",
+                  "icon": "",
+                  "option_value": "Renew",
+                  "message": "",
+                  "preselected": false,
+                  "form_elements": []
                 }
               ]
             }

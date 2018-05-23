@@ -87,7 +87,7 @@ module.exports = {
         
                 }
                 else{
-                    //use a random amount
+                    //use an initial random amount
                     amount="NGN_5000"
                 }
                 
@@ -107,49 +107,22 @@ module.exports = {
             }
             
           
-            if (configServiceData.order_summary_needs_prevalidation) { // needs pre validation
-
-               
-                const generatedReference = `jone${Date.now()}`;
-                const url = config.paga.business_endpoint+config.paga.merchant_account;
-                if(body.service=="RENEW")
-                {
-                    url = config.paga.business_endpoint+config.paga.validate_merchant_payment;
-                }
+            const generatedReference = `jone${Date.now()}`;
+            const url= config.paga.business_endpoint+config.paga.merchant_account;
+            const args = {
+                referenceNumber:generatedReference,
+                merchantAccount:linetype,
+                merchantReferenceNumber:body.customer_id,
+                merchantServiceProductCode:service
+            };
+            const  tohash=generatedReference+linetype+body.customer_id+service
                 
-                const args = {
-                    referenceNumber:generatedReference,
-                    merchantAccount:linetype,
-                    merchantReferenceNumber:body.customer_id,
-                    merchantServiceProductCode:service
-                };
-               
-                const tohash=generatedReference+linetype+body.customer_id+service
-                PagaClient.getSuccessMessage(url,args,tohash)
-                    .then(result => {
-                        try {
-                            let customerName=result.customerName;
-                            if(customerName===null)
-                            {
-                                let errorMessage = null;
-                                try {
-                                    errorMessage = getPrevalidationErrorMessage(serviceKey);
-                                } catch (error) {
-                                    errorMessage = 'Call to distributor resulted in error with provided order details.'
-                                }
-
-                                 let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
-                                reject(appError);
-                            }
-                            let additionalDetail = new AdditionalDetailItem('Customer Name', customerName);
-                            let quoteResponse = new QuoteResponse(
-                                availableServices[serviceKey].destination,
-                                [additionalDetail],
-                                [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
-                            );
-                            return resolve(quoteResponse);
-                        } catch (error) {
-        
+            PagaClient.getSuccessMessage(url,args,tohash)
+                .then(result => {
+                    try {
+                        let customerName=result.customerName;
+                        if(customerName===null)
+                        {
                             let errorMessage = null;
                             try {
                                 errorMessage = getPrevalidationErrorMessage(serviceKey);
@@ -157,23 +130,57 @@ module.exports = {
                                 errorMessage = 'Call to distributor resulted in error with provided order details.'
                             }
 
-                            let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                                let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
                             reject(appError);
                         }
-                    })
-                    .catch(appError => {
-                        return reject(appError);
-                    });
-            } else { // no need for pre validation
-                
-                let quoteResponse = new QuoteResponse(
-                    availableServices[serviceKey].destination,
-                    [],
-                    [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
-                );
+                        let additionalDetail = new AdditionalDetailItem('Customer Name', customerName);
+                        if(body.service=="Renew")
+                        {
+                            //get current plan amount
+                            PagaClient.getSpectranetPlanDetails(linetype,body.customer_id)
+                                .then(actualAmount=>
+                                {
+                                    amountValue=actualAmount;
+                                    let quoteResponse = new QuoteResponse(
+                                        availableServices[serviceKey].destination,
+                                        [additionalDetail],
+                                        [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
+                                    );
+                                    return resolve(quoteResponse);
 
-                return resolve(quoteResponse);
-            }
+                                })
+                                .catch(appError => {
+                                    return reject(appError);
+                                });
+                                
+                                
+                        }
+                        else{
+                            let quoteResponse = new QuoteResponse(
+                                availableServices[serviceKey].destination,
+                                [additionalDetail],
+                                [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
+                            );
+                            return resolve(quoteResponse);
+                        }
+                        
+                    } catch (error) {
+    
+                        let errorMessage = null;
+                        try {
+                            errorMessage = getPrevalidationErrorMessage(serviceKey);
+                        } catch (error) {
+                            errorMessage = 'Call to distributor resulted in error with provided order details.'
+                        }
+
+                        let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                        reject(appError);
+                    }
+                })
+                .catch(appError => {
+                    return reject(appError);
+                });
+           
         });
     }
 }

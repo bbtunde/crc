@@ -37,7 +37,7 @@ describe('Order Summary Handler',function()
 		parseMoneyAmountStub.returns(100);
 		let parseMoneyCurrencyStub=sinon.stub(ParseUtils,'parseMoneyCurrencyValue');
 		parseMoneyCurrencyStub.returns("NGN");
-		let result=requestHandlers['tvOrderSummaryHandlerDSTV'](serviceKey, body);
+		let result=requestHandlers['tvOrderSummaryHandler'](serviceKey, body);
 		const quoteResponse= await result;
 		expect(quoteResponse).to.deep.equal(mockQuoteResponse);
 		TestHelper.resetStubAndSpys([parseMoneyAmountStub,parseMoneyCurrencyStub]);

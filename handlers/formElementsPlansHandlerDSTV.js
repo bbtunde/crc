@@ -17,18 +17,18 @@ module.exports = {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('DSTV', linetype)
                                 .then(options => {
-                                    let _options = JSON.parse(JSON.stringify(options));
-                                    let reFinedOptions=pagaHelpers.addAmountFieldToOption("Box Office",_options);
+                                    let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
                                     formElement.elements[1].options = reFinedOptions;
                                     resolve(formElement)
                                 })
                                 .catch(appError => reject(appError));
                         } else {
                             try {
-                                    let _options = JSON.parse(JSON.stringify(options));
-                                    let reFinedOptions=pagaHelpers.addAmountFieldToOption("Box Office",_options);
+                    
+                                    let options = plansService.parsePlansToOptions(cachedPlans);
+                                    let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
                                     formElement.elements[1].options = reFinedOptions;
-                                    resolve(formElement)
+                                    resolve(formElement);
                              } catch (error) {
                                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred on parsing plans to options', [])); 
                              }
@@ -42,7 +42,7 @@ module.exports = {
                 .then(plans => {
                     try {
                         let options = plansService.parsePlansToOptions(plans);
-                        reFineOptions=pagaHelpers.addAmountFieldToOption("Box Office",options);
+                        reFineOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
                         formElement.elements[1].options = reFineOptions;
                         resolve(formElement);
                     } catch (error) {

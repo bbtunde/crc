@@ -43,8 +43,8 @@
             {
               "key": "amount",
               "template": "money",
-              "title": "How much do you want to top-up?",
-              "label": "Top-up amount",
+              "title": "How much is your bill?",
+              "label": "Bill amount",
               "validators": [
                 {
                   "type": "required",
@@ -61,8 +61,8 @@
                     },
                     {
                       "option": "min",
-                      "value": "1000",
-                      "message": "Minimum amount: 1000 NGN"
+                      "value": "100",
+                      "message": "Minimum amount: 100 NGN"
                     },
                     {
                       "option": "max",

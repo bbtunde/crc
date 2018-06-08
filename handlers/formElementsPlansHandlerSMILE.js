@@ -18,7 +18,7 @@ module.exports = {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('SMILE', linetype)
                                 .then(options => {
-                                    let reFinedOptions=pagaHelpers.addAmountFieldToOption("Buy Airtime",options);
+                                    let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
                                     formElement.elements[1].options = reFinedOptions;
                                     resolve(formElement)
 
@@ -29,7 +29,7 @@ module.exports = {
                         } else {
                             try {
                                 let options = plansService.parsePlansToOptions(cachedPlans);
-                                let reFinedOptions=pagaHelpers.addAmountFieldToOption("Buy Airtime",options);
+                                let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
                                 formElement.elements[1].options = reFinedOptions;
                                 resolve(formElement);
                              } catch (error) {
@@ -44,10 +44,10 @@ module.exports = {
                 plansService.getPlans('SMILE', linetype)
                 .then(plans => {
                     try {
-                        let options = plansService.parsePlansToOptions(plans);
-     
-                        formElement.elements[1].options = options;
-                        resolve(formElement);
+                            let options = plansService.parsePlansToOptions(plans);
+                            let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
+                            formElement.elements[1].options = reFinedOptions;
+                            resolve(formElement);
                     } catch (error) {
                         return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred on parsing plans to options', [])); 
                     }

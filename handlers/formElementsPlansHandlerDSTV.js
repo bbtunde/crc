@@ -17,7 +17,8 @@ module.exports = {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('DSTV', linetype)
                                 .then(options => {
-                                   let reFinedOptions=pagaHelpers.addAmountFieldToOption("Box Office",options);
+                                    let _options = JSON.parse(JSON.stringify(options));
+                                    let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
                                     formElement.elements[1].options = reFinedOptions;
                                     resolve(formElement)
                                 })
@@ -25,7 +26,7 @@ module.exports = {
                         } else {
                             try {
                                 let options = plansService.parsePlansToOptions(cachedPlans);
-                                let reFinedOptions=pagaHelpers.addAmountFieldToOption("Box Office",options);
+                                let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
                                 formElement.elements[1].options = reFinedOptions;
                                 resolve(formElement);
                              } catch (error) {
@@ -41,8 +42,8 @@ module.exports = {
                 .then(plans => {
                     try {
                         let options = plansService.parsePlansToOptions(plans);
-                        reFineOptions=pagaHelpers.addAmountFieldToOption("Box Office",options);
-                        formElement.elements[1].options = reFineOptions;
+                        let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
+                        formElement.elements[1].options = reFinedOptions;
                         resolve(formElement);
                     } catch (error) {
                         return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred on parsing plans to options', [])); 

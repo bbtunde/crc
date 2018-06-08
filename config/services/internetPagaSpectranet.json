@@ -55,7 +55,7 @@
               ],
               "options": [
                 {
-                  "label": "Refill",
+                  "label": "REFILL ACCOUNT",
                   "icon": "",
                   "option_value": "Refill",
                   "message": "",
@@ -63,7 +63,7 @@
                   "form_elements": []
                 },
                 {
-                  "label": "Renew",
+                  "label": "RENEW ACCOUNT",
                   "icon": "",
                   "option_value": "Renew",
                   "message": "",

@@ -48,7 +48,7 @@ module.exports = class pagaHelpers {
         };
         //loop through options and insert formElements for specify option name
         for (let i in options) {
-            if (options[i].label == option_name) {
+            if (options[i].option_value == option_name) {
                 options[i].form_elements.push(formElement);
             }
         }

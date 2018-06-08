@@ -17,7 +17,6 @@ module.exports = {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('DSTV', linetype)
                                 .then(options => {
-                                
                                     let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
                                     formElement.elements[1].options = reFinedOptions;
                                     resolve(formElement)
@@ -25,10 +24,12 @@ module.exports = {
                                 .catch(appError => reject(appError));
                         } else {
                             try {
+
                                 let options = plansService.parsePlansToOptions(cachedPlans);
                                 let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
                                 formElement.elements[1].options = reFinedOptions;
                                 resolve(formElement);
+
                              } catch (error) {
                                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred on parsing plans to options', [])); 
                              }

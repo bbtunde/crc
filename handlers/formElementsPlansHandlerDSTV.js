@@ -17,7 +17,7 @@ module.exports = {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('DSTV', linetype)
                                 .then(options => {
-                                    let _options = JSON.parse(JSON.stringify(options));
+                                
                                     let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Box Office",options);
                                     formElement.elements[1].options = reFinedOptions;
                                     resolve(formElement)

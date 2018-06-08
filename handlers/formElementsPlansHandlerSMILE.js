@@ -22,8 +22,6 @@ module.exports = {
                                     formElement.elements[1].options = reFinedOptions;
                                     resolve(formElement)
 
-
-
                                 })
                                 .catch(appError => reject(appError));
                         } else {

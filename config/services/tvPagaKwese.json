@@ -1,0 +1,92 @@
+{
+    "tv.paga.kwese": {
+      "orderSummaryHandler": "orderSummaryHandler",
+      "purchaseHandler": "purchaseHandler",
+      "definition": {
+        "linetype": "6A4E66C7-4E46-4CFB-A58D-CB7EB96CF5E6"
+      },
+      "extra_info": false,
+      "destination": "account_number",
+      "steps": [
+        {
+          "fields": [
+            {
+              "key": "account_number",
+              "template": "text",
+              "title": "What is your account number?",
+              "label": "Kwese account number",
+              "validators": [
+                {
+                  "type": "required",
+                  "options": [],
+                  "message": "Kwese account number cannot be empty"
+                },
+                {
+                  "type": "textLength",
+                  "options": [
+                    {
+                      "option": "min",
+                      "value": "10",
+                      "message": "Minimum 10 digits"
+                    },
+                    {
+                      "option": "max",
+                      "value": "11",
+                      "message": "Maximum 11 digits"
+                    }
+                  ],
+                  "message": "Invalid number of digits"
+                }
+              ],
+              "options": []
+            },
+            {
+                "key": "amount",
+                "template": "money",
+                "title": "How much do you want to top-up?",
+                "label": "Top-up amount",
+                "validators": [
+                  {
+                    "type": "required",
+                    "options": [],
+                    "message": "Amount cannot be empty"
+                  },
+                  {
+                    "type": "money",
+                    "options": [
+                      {
+                        "option": "currency",
+                        "value": "NGN",
+                        "message": "We only support Nigerian Nairas"
+                      },
+                      {
+                        "option": "min",
+                        "value": "1000",
+                        "message": "Minimum amount: 1000 NGN"
+                      },
+                      {
+                        "option": "max",
+                        "value": "100000",
+                        "message": "Maximum amount: 100000 NGN"
+                      }
+                    ],
+                    "message": "Invalid amount"
+                  }
+                ],
+                "options": [
+                  {
+                    "label": "NGN",
+                    "icon": "U+20A6",
+                    "option_value": "NGN",
+                    "message": "",
+                    "preselected": true,
+                    "form_elements": []
+                  }
+                ]
+              }
+          ]
+        }
+      ]
+    }
+  }
+  

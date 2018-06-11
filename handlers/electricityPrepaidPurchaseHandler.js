@@ -62,6 +62,12 @@ module.exports = {
                 try {
                     let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
                     let extraInfo= pagaHelpers.getMeterTokenExtraInfo(result);
+   
+                    if(extraInfo==""||extraInfo==undefined)
+                    {
+                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Empty  Meter Token returned by Paga`, []));
+                    }
+                        
                     let purchaseResponse = new PurchaseResponse(transactionReference, result, extraInfo);
                     return resolve(purchaseResponse);
                 } catch (error) {

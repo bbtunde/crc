@@ -18,13 +18,12 @@ module.exports = {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('SMILE', linetype)
                                 .then(options => {
-
                                     let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
                                     formElement.elements[1].options = reFinedOptions;
                                     resolve(formElement)
 
                                 })
-                                .catch(appError => reject(appError));
+                                .catch(appError =>reject(appError));
                         } else {
                             try {
 
@@ -44,6 +43,7 @@ module.exports = {
                 plansService.getPlans('SMILE', linetype)
                 .then(plans => {
                     try {
+
                             let options = plansService.parsePlansToOptions(plans);
                             let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
                             formElement.elements[1].options = reFinedOptions;

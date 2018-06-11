@@ -18,15 +18,15 @@ module.exports = {
                         if (!cachedPlans) {
                             plansService.getOptionsAndCachePlans('SMILE', linetype)
                                 .then(options => {
-                                    console.log(options[0]);
                                     let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
                                     formElement.elements[1].options = reFinedOptions;
                                     resolve(formElement)
-                                    
+
                                 })
                                 .catch(appError =>reject(appError));
                         } else {
                             try {
+
                                 let options = plansService.parsePlansToOptions(cachedPlans);
                                 let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
                                 formElement.elements[1].options = reFinedOptions;
@@ -43,9 +43,11 @@ module.exports = {
                 plansService.getPlans('SMILE', linetype)
                 .then(plans => {
                     try {
-                        let options = plansService.parsePlansToOptions(plans);
-                        let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
-                        resolve(formElement);
+
+                            let options = plansService.parsePlansToOptions(plans);
+                            let reFinedOptions=pagaHelpers.addAmountFieldToOption("NGN_.Buy Airtime",options);
+                            formElement.elements[1].options = reFinedOptions;
+                            resolve(formElement);
                     } catch (error) {
                         return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred on parsing plans to options', [])); 
                     }

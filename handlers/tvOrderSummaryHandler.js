@@ -19,15 +19,17 @@ const getDestinationValue = (matchingServiceKey, body) => {
         switch (matchingServiceKey) {
 
             case mapper.TV_PAGA_DSTV.service_key:
-                return body[mapper.TV_PAGA_DSTV.destination];  
-                
+                return body[mapper.TV_PAGA_DSTV.destination];
+
             case mapper.TV_PAGA_GOTV.service_key:
-                return body[mapper.TV_PAGA_GOTV.destination]; 
+                return body[mapper.TV_PAGA_GOTV.destination];
 
             case mapper.TV_PAGA_STARTIMES.service_key:
-                return body[mapper.TV_PAGA_STARTIMES.destination];  
-            
-            
+                return body[mapper.TV_PAGA_STARTIMES.destination];
+
+            case mapper.TV_PAGA_MONTAGE.service_key:
+                return body[mapper.TV_PAGA_MONTAGE.destination];
+
         }
 
         throw new Error(`Destination value was not handled because there is no clause for key ${matchingServiceKey}`);
@@ -42,15 +44,18 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
         let mapper = servicesMapper.mapper;
 
         switch (matchingServiceKey) {
-        
+
             case mapper.TV_PAGA_DSTV.service_key:
                 return mapper.TV_PAGA_DSTV.prevalidation_error_message;
             case mapper.TV_PAGA_GOTV.service_key:
                 return mapper.TV_PAGA_GOTV.prevalidation_error_message;
             case mapper.TV_PAGA_STARTIMES.service_key:
                 return mapper.TV_PAGA_STARTIMES.prevalidation_error_message;
-            
-        } 
+            case mapper.TV_PAGA_MONTAGE.service_key:
+                return mapper.TV_PAGA_MONTAGE.prevalidation_error_message;
+
+
+        }
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {
         throw new Error(error.message);
@@ -65,9 +70,9 @@ module.exports = {
             let configServiceData = {
                 lynetype: null,
                 service_key: null,
-                has_plans:null,
-                has_cascade:null,
-                cascade_name:null,
+                has_plans: null,
+                has_cascade: null,
+                cascade_name: null,
                 destination: null,
                 message_missing_destination: null,
                 order_summary_needs_prevalidation: null
@@ -93,14 +98,14 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
             }
 
-           //check if destination is present in body 
-           let destination=configServiceData.destination;
-           if (body[destination] === undefined) {
-            return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "${destination}" in body`, []));
+            //check if destination is present in body 
+            let destination = configServiceData.destination;
+            if (body[destination] === undefined) {
+                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "${destination}" in body`, []));
             }
-            
-             // get destination reference
-             try {
+
+            // get destination reference
+            try {
                 var destinationRef = getDestinationValue(serviceKey, body);
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error getting destination.`, []));
@@ -109,39 +114,36 @@ module.exports = {
             if (body.service === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
             }
-     
-            var amount,service;
-            if(configServiceData.has_cascade)
-            {
-                if(body.service==configServiceData.cascade_name)
-                {
-                   
+
+            var amount, service;
+            if (configServiceData.has_cascade) {
+                if (body.service == configServiceData.cascade_name) {
+
                     if (body.amount === undefined) {
                         return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
                     }
-                    else{
-                        amount=body.amount;
-                        let amount_service=body.service.split('.');
-                        service=amount_service[1];
+                    else {
+                        amount = body.amount;
+                        let amount_service = body.service.split('.');
+                        service = amount_service[1];
                     }
-    
+
                 }
-                else
-                {
-        
-                    let amount_service=body.service.split('.');
-                        amount=amount_service[0];
-                        service=amount_service[1];
+                else {
+
+                    let amount_service = body.service.split('.');
+                    amount = amount_service[0];
+                    service = amount_service[1];
                 }
             }
-            else{
-                let amount_service=body.service.split('.');
-                amount=amount_service[0];
-                service=amount_service[1];
+            else {
+                let amount_service = body.service.split('.');
+                amount = amount_service[0];
+                service = amount_service[1];
 
             }
 
-            
+
             try {
                 if (!amount.includes("_")) {
                     return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
@@ -152,33 +154,32 @@ module.exports = {
                     return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
                 }
             } catch (error) {
-                
+
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-            
-          
+
+
             if (configServiceData.order_summary_needs_prevalidation) { // needs pre validation
 
-               
+
                 const generatedReference = `jone${Date.now()}`;
-                const url = config.paga.business_endpoint+config.paga.merchant_account;
-                
+                const url = config.paga.business_endpoint + config.paga.merchant_account;
+
                 const args = {
-                    referenceNumber:generatedReference,
-                    merchantAccount:linetype,
-                    merchantReferenceNumber:destinationRef,
-                    merchantServiceProductCode:service
+                    referenceNumber: generatedReference,
+                    merchantAccount: linetype,
+                    merchantReferenceNumber: destinationRef,
+                    merchantServiceProductCode: service
                 };
 
-        
-                const tohash=generatedReference+linetype+destinationRef+service;
-                
-                PagaClient.getSuccessMessage(url,args,tohash)
+
+                const tohash = generatedReference + linetype + destinationRef + service;
+
+                PagaClient.getSuccessMessage(url, args, tohash)
                     .then(result => {
                         try {
-                            let customerName=result.customerName;
-                            if(customerName===null)
-                            {
+                            let customerName = result.customerName;
+                            if (customerName === null) {
                                 let errorMessage = null;
                                 try {
                                     errorMessage = getPrevalidationErrorMessage(serviceKey);
@@ -186,7 +187,7 @@ module.exports = {
                                     errorMessage = 'Call to distributor resulted in error with provided order details.'
                                 }
 
-                                 let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                                let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
                                 reject(appError);
                             }
                             let additionalDetail = new AdditionalDetailItem('Customer Name', customerName);
@@ -212,7 +213,7 @@ module.exports = {
                         return reject(appError);
                     });
             } else { // no need for pre validation
-                
+
                 let quoteResponse = new QuoteResponse(
                     availableServices[serviceKey].destination,
                     [],

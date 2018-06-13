@@ -28,6 +28,7 @@ if (env !== 'test') {
     cronService.cronTaskPlansGOTV.start();
     cronService.cronTaskPlansSTARTIMES.start();
     cronService.cronTaskPlansSMILE.start();
+    cronService.cronTaskPlansMONTAGE.start();
   }
 
   // activate cache

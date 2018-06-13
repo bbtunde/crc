@@ -48,7 +48,7 @@ const mapper = {
         prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +
             'Otherwise, please check your account status with your operator.'
     },
-    
+
     // INTERNET
 
     INTERNET_PAGA_SWIFT: {

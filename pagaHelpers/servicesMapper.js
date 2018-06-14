@@ -37,6 +37,20 @@ const mapper = {
         prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +
             'Otherwise, please check your account status with your operator.'
     },
+
+    TV_PAGA_MONTAGE: {
+        lynetype: 'C9076638-9974-41BF-9D33-47A0008AA21B',
+        service_key: 'tv.paga.montage',
+        destination: 'smart_card_number',
+        has_plans:true,
+        has_cascade:false,
+        message_missing_destination: 'Missing Smart Card Number',
+        order_summary_needs_prevalidation: true,
+        prevalidation_error_message: 'Please make sure your operator and Smart Card number are correct. ' +
+            'Otherwise, please check your account status with your operator.'
+    },
+
+
     TV_PAGA_KWESE: {
         lynetype: '6A4E66C7-4E46-4CFB-A58D-CB7EB96CF5E6',
         service_key: 'tv.paga.kwese',
@@ -49,7 +63,7 @@ const mapper = {
             'Otherwise, please check your account status with your operator.'
     },
 
-    
+ 
     // INTERNET
 
     INTERNET_PAGA_SWIFT: {

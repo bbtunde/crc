@@ -21,6 +21,9 @@ const getDestinationValue = (matchingServiceKey, body) => {
             case mapper.TV_PAGA_GOTV.service_key:
                 return body[mapper.TV_PAGA_GOTV.destination];
 
+            case mapper.TV_PAGA_STARTIMES.service_key:
+                return body[mapper.TV_PAGA_STARTIMES.destination];
+
             case mapper.TV_PAGA_MONTAGE.service_key:
                 return body[mapper.TV_PAGA_MONTAGE.destination];
 

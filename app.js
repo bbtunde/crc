@@ -29,6 +29,7 @@ if (env !== 'test') {
     cronService.cronTaskPlansSTARTIMES.start();
     cronService.cronTaskPlansSMILE.start();
     cronService.cronTaskPlansMONTAGE.start();
+    cronService.cronTaskPlansMETRODIGITAL.start();
   }
 
   // activate cache

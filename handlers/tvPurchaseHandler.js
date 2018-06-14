@@ -23,6 +23,9 @@ const getDestinationValue = (matchingServiceKey, body) => {
 
             case mapper.TV_PAGA_MONTAGE.service_key:
                 return body[mapper.TV_PAGA_MONTAGE.destination];
+
+            case mapper.TV_PAGA_METRODIGITAL.service_key:
+                return body[mapper.TV_PAGA_METRODIGITAL.destination];
         }
 
         throw new Error(`Destination value was not handled because there is no clause for key ${matchingServiceKey}`);

@@ -15,6 +15,7 @@
             <service key="tv.paga.gotv">TV  Paga Gotv</service>
             <service key="tv.paga.startimes">TV  Paga startimes</service>
             <service key="tv.paga.montage">TV  Paga Montage</service>
+            <service key="tv.paga.metrodigital">TV  Paga Metrodigital</service>
 
             <!--INTERNET-->
             <service key="internet.paga.smile">Internet  Paga Smile</service>

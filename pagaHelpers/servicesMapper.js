@@ -157,7 +157,7 @@ const mapper = {
         lynetype: 'e51b5753-ddc7-4b11-88b3-4ea25d72c33c',
         service_key: 'bet.bonanzawin',
         destination: 'account_number',
-        has_plans:false,
+        has_plans:true,
         has_cascade:false,
         message_missing_destination: 'Missing Account Number',
         order_summary_needs_prevalidation: false,

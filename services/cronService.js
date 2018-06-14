@@ -60,9 +60,39 @@ var cronTaskPlansSTARTIMES = cron.schedule('0 0,12 * * *', function() {
 
 }, false);
 
+var cronTaskPlansMONTAGE = cron.schedule('0 0,12 * * *', function() {
+    console.log('Trying to retrieve plans for MONTAGE...');
+    plansService.getPlans("C9076638-9974-41BF-9D33-47A0008AA21B")
+    .then(plans => {
+        CacheService.set('MONTAGE', plans);
+        console.log('Plans for MONTAGE successfully cached!');
+    })
+    .catch(appError => {
+        console.log('Error retrieving plans for MONTAGE. Plans will not be cached');
+        console.log('Error cause:', appError);
+    }); 
+
+}, false);
+
+var cronTaskPlansMETRODIGITAL = cron.schedule('0 0,12 * * *', function() {
+    console.log('Trying to retrieve plans for METRODIGITAL...');
+    plansService.getPlans("bd6d6165-5c2f-44f2-8f7b-f5306df3466d")
+    .then(plans => {
+        CacheService.set('METRODIGITAL', plans);
+        console.log('Plans for METRODIGITAL successfully cached!');
+    })
+    .catch(appError => {
+        console.log('Error retrieving plans for METRODIGITAL. Plans will not be cached');
+        console.log('Error cause:', appError);
+    }); 
+
+}, false);
+
 
 module.exports.cronTaskPlansSMILE = cronTaskPlansSMILE;
 module.exports.cronTaskPlansDSTV = cronTaskPlansDSTV;
 module.exports.cronTaskPlansGOTV = cronTaskPlansGOTV;
 module.exports.cronTaskPlansSTARTIMES = cronTaskPlansSTARTIMES;
+module.exports.cronTaskPlansMONTAGE = cronTaskPlansMONTAGE;
+module.exports.cronTaskPlansMETRODIGITAL = cronTaskPlansMETRODIGITAL;
 

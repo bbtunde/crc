@@ -63,6 +63,17 @@ const mapper = {
             'Otherwise, please check your account status with your operator.'
     },
 
+    TV_PAGA_METRODIGITAL: {
+        lynetype: 'bd6d6165-5c2f-44f2-8f7b-f5306df3466d',
+        service_key: 'tv.paga.metrodigital',
+        destination: 'account_number',
+        has_plans:true,
+        has_cascade:false,
+        message_missing_destination: 'Missing Account Number',
+        order_summary_needs_prevalidation: false,
+        prevalidation_error_message: 'Please make sure your operator and Account number are correct. ' +
+            'Otherwise, please check your account status with your operator.'
+    },
  
     // INTERNET
 

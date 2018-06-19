@@ -47,7 +47,8 @@
             <service key="electricity.postpaid.ikeja">Electricity Postpaid Ikeja</service>
             <service key="electricity.postpaid.eko">Electricity Postpaid Eko</service>
 
-
+            <!-- INSURANCE-->
+            <service key="insurance.paga.leadway"> Insurance Paga Leadway</service>
             
 
 

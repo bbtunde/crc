@@ -88,6 +88,20 @@ var cronTaskPlansMETRODIGITAL = cron.schedule('0 0,12 * * *', function() {
 
 }, false);
 
+var cronTaskPlansLEADWAY = cron.schedule('0 0,12 * * *', function() {
+    console.log('Trying to retrieve plans for LEADWAY...');
+    plansService.getPlans("bd6d6165-5c2f-44f2-8f7b-f5306df3466d")
+    .then(plans => {
+        CacheService.set('LEADWAY', plans);
+        console.log('Plans for LEADWAY successfully cached!');
+    })
+    .catch(appError => {
+        console.log('Error retrieving plans for LEADWAY. Plans will not be cached');
+        console.log('Error cause:', appError);
+    }); 
+
+}, false);
+
 
 module.exports.cronTaskPlansSMILE = cronTaskPlansSMILE;
 module.exports.cronTaskPlansDSTV = cronTaskPlansDSTV;
@@ -95,4 +109,5 @@ module.exports.cronTaskPlansGOTV = cronTaskPlansGOTV;
 module.exports.cronTaskPlansSTARTIMES = cronTaskPlansSTARTIMES;
 module.exports.cronTaskPlansMONTAGE = cronTaskPlansMONTAGE;
 module.exports.cronTaskPlansMETRODIGITAL = cronTaskPlansMETRODIGITAL;
+module.exports.cronTaskPlansLEADWAY = cronTaskPlansLEADWAY;
 

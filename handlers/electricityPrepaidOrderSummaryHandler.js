@@ -84,8 +84,7 @@ module.exports = {
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-            
-          
+            let merchantReferenceNumber=body.meter_number;
             if (configServiceData.order_summary_needs_prevalidation) { // needs pre validation
 
                 const generatedReference = `jone${Date.now()}`;
@@ -94,20 +93,22 @@ module.exports = {
                 if(serviceKey=="electricity.prepaid.abuja")
                 {
                     service="";
+                    merchantReferenceNumber=merchantReferenceNumber.substr(0,11);
+
                 }
-           
                 const args = {
                     referenceNumber:generatedReference,
                     merchantAccount:linetype,
-                    merchantReferenceNumber:body.meter_number,
+                    merchantReferenceNumber:merchantReferenceNumber,
                     merchantServiceProductCode:service
                 };
                
-                const tohash=generatedReference+linetype+body.meter_number+service;
+                const tohash=generatedReference+linetype+merchantReferenceNumber+service;
                 PagaClient.getSuccessMessage(url,args,tohash)
                     .then(result => {
                         try {
                             let customerName=result.customerName;
+                
                             if(customerName===null)
                             {
                                 let errorMessage = null;
@@ -140,6 +141,19 @@ module.exports = {
                         }
                     })
                     .catch(appError => {
+                        if(appError.response=="Merchant account not found.")
+                        {
+                            let errorMessage = null;
+                            try {
+                                errorMessage = getPrevalidationErrorMessage(serviceKey);
+                            } catch (error) {
+                                errorMessage = 'Call to distributor resulted in error with provided order details.'
+                            }
+
+                            let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                            reject(appError);
+
+                        }
                         return reject(appError);
                     });
             } else { // no need for pre validation

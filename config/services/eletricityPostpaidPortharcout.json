@@ -13,13 +13,13 @@
             {
               "key": "meter_number",
               "template": "number",
-              "title": "What is your meter number?",
-              "label": "Meter number",
+              "title": "What is your account number?",
+              "label": "Account number",
               "validators": [
                 {
                   "type": "required",
                   "options": [],
-                  "message": "Meter number cannot be empty"
+                  "message": "Account number cannot be empty"
                 },
                 {
                   "type": "textLength",

@@ -286,6 +286,19 @@ const mapper = {
         order_summary_needs_prevalidation: true,
         prevalidation_error_message: 'Please make sure your meter number is correct. ' +
         'Otherwise, please check your account status with your operator.'
+    },
+
+    //INSURANCE
+    INSURANCE_PAGA_LEADWAY: {
+        lynetype: '600B29BD-D0BB-4353-A9CD-7A6C4D137C4D',
+        service_key: 'insurance.paga.leadway',
+        destination: 'account_number',
+        has_plans:true,
+        has_cascade:false,
+        message_missing_destination: 'Missing Account Number',
+        order_summary_needs_prevalidation: false,
+        prevalidation_error_message: 'Please make sure your operator and Account number are correct. ' +
+            'Otherwise, please check your account status with your operator.'
     }
 
 };

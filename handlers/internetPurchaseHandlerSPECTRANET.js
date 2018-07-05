@@ -1,11 +1,10 @@
-var config = require('../config/config.json');
 const ParseUtils = require('./../services/parseUtils');
 const availableServices = require('../config/requireServices').services;
 const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
-const PurchaseResponse = require('./../models/PurchaseResponse');
 const PagaClient = require('./../services/pagaClient');
 const servicesMapper = require('./../pagaHelpers/servicesMapper');
+const PagaRequestHandler=require('../pagaHelpers/pagaRequestHandler');
 /* istanbul ignore next */
 module.exports = {
 
@@ -43,6 +42,10 @@ module.exports = {
             if (body.service === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
             }
+             // validate purchaseHash
+             if (body.purchaseHash === undefined) {
+                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "purchaseHash" in body`, []));
+            }
             
             var amount;
             var service=body.service;
@@ -60,8 +63,12 @@ module.exports = {
         
                 }
                 else{
+                    if(body.retry!=undefined)
+                    {
+                        amount=body.amount;
+                    }
                     //use an initial random amount
-                    amount="NGN_5000"
+                    amount="NGN_50"
                 }
                 
             }
@@ -74,70 +81,99 @@ module.exports = {
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-            const generatedReference = `jone${Date.now()}`;
-            const url = config.paga.business_endpoint+config.paga.merchant_payment;        
+            const purchaseHash = body.purchaseHash;
             var args = {
-                referenceNumber:generatedReference,
+                referenceNumber:purchaseHash,
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.customer_id,
                 merchantService:[service]
             };
-            var tohash=generatedReference+amountValue+linetype+body.customer_id;
-            if(body.service=="Renew")
+            var tohash=purchaseHash+amountValue+linetype+body.customer_id;
+            if(body.retry!=undefined)
             {
+                //check status before attempt to make new purchase
+                PagaRequestHandler.requestTransactionQuery(purchaseHash)
+               .then(result=>
+                {
+                    //prepare response
+                    console.log(result);
+                  let purchaseResponse= getPurchaseResponse(result);
+                  if(purchaseResponse instanceof AppError)
+                  {
+                      return reject(appError);
+
+                  }
+                  return resolve(purchaseResponse);
+
+                })
+                .catch(appError=>
+                {
+                    return reject(appError);
+                    //inital purchase not succesfull, initiate fresh
+                  PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                  .then(purchaseResponse=>
+                  {
+                     return resolve(purchaseResponse);
+                        
+                  }) 
+                  .catch(appError=>
+                  {
+                    return reject(appError);
+                  });
+
+                });
+            }
+            else{
+                
+                if(body.service=="Renew")
+                {
                 //get current plan amount
-                PagaClient.getSpectranetPlanDetails(linetype,body.customer_id)
+                    PagaClient.getSpectranetPlanDetails(linetype,body.customer_id)
                     .then(actualAmount=>
                     {
                         amountValue=actualAmount;
                         args.amount=amountValue
-                        tohash=generatedReference+amountValue+linetype+body.customer_id;
-                       PagaClient.getSuccessMessage(url,args,tohash)
-                        .then(result => {
-                            try {
-                                let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
-                                let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
-                                return resolve(purchaseResponse);
-                            } catch (error) {
-                                return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
-                            }
-                                            })
-                        .catch(appError => {
+                        tohash=purchaseHash+amountValue+linetype+body.customer_id;
+                        //make purchase from paga using overriden amount from paga
+                        PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                        .then(purchaseResponse=>
+                        {
+                            return resolve(purchaseResponse);
+                                
+                        }) 
+                        .catch(appError=>
+                        {
                             return reject(appError);
                         });
-                        
+                                
 
                     })
                     .catch(appError => {
                         return reject(appError);
                     });
                     
-            }
-            else
-            {
-                PagaClient.getSuccessMessage(url,args,tohash)
-                .then(result => {
-                    try {
-                        let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
-                        let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
+                }
+                //user amount inputted by user
+                else
+                {
+
+                    PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                    .then(purchaseResponse=>
+                    {
                         return resolve(purchaseResponse);
-                    } catch (error) {
-                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
-                    }
-                })
-                .catch(appError => {
-                    return reject(appError);
-                });
-                                
+                            
+                    }) 
+                    .catch(appError=>
+                    {
+                        return reject(appError);
+                    });  
+
+                }
 
             }
-               
-               
-                
-           
             
-            
+                  
         });
     }
 }

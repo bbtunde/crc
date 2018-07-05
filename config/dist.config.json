@@ -16,6 +16,7 @@
     "merchant_service":"getMerchantServices",
     "merchant_account":"getMerchantAccountDetails",
     "validate_merchant_payment":"validateMerchantPayment",
+    "get_transaction":"getTransactionDetails",
     "principal":"dummy_principal",
     "credentials":"dummy_credential",
     "hashkey":"dummy_haskey"

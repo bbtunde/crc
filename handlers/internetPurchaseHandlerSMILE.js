@@ -74,11 +74,11 @@ module.exports = {
            
             try {
                 if (!amount.includes("_")) {
-                    return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
+                    return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_1000.2GB MidNite Pla`, []));
                 }
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
                 if (typeof amountValue != "number") {
-                    return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
+                    return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_1000.2GB MidNite Pla`, []));
                 }
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));

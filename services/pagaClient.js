@@ -38,7 +38,7 @@ module.exports = class pagaClient {
                 body: args,
                 json:true,
             }, function(error, response, body){
-                
+               console.log(body);
                 if (response.statusCode === 200) {
                     if (pagaClient.isSuccessResponse(body)) {
                         return resolve(body);
@@ -54,7 +54,6 @@ module.exports = class pagaClient {
 
         });
     };
-
     /*---get customer current spectranet plan details---*/
       
     static getSpectranetPlanDetails(linetype,customer_id) {
@@ -81,7 +80,14 @@ module.exports = class pagaClient {
                     
                     try {
                         let amount=result.overrideAmount
-                        return resolve(amount);
+                        if(amount!=undefined && amount!=null)
+                        {
+                            return resolve(amount);
+                        }
+                        let errorMessage = 'Problem getting customer current plan details'
+                        let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                        reject(appError);
+                        
 
                     } catch (error) {
                         let errorMessage = 'Problem getting customer current plan details'

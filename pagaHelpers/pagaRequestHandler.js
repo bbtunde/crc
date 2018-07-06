@@ -26,7 +26,7 @@ module.exports = class pagaRequestHandler {
             let purchaseResponse = new PurchaseResponse(transactionReference, result, extraInfo);
             return purchaseResponse;
         } catch (error) {
-
+            
             return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []);
         }
         
@@ -46,17 +46,23 @@ module.exports = class pagaRequestHandler {
             const tohash=referenceNumber;
             PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {
+              
                 try {
-                    if(result.status!="UNKNOWN")
+                    if(result.status=="SUCCESSFUL")
                     {
                         return resolve(result);
                     }
+                    //Initial transaction failed, so retry
+                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, result.status, []));
+
                    
                 } catch (error) {
-                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building query response from successfull query request to Paga`, []));
+                    let errorMessage=result.errorMessage===undefined ? error:result.errorMessage;
+                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, errorMessage, []));
                 }
             })
             .catch(appError => {
+
                 return reject(appError);
             });
 
@@ -67,11 +73,12 @@ module.exports = class pagaRequestHandler {
 
     //make purchase a particular service and get the value
     static requestServicePurchase(servicekey,args,tohash) {
+        var requestHandler=this;
         return new Promise(function (resolve, reject) {
             const url = config.paga.business_endpoint+config.paga.merchant_payment;
             PagaClient.getSuccessMessage(url,args,tohash)
             .then(result => {
-                let purchaseResponse= getPurchaseResponse(servicekey, result);
+                let purchaseResponse= requestHandler.getPurchaseResponse(servicekey, result);
                 if(purchaseResponse instanceof AppError)
                 {
                     return reject(appError);

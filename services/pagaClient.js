@@ -38,12 +38,11 @@ module.exports = class pagaClient {
                 body: args,
                 json:true,
             }, function(error, response, body){
-               console.log(body);
                 if (response.statusCode === 200) {
                     if (pagaClient.isSuccessResponse(body)) {
                         return resolve(body);
                     } else {
-                        return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, body.message, []));
+                        return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, body.errorMessage, []));
                     }
 
                 } else {

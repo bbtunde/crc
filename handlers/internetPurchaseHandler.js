@@ -56,34 +56,41 @@ module.exports = {
 
             if(body.retry!=undefined && body.retry!=null)
             {
-                //check status before attempt to make new purchase
-                PagaRequestHandler.requestTransactionQuery(purchaseHash)
+               //check status before attempt to make new purchase
+               PagaRequestHandler.requestTransactionQuery(purchaseHash)
                .then(result=>
                 {
                     //prepare response
-                  let purchaseResponse= getPurchaseResponse(result);
+                  let purchaseResponse= PagaRequestHandler.getPurchaseResponse(serviceKey, result);
                   if(purchaseResponse instanceof AppError)
                   {
-                      return reject(appError);
-
+                      return reject(purchaseResponse);
                   }
                   return resolve(purchaseResponse);
 
                 })
                 .catch(appError=>
                 {
-                    //inital purchase not succesfull, initiate fresh
-                  PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
-                  .then(purchaseResponse=>
-                  {
-                     return resolve(purchaseResponse);
-                        
-                  }) 
-                  .catch(appError=>
-                  {
+            
+                    //inital purchase failed, initiate fresh
+                    if(appError.response=="FAILED")
+                    {
+                        PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                        .then(purchaseResponse=>
+                        {
+                            return resolve(purchaseResponse);
+                            
+                        }) 
+                        .catch(appError=>
+                        {
+                            return reject(appError);
+                        });
+    
+                    }
+                    //transaction not found or status is pending
                     return reject(appError);
-                  });
-
+  
+                 
                 });
             }
             else{

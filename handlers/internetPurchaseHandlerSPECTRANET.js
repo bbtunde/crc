@@ -97,38 +97,43 @@ module.exports = {
                .then(result=>
                 {
                     //prepare response
-                    console.log(result);
-                  let purchaseResponse= getPurchaseResponse(result);
+                  let purchaseResponse= PagaRequestHandler.getPurchaseResponse(serviceKey, result);
                   if(purchaseResponse instanceof AppError)
                   {
-                      return reject(appError);
-
+                      return reject(purchaseResponse);
                   }
                   return resolve(purchaseResponse);
 
                 })
                 .catch(appError=>
                 {
+            
+                    //inital purchase failed, initiate fresh
+                    if(appError.response=="FAILED")
+                    {
+                        PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                        .then(purchaseResponse=>
+                        {
+                            return resolve(purchaseResponse);
+                            
+                        }) 
+                        .catch(appError=>
+                        {
+                            return reject(appError);
+                        });
+    
+                    }
+                    //transaction not found or status is pending
                     return reject(appError);
-                    //inital purchase not succesfull, initiate fresh
-                  PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
-                  .then(purchaseResponse=>
-                  {
-                     return resolve(purchaseResponse);
-                        
-                  }) 
-                  .catch(appError=>
-                  {
-                    return reject(appError);
-                  });
-
+  
+                 
                 });
             }
             else{
                 
                 if(body.service=="Renew")
                 {
-                //get current plan amount
+                   //get current plan amount
                     PagaClient.getSpectranetPlanDetails(linetype,body.customer_id)
                     .then(actualAmount=>
                     {
@@ -147,7 +152,6 @@ module.exports = {
                             return reject(appError);
                         });
                                 
-
                     })
                     .catch(appError => {
                         return reject(appError);
@@ -157,7 +161,6 @@ module.exports = {
                 //user amount inputted by user
                 else
                 {
-
                     PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
                     .then(purchaseResponse=>
                     {

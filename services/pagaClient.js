@@ -38,16 +38,18 @@ module.exports = class pagaClient {
                 body: args,
                 json:true,
             }, function(error, response, body){
+             
                 if (response.statusCode === 200) {
+                   
                     if (pagaClient.isSuccessResponse(body)) {
                         return resolve(body);
                     } else {
-                        return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, body.errorMessage, []));
+                        return reject(pagaClient.getAppErrorMessage(body,error));
                     }
 
                 } else {
-                    let errorMessage=body.errorMessage===undefined ? error:body.errorMessage;
-                    return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE,errorMessage , []));
+                    
+                    return reject(pagaClient.getAppErrorMessage(body,error));
                 }
             });
 
@@ -101,5 +103,22 @@ module.exports = class pagaClient {
                 });
                
             });
+    }
+
+    /*----get error message from paga response body and error--*/
+    static getAppErrorMessage(body,error)
+    {
+        let errorMessage=error;
+            if(body.errorMessage!=undefined)
+            {
+                errorMessage=body.errorMessage
+            }
+            else if(body.message!=undefined)
+            {
+                errorMessage=body.message;
+            }
+            console.log(errorMessage);
+            return new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE,errorMessage , []);
+            
     }
 }

@@ -132,6 +132,20 @@ module.exports = {
                         }
                     })
                     .catch(appError => {
+                        if(appError.response=="Merchant account not found.")
+                        {
+                            let errorMessage = null;
+                            try {
+                                errorMessage = getPrevalidationErrorMessage(serviceKey);
+                            } catch (error) {
+                                errorMessage = 'Call to distributor resulted in error with provided order details.'
+                            }
+
+                            let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                            reject(appError);
+
+                        }
+
                         return reject(appError);
                     });
             } else { // no need for pre validation

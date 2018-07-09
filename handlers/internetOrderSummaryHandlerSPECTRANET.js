@@ -105,15 +105,7 @@ module.exports = {
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-
-            let quoteResponse = new QuoteResponse(
-                availableServices[serviceKey].destination,
-                [],
-                [new PaymentDetailItem('total_price', amountValue, [{ "currency": currency }])]
-            );
-            return resolve(quoteResponse);
-            
-          
+        
             const generatedReference = `jone${Date.now()}`;
             const url= config.paga.business_endpoint+config.paga.merchant_account;
             const args = {

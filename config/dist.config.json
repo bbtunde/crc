@@ -4,7 +4,6 @@
   "newrelic_enable": false,
   "newrelic_license_key": "random_key",
   "newrelic_app_name": "dummy_name",
-  "smart_card_number_DSTV": "41157294764",
   "manifest": {
     "username" : "someuser",
     "password" : "somepassword"
@@ -12,13 +11,15 @@
   "paga":
   {
     "business_endpoint":"https://qa1.mypaga.com/paga-webservices/business-rest/secured/",
+    "merchant_endpoint":"https://qa1.mypaga.com/paga-webservices/merchant-rest/secured/",
     "merchant_payment":"merchantPayment",
     "merchant_service":"getMerchantServices",
     "merchant_account":"getMerchantAccountDetails",
     "validate_merchant_payment":"validateMerchantPayment",
-    "principal":"dummy_principal",
-    "credentials":"dummy_credential",
-    "hashkey":"dummy_haskey"
+    "get_transaction":"getTransactionDetailsByMerchantReference",
+    "principal":"E9D712E8-3E37-4210-838B-C54E5CE23208",
+    "credentials":"vW5=aSD=kSxRj7C",
+    "hashkey":"9bd594dd432046fbbdac1aeb46cafc769fa5e0cca81946f9b8679995e2c944e4efeb9e113d704278878b91be9b31c43ffa3b42b0ee2b42b18151684ea562b594"
   },
   "cron_active": false,
   "couchbase": {

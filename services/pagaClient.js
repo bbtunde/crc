@@ -38,23 +38,23 @@ module.exports = class pagaClient {
                 body: args,
                 json:true,
             }, function(error, response, body){
-                
+             
                 if (response.statusCode === 200) {
+                   
                     if (pagaClient.isSuccessResponse(body)) {
                         return resolve(body);
                     } else {
-                        return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE, body.message, []));
+                        return reject(pagaClient.getAppErrorMessage(body,error));
                     }
 
                 } else {
-                    let errorMessage=body.errorMessage===undefined ? error:body.errorMessage;
-                    return reject(new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE,errorMessage , []));
+                    
+                    return reject(pagaClient.getAppErrorMessage(body,error));
                 }
             });
 
         });
     };
-
     /*---get customer current spectranet plan details---*/
       
     static getSpectranetPlanDetails(linetype,customer_id) {
@@ -81,7 +81,14 @@ module.exports = class pagaClient {
                     
                     try {
                         let amount=result.overrideAmount
-                        return resolve(amount);
+                        if(amount!=undefined && amount!=null)
+                        {
+                            return resolve(amount);
+                        }
+                        let errorMessage = 'Problem getting customer current plan details'
+                        let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                        reject(appError);
+                        
 
                     } catch (error) {
                         let errorMessage = 'Problem getting customer current plan details'
@@ -96,5 +103,22 @@ module.exports = class pagaClient {
                 });
                
             });
+    }
+
+    /*----get error message from paga response body and error--*/
+    static getAppErrorMessage(body,error)
+    {
+        let errorMessage=error;
+            if(body.errorMessage!=undefined)
+            {
+                errorMessage=body.errorMessage
+            }
+            else if(body.message!=undefined)
+            {
+                errorMessage=body.message;
+            }
+            console.log(errorMessage);
+            return new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE,errorMessage , []);
+            
     }
 }

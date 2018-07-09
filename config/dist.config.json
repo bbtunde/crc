@@ -4,19 +4,19 @@
   "newrelic_enable": false,
   "newrelic_license_key": "random_key",
   "newrelic_app_name": "dummy_name",
-  "smart_card_number_DSTV": "41157294764",
   "manifest": {
     "username" : "someuser",
     "password" : "somepassword"
   },
   "paga":
   {
-    "business_endpoint":"https://qa1.mypaga.com/paga-webservices/business-rest/secured/",
+    "business_endpoint":"https://mypaga.com/paga-webservices/business-rest/secured/",
+    "merchant_endpoint":"https://mypaga.com/paga-webservices/merchant-rest/secured/",
     "merchant_payment":"merchantPayment",
     "merchant_service":"getMerchantServices",
     "merchant_account":"getMerchantAccountDetails",
     "validate_merchant_payment":"validateMerchantPayment",
-    "get_transaction":"getTransactionDetails",
+    "get_transaction":"getTransactionDetailsByMerchantReference",
     "principal":"dummy_principal",
     "credentials":"dummy_credential",
     "hashkey":"dummy_haskey"

@@ -44,15 +44,15 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
             
-            const purchaseHash = body.purchaseHash;
-            const args = {
+            var purchaseHash = body.purchaseHash;
+            var args = {
                 referenceNumber:purchaseHash,
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.customer_id,
                 merchantService:[body.service]
             };
-            const tohash=purchaseHash+amountValue+linetype+body.customer_id;
+            var tohash=purchaseHash+amountValue+linetype+body.customer_id;
 
             if(body.retry!=undefined && body.retry!=null)
             {
@@ -75,6 +75,9 @@ module.exports = {
                     //inital purchase failed, initiate fresh
                     if(appError.response=="FAILED")
                     {
+                        purchaseHash=`jone${Date.now()}`;
+                        args.referenceNumber=purchaseHash;
+                        tohash=purchaseHash+amountValue+linetype+body.customer_id;
                         PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
                         .then(purchaseResponse=>
                         {

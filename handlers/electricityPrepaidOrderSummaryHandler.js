@@ -15,7 +15,7 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
         let mapper = servicesMapper.mapper;
 
         switch (matchingServiceKey) {
-        
+
             case mapper.ELECTRICITY_PREPAID_KADUNA.service_key:
                 return mapper.ELECTRICITY_PREPAID_KADUNA.prevalidation_error_message;
             case mapper.ELECTRICITY_PREPAID_PORTHARCOUT.service_key:
@@ -26,8 +26,8 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.ELECTRICITY_PREPAID_IKEJA.prevalidation_error_message;
             case mapper.ELECTRICITY_PREPAID_EKO.service_key:
                 return mapper.ELECTRICITY_PREPAID_EKO.prevalidation_error_message;
-            
-        } 
+
+        }
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {
         throw new Error(error.message);
@@ -66,7 +66,7 @@ module.exports = {
             if (body.meter_number === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "meter_number" in body`, []));
             }
-            
+
 
             if (body.amount === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
@@ -84,33 +84,35 @@ module.exports = {
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-            let merchantReferenceNumber=body.meter_number;
+            let merchantReferenceNumber = body.meter_number;
             if (configServiceData.order_summary_needs_prevalidation) { // needs pre validation
 
                 const generatedReference = `jone${Date.now()}`;
-                const url = config.paga.business_endpoint+config.paga.merchant_account;
-                var service="Pre Paid";
-                if(serviceKey=="electricity.prepaid.abuja")
-                {
-                    service="";
-                    merchantReferenceNumber=merchantReferenceNumber.substr(0,11);
+                const url = config.paga.business_endpoint + config.paga.merchant_account;
+                var service = "Pre Paid";
+                if (serviceKey == "electricity.prepaid.abuja") {
+                    service = "";
+                    merchantReferenceNumber = merchantReferenceNumber.substr(0, 11);
 
                 }
                 const args = {
-                    referenceNumber:generatedReference,
-                    merchantAccount:linetype,
-                    merchantReferenceNumber:merchantReferenceNumber,
-                    merchantServiceProductCode:service
+                    referenceNumber: generatedReference,
+                    merchantAccount: linetype,
+                    merchantReferenceNumber: merchantReferenceNumber,
+                    merchantServiceProductCode: service
                 };
-               
-                const tohash=generatedReference+linetype+merchantReferenceNumber+service;
-                PagaClient.getSuccessMessage(url,args,tohash)
+
+                const tohash = generatedReference + linetype + merchantReferenceNumber + service;
+                PagaClient.getSuccessMessage(url, args, tohash)
                     .then(result => {
                         try {
-                            let customerName=result.customerName;
-                
-                            if(customerName===null)
-                            {
+                            let customerName = result.customerName;
+                            let minAmount = result.details['Min Purchase Amount'];
+
+                            if(amountValue < minAmount){
+                                return reject(new AppError(400, 'PREVALIDATION_FAILED', `The minimum allowed amount is ${currency} ${minAmount}`, []));
+                            }
+                            if (customerName === null) {
                                 let errorMessage = null;
                                 try {
                                     errorMessage = getPrevalidationErrorMessage(serviceKey);
@@ -118,7 +120,7 @@ module.exports = {
                                     errorMessage = 'Call to distributor resulted in error with provided order details.'
                                 }
 
-                                 let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                                let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
                                 reject(appError);
                             }
                             let additionalDetail = new AdditionalDetailItem('Customer Name', customerName);
@@ -141,8 +143,7 @@ module.exports = {
                         }
                     })
                     .catch(appError => {
-                        if(appError.response=="Merchant account not found.")
-                        {
+                        if (appError.response == "Merchant account not found.") {
                             let errorMessage = null;
                             try {
                                 errorMessage = getPrevalidationErrorMessage(serviceKey);
@@ -157,7 +158,7 @@ module.exports = {
                         return reject(appError);
                     });
             } else { // no need for pre validation
-                
+
                 let quoteResponse = new QuoteResponse(
                     availableServices[serviceKey].destination,
                     [],

@@ -1,7 +1,7 @@
 {
     "insurance.paga.leadway": {
-        "orderSummaryHandler": "insuranceOrderSummaryHandler",
-        "purchaseHandler": "insurancePurchaseHandler",
+        "orderSummaryHandler": "orderSummaryHandler",
+        "purchaseHandler": "purchaseHandler",
       "definition": {
         "linetype": "600B29BD-D0BB-4353-A9CD-7A6C4D137C4D"
       },

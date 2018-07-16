@@ -6,6 +6,7 @@ const ResponseCode = require('./../models/ResponseCode');
 const PurchaseResponse = require('./../models/PurchaseResponse');
 const PagaClient = require('./../services/pagaClient');
 const servicesMapper = require('./../pagaHelpers/servicesMapper');
+const PagaRequestHandler=require('../pagaHelpers/pagaRequestHandler');
 /* istanbul ignore next */
 
 /*--get service destination---*/
@@ -72,6 +73,12 @@ module.exports = {
             if (body.service === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
             }
+
+             // validate purchaseHash
+             if (body.purchaseHash === undefined) {
+                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "purchaseHash" in body`, []));
+            }
+
 
 
             var amount, service;

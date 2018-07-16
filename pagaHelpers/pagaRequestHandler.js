@@ -20,7 +20,7 @@ module.exports = class pagaRequestHandler {
             {
                 if(extraInfo==""||extraInfo==undefined)
                 {
-                    return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Empty  extra info returned by Paga`, []);
+                    return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Empty  extra info(token) returned by Paga`, []);
                 }
             }
             let purchaseResponse = new PurchaseResponse(transactionReference, result, extraInfo);

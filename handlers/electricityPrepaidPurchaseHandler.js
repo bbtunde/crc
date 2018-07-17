@@ -3,9 +3,7 @@ const ParseUtils = require('./../services/parseUtils');
 const availableServices = require('../config/requireServices').services;
 const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
-const PurchaseResponse = require('./../models/PurchaseResponse');
-const PagaClient = require('./../services/pagaClient');
-const pagaHelpers = require('./../pagaHelpers/pagaHelpers');
+const PagaRequestHandler=require('../pagaHelpers/pagaRequestHandler');
 /* istanbul ignore next */
 module.exports = {
 
@@ -38,9 +36,12 @@ module.exports = {
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
+             // validate purchaseHash
+            if (body.purchaseHash === undefined) {
+                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "purchaseHash" in body`, []));
+            }
             
-            const generatedReference = `jone${Date.now()}`;
-            const url = config.paga.business_endpoint+config.paga.merchant_payment;
+            const purchaseHash = body.purchaseHash;
             var service=["Pre Paid"];
             let merchantReferenceNumber=body.meter_number;
 
@@ -51,34 +52,72 @@ module.exports = {
             }
             
             const args = {
-                referenceNumber:generatedReference,
+                referenceNumber:purchaseHash,
                 amount:amountValue.toString(),
                 merchantAccount:linetype,
                 merchantReferenceNumber:merchantReferenceNumber,
                 merchantService:service
             };
             
-            const tohash=generatedReference+amountValue+linetype+merchantReferenceNumber;
-           PagaClient.getSuccessMessage(url,args,tohash)
-            .then(result => {
-                try {
-                    let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
-                    let extraInfo= pagaHelpers.getMeterTokenExtraInfo(result);
-   
-                    if(extraInfo==""||extraInfo==undefined)
+          var tohash=purchaseHash+amountValue+linetype+merchantReferenceNumber;
+          
+          if(body.retry)
+            {
+               //check status before attempt to make new purchase
+               PagaRequestHandler.requestTransactionQuery(purchaseHash)
+               .then(result=>
+                {
+                    //prepare response
+                  let purchaseResponse= PagaRequestHandler.getPurchaseResponse(serviceKey, result);
+                  if(purchaseResponse instanceof AppError)
+                  {
+                      return reject(purchaseResponse);
+                  }
+                  return resolve(purchaseResponse);
+
+                })
+                .catch(appError=>
+                {
+            
+                    //inital purchase failed, initiate fresh
+                    if(appError.response=="FAILED")
                     {
-                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Empty  Meter Token returned by Paga`, []));
+                        purchaseHash=`jone${Date.now()}`;
+                        args.referenceNumber=purchaseHash;
+                        tohash=purchaseHash+amountValue+linetype+merchantReferenceNumber;
+                        PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                        .then(purchaseResponse=>
+                        {
+                            return resolve(purchaseResponse);
+                            
+                        }) 
+                        .catch(appError=>
+                        {
+                            return reject(appError);
+                        });
+    
                     }
-                        
-                    let purchaseResponse = new PurchaseResponse(transactionReference, result, extraInfo);
-                    return resolve(purchaseResponse);
-                } catch (error) {
-                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
-                }
-            })
-            .catch(appError => {
-                return reject(appError);
-            });
+                    //transaction not found or status is pending
+                    return reject(appError);
+  
+                 
+                });
+            }
+            else{
+                
+                PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                .then(purchaseResponse=>
+                {
+                   return resolve(purchaseResponse);
+                      
+                }) 
+                .catch(appError=>
+                {
+                  return reject(appError);
+                });
+
+              
+            }
         });
     }
 }

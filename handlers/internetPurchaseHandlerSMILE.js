@@ -46,6 +46,10 @@ module.exports = {
             if (body.service === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
             }
+             // validate purchaseHash
+             if (body.purchaseHash === undefined) {
+                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "purchaseHash" in body`, []));
+            }
             
             var amount;
             var service=body.service;
@@ -85,26 +89,69 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
             
-            const generatedReference = `jone${Date.now()}`;
-            const args = {
-                referenceNumber:generatedReference,
+            var purchaseHash = body.purchaseHash;
+            var args = {
+                referenceNumber:purchaseHash,
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.customer_id,
                 merchantService:[service]
             };
-            const tohash=generatedReference+amountValue+linetype+body.customer_id;
-            PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
-            .then(purchaseResponse=>
+            var tohash=purchaseHash+amountValue+linetype+body.customer_id;
+            if(body.retry)
             {
-                return resolve(purchaseResponse);
-                
-            }) 
-            .catch(appError=>
-            {
-                return reject(appError);
-            });
+                //check status before attempt to make new purchase
+                PagaRequestHandler.requestTransactionQuery(purchaseHash)
+               .then(result=>
+                {
+                    //prepare response
+                  let purchaseResponse= PagaRequestHandler.getPurchaseResponse(serviceKey, result);
+                  if(purchaseResponse instanceof AppError)
+                  {
+                      return reject(purchaseResponse);
+                  }
+                  return resolve(purchaseResponse);
+
+                })
+                .catch(appError=>
+                {
             
+                    //inital purchase failed, initiate fresh
+                    if(appError.response=="FAILED")
+                    {
+                        purchaseHash=`jone${Date.now()}`;
+                        args.referenceNumber=purchaseHash;
+                        tohash=purchaseHash+amountValue+linetype+body.customer_id;
+                        PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                        .then(purchaseResponse=>
+                        {
+                            return resolve(purchaseResponse);
+                            
+                        }) 
+                        .catch(appError=>
+                        {
+                            return reject(appError);
+                        });
+                    }
+                    //transaction not found or status is pending
+                    return reject(appError);
+  
+                 
+                });
+            }
+            else{
+
+                PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                    .then(purchaseResponse=>
+                    {
+                        return resolve(purchaseResponse);
+                        
+                    }) 
+                    .catch(appError=>
+                    {
+                        return reject(appError);
+                    });
+            }
         });
     }
 }

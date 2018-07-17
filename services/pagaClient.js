@@ -63,7 +63,7 @@ module.exports = class pagaClient {
         return new Promise(function (resolve, reject) {
 
             const generatedReference = `jone${Date.now()}`;
-            let amountValue=5000
+            let amountValue=50
             const url = config.paga.business_endpoint+config.paga.validate_merchant_payment;
             const args = {
                 referenceNumber:generatedReference,
@@ -117,7 +117,7 @@ module.exports = class pagaClient {
             {
                 errorMessage=body.message;
             }
-            console.log(errorMessage);
+        
             return new AppError(500, ResponseCode.SERVICE_TEMPORARILY_UNAVAILABLE,errorMessage , []);
             
     }

@@ -42,9 +42,12 @@ module.exports = {
             if (body.service === undefined) {
                 return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
             }
+             // validate purchaseHash
+             if (body.purchaseHash === undefined) {
+                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "purchaseHash" in body`, []));
+            }
             
-            //initial random amount
-            var amount="NGN_100";
+            var amount;
             var service=body.service;
             if(configServiceData.has_cascade)
             {
@@ -59,6 +62,14 @@ module.exports = {
                     }
         
                 }
+                else{
+                    if(body.retry)
+                    {
+                        amount=body.amount;
+                    }
+                    //use an initial random amount
+                    amount="NGN_50"
+                }
                 
             }
 
@@ -70,26 +81,89 @@ module.exports = {
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-            const generatedReference = `jone${Date.now()}`;
+            var purchaseHash = body.purchaseHash;
             var args = {
-                referenceNumber:generatedReference,
+                referenceNumber:purchaseHash,
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.customer_id,
                 merchantService:[service]
             };
-            var tohash=generatedReference+amountValue+linetype+body.customer_id;
-            
-            if(body.service=="Renew")
+            var tohash=purchaseHash+amountValue+linetype+body.customer_id;
+            if(body.retry)
             {
-                //get current plan amount
-                PagaClient.getSpectranetPlanDetails(linetype,body.customer_id)
-                .then(actualAmount=>
+                //check status before attempt to make new purchase
+                PagaRequestHandler.requestTransactionQuery(purchaseHash)
+               .then(result=>
                 {
-                    amountValue=actualAmount;
-                    args.amount=amountValue
-                    tohash=generatedReference+amountValue+linetype+body.customer_id;
-                    //make purchase from paga using overriden amount from paga
+                    //prepare response
+                  let purchaseResponse= PagaRequestHandler.getPurchaseResponse(serviceKey, result);
+                  if(purchaseResponse instanceof AppError)
+                  {
+                      return reject(purchaseResponse);
+                  }
+                  return resolve(purchaseResponse);
+
+                })
+                .catch(appError=>
+                {
+            
+                    //inital purchase failed, initiate fresh
+                    if(appError.response=="FAILED")
+                    {
+                        purchaseHash=`jone${Date.now()}`;
+                        args.referenceNumber=purchaseHash;
+                        tohash=purchaseHash+amountValue+linetype+body.customer_id;
+                        PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                        .then(purchaseResponse=>
+                        {
+                            return resolve(purchaseResponse);
+                            
+                        }) 
+                        .catch(appError=>
+                        {
+                            return reject(appError);
+                        });
+    
+                    }
+                    //transaction not found or status is pending
+                    return reject(appError);
+  
+                 
+                });
+            }
+            else{
+                
+                if(body.service=="Renew")
+                {
+                   //get current plan amount
+                    PagaClient.getSpectranetPlanDetails(linetype,body.customer_id)
+                    .then(actualAmount=>
+                    {
+                        amountValue=actualAmount;
+                        args.amount=amountValue
+                        tohash=purchaseHash+amountValue+linetype+body.customer_id;
+                        //make purchase from paga using overriden amount from paga
+                        PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
+                        .then(purchaseResponse=>
+                        {
+                            return resolve(purchaseResponse);
+                                
+                        }) 
+                        .catch(appError=>
+                        {
+                            return reject(appError);
+                        });
+                                
+                    })
+                    .catch(appError => {
+                        return reject(appError);
+                    });
+                    
+                }
+                //user amount inputted by user
+                else
+                {
                     PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
                     .then(purchaseResponse=>
                     {
@@ -99,30 +173,13 @@ module.exports = {
                     .catch(appError=>
                     {
                         return reject(appError);
-                    });
-                            
-                })
-                .catch(appError => {
-                    return reject(appError);
-                });
-                
-            }
-            //use amount inputted by user
-            else
-            {
-                PagaRequestHandler.requestServicePurchase(serviceKey,args,tohash)
-                .then(purchaseResponse=>
-                {
-                    return resolve(purchaseResponse);
-                        
-                }) 
-                .catch(appError=>
-                {
-                    return reject(appError);
-                });  
+                    });  
+
+                }
 
             }
-   
+            
+                  
         });
     }
 }

@@ -42,7 +42,6 @@ module.exports = {
             }
             
             const purchaseHash = body.purchaseHash;
-            const url = config.paga.business_endpoint+config.paga.merchant_payment;
             var service=["Pre Paid"];
             let merchantReferenceNumber=body.meter_number;
 
@@ -60,7 +59,7 @@ module.exports = {
                 merchantService:service
             };
             
-          var tohash=generatedReference+amountValue+linetype+merchantReferenceNumber;
+          var tohash=purchaseHash+amountValue+linetype+merchantReferenceNumber;
           
           if(body.retry)
             {

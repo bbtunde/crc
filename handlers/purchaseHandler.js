@@ -100,7 +100,6 @@ module.exports = {
             
 
             var purchaseHash=body.purchaseHash;
-            var url = config.paga.business_endpoint+config.paga.merchant_payment;
             const destinationRef=body[configServiceData.destination];
             var args = {
                 referenceNumber:purchaseHash,

@@ -131,8 +131,6 @@ module.exports = {
             }
 
             var purchaseHash = body.purchaseHash;
-            const url = config.paga.business_endpoint + config.paga.merchant_payment;
-
             var args = {
                 referenceNumber: purchaseHash,
                 amount: amountValue,

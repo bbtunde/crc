@@ -42,17 +42,16 @@ module.exports = {
             }
             
             var purchaseHash=body.purchaseHash;
-            const url = config.paga.business_endpoint+config.paga.merchant_payment;
             var service="Post Paid";
             
             var args = {
-                referenceNumber:generatedReference,
+                referenceNumber:purchaseHash,
                 amount:amountValue,
                 merchantAccount:linetype,
                 merchantReferenceNumber:body.meter_number,
                 merchantService:[service]
             };
-            var tohash=generatedReference+amountValue+linetype+body.meter_number;
+            var tohash=purchaseHash+amountValue+linetype+body.meter_number;
             if(body.retry)
             {
                //check status before attempt to make new purchase

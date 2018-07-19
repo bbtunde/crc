@@ -51,8 +51,6 @@ const getDestinationValue = (matchingServiceKey, body) => {
                 return body[mapper.BET_BONANZAWIN.destination];
             case mapper.TV_PAGA_KWESE.service_key:
                 return body[mapper.TV_PAGA_KWESE.destination]
-            case mapper.INSURANCE_PAGA_LEADWAY.service_key:
-                return body[mapper.INSURANCE_PAGA_LEADWAY.destination]
             
         }
 
@@ -81,8 +79,6 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
                 return mapper.BET_BONANZAWIN.prevalidation_error_message;
             case mapper.TV_PAGA_KWESE.service_key:
                 return mapper.TV_PAGA_KWESE.prevalidation_error_message;
-            case mapper.INSURANCE_PAGA_LEADWAY.service_key:
-                return mapper.INSURANCE_PAGA_LEADWAY.prevalidation_error_message;
 
         } 
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);

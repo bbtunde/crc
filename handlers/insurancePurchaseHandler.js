@@ -15,20 +15,8 @@ const getDestinationValue = (matchingServiceKey, body) => {
 
         switch (matchingServiceKey) {
 
-            case mapper.TV_PAGA_DSTV.service_key:
-                return body[mapper.TV_PAGA_DSTV.destination];
-
-            case mapper.TV_PAGA_GOTV.service_key:
-                return body[mapper.TV_PAGA_GOTV.destination];
-
-            case mapper.TV_PAGA_STARTIMES.service_key:
-                return body[mapper.TV_PAGA_STARTIMES.destination];
-
-            case mapper.TV_PAGA_MONTAGE.service_key:
-                return body[mapper.TV_PAGA_MONTAGE.destination];
-
-            case mapper.TV_PAGA_METRODIGITAL.service_key:
-                return body[mapper.TV_PAGA_METRODIGITAL.destination];
+            case mapper.INSURANCE_PAGA_LEADWAY.service_key:
+                return body[mapper.INSURANCE_PAGA_LEADWAY.destination];
         }
 
         throw new Error(`Destination value was not handled because there is no clause for key ${matchingServiceKey}`);
@@ -38,7 +26,7 @@ const getDestinationValue = (matchingServiceKey, body) => {
 }
 module.exports = {
 
-    tvPurchaseHandler: (serviceKey, body) => {
+    insurancePurchaseHandler: (serviceKey, body) => {
         return new Promise(function (resolve, reject) {
             let configServiceData = {
                 lynetype: null,

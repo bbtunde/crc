@@ -10,89 +10,99 @@ module.exports = class pagaRequestHandler {
 
 
     /*---build purchase response from paga responseObject--*/
-        
-    static getPurchaseResponse(serviceKey, result)
-    {
+
+    static getPurchaseResponse(serviceKey, result, generatedReference) {
         try {
             let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
             let extraInfo = availableServices[serviceKey].extra_info ? pagaHelpers.getMeterTokenExtraInfo(result) : '';
-            if(availableServices[serviceKey].extra_info)
-            {
-                if(extraInfo==""||extraInfo==undefined)
-                {
-                    return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Empty  extra info returned by Paga`, []);
+            if (availableServices[serviceKey].extra_info) {
+                if (extraInfo == "" || extraInfo == undefined) {
+                    return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Empty  extra info (token) returned by Paga`, [{ generatedReference }]);
                 }
+
             }
-            let purchaseResponse = new PurchaseResponse(transactionReference, result, extraInfo);
+            let purchaseResponse = new PurchaseResponse(transactionReference, result, extraInfo, generatedReference);
             return purchaseResponse;
         } catch (error) {
-            
-            return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []);
+            return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, [{ generatedReference }]);
         }
-        
-
     }
 
-    
+
     // to requery paga api for previously completed transaction
-    static requestTransactionQuery(referenceNumber) {
+    static requestTransactionQuery(generatedReference) {
         return new Promise(function (resolve, reject) {
 
             const url = config.paga.merchant_endpoint + config.paga.get_transaction;
             const args =
             {
-                "merchantReference": referenceNumber
+                "merchantReference": generatedReference
             };
-            const tohash=referenceNumber;
-            PagaClient.getSuccessMessage(url,args,tohash)
-            .then(result => {
-              
-                try {
-                    if(result.status=="SUCCESSFUL")
-                    {
-                        return resolve(result);
+            const tohash = generatedReference;
+            PagaClient.getSuccessMessage(url, args, tohash)
+                .then(result => {
+
+                    try {
+                        if (result.status == "SUCCESSFUL") {
+                            return resolve(result);
+                        }
+                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, result.status, [{ generatedReference }]));
+
+
+                    } catch (error) {
+                        let errorMessage = result.errorMessage === undefined ? error : result.errorMessage;
+                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, errorMessage, [{ generatedReference }]));
                     }
-                    //Initial transaction failed, so retry
-                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, result.status, []));
+                })
+                .catch(appError => {
+                    appError.extraInfo = [{ generatedReference }];
+                    return reject(appError);
+                });
 
-                   
-                } catch (error) {
-                    let errorMessage=result.errorMessage===undefined ? error:result.errorMessage;
-                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, errorMessage, []));
-                }
-            })
-            .catch(appError => {
 
-                return reject(appError);
-            });
-
-           
         });
-    }  
+    }
 
 
     //make purchase a particular service and get the value
-    static requestServicePurchase(servicekey,args,tohash) {
-        var requestHandler=this;
+    static requestServicePurchase(serviceKey, args, tohash) {
+        var requestHandler = this;
         return new Promise(function (resolve, reject) {
-            const url = config.paga.business_endpoint+config.paga.merchant_payment;
-            PagaClient.getSuccessMessage(url,args,tohash)
-            .then(result => {
-                let purchaseResponse= requestHandler.getPurchaseResponse(servicekey, result);
-                if(purchaseResponse instanceof AppError)
-                {
-                    return reject(appError);
-                }
-                 return resolve(purchaseResponse);
+            const url = config.paga.business_endpoint + config.paga.merchant_payment;
+            PagaClient.getSuccessMessage(url, args, tohash)
+                .then(result => {
+                    let purchaseResponse = requestHandler.getPurchaseResponse(serviceKey, result, args.referenceNumber);
+                    if (purchaseResponse instanceof AppError) {
+                        return reject(purchaseResponse);
+                    }
+                    return resolve(purchaseResponse);
 
-            })
-            .catch(appError => {
-              return  reject(appError);
-            });
+                })
+                .catch(_appError => {
+        
+                    //check transaction status on distributor api b4 sending failed response
+                    requestHandler.requestTransactionQuery(args.referenceNumber)
+                        .then(result => {
+
+                            let purchaseResponse = requestHandler.getPurchaseResponse(serviceKey, result, args.referenceNumber);
+                            if (purchaseResponse instanceof AppError) {
+                                return reject(_appError);
+                            }
+                            //initial transaction was successful, send success reponse 
+                            return resolve(purchaseResponse);
+                        })
+                        .catch(appError => {
+                            //set the reason to initial failed reason not the status checked reason
+                            appError.response = _appError.response;
+                            return reject(appError);
+                        });
+
+
+                });
         });
-       
+
     }
-    
-    
+
+
 }
 

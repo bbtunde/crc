@@ -2,10 +2,10 @@ const availableServices = require('../config/requireServices').services;
 var ParseUtils = require('../services/parseUtils');
 var config = require('../config/config.json');
 const servicesMapper = require('./../pagaHelpers/servicesMapper');
-const PagaClient = require('./../services/pagaClient');;
-const PurchaseResponse = require('./../models/PurchaseResponse');
 const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
+const PagaRequestHandler = require('../pagaHelpers/pagaRequestHandler');
+
 
 /* istanbul ignore next */
 const isValidLineType = (linetypeToValidate, matchingServiceKey) => {
@@ -40,7 +40,7 @@ module.exports = {
                 lynetype: null,
                 service_key: null,
                 destination: null,
-                has_plans:null,
+                has_plans: null,
                 message_missing_destination: null,
             };
 
@@ -49,7 +49,7 @@ module.exports = {
                 configServiceData.lynetype = data.lynetype;
                 configServiceData.service_key = data.service_key;
                 configServiceData.destination = data.destination;
-                configServiceData.has_plans=data.has_plans;
+                configServiceData.has_plans = data.has_plans;
                 configServiceData.message_missing_destination = data.message_missing_destination;
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error in adapter. Config file from service "${serviceKey}" does not have defined all necessary fields.`, []));
@@ -77,44 +77,41 @@ module.exports = {
 
             try {
                 let amount = body['amount'];
-                var plan=[];
-                if(configServiceData.has_plans)
-                {
-                    let amount_plan=amount.split('.');
-                    amount=amount_plan[0];
+                var plan = [];
+                if (configServiceData.has_plans) {
+                    let amount_plan = amount.split('.');
+                    amount = amount_plan[0];
                     plan.push(amount_plan[1]);
                 }
                 var amountValue = ParseUtils.parseMoneyAmountValue(amount);
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-    
-            
+
+
             // request purchase distributor
             const generatedReference = `jone${Date.now()}`;
-            const url = config.paga.business_endpoint+config.paga.merchant_payment;
-            const destinationRef=body[configServiceData.destination];
+            const url = config.paga.business_endpoint + config.paga.merchant_payment;
+            const destinationRef = body[configServiceData.destination];
             const args = {
-                referenceNumber:generatedReference,
-                amount:amountValue,
-                merchantAccount:linetype,
-                merchantReferenceNumber:destinationRef,
-                merchantService:plan
+                referenceNumber: generatedReference,
+                amount: amountValue,
+                merchantAccount: linetype,
+                merchantReferenceNumber: destinationRef,
+                merchantService: plan
             };
-            const tohash=generatedReference+amountValue+linetype+destinationRef;
-            PagaClient.getSuccessMessage(url,args,tohash)
-            .then(result => {
-                try {
-                    let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
-                    let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
+            const tohash = generatedReference + amountValue + linetype + destinationRef;
+            PagaRequestHandler.requestServicePurchase(serviceKey, args, tohash)
+                .then(purchaseResponse => {
                     return resolve(purchaseResponse);
-                } catch (error) {
-                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
-                }
-            })
-            .catch(appError => {
-                return reject(appError);
-            });
+
+                })
+                .catch(appError => {
+
+                    return reject(appError);
+                });
+
+           
         });
     }
 }

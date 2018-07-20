@@ -15,10 +15,14 @@ module.exports = class ControllerUtils {
      */
     static sendErrorResponse(error, response, next) {
         if(error instanceof AppError){
+            error.response={
+                "errorMessage":error.response,
+                "extraInfo":error.extraInfo
+            };
             return next(response.json(error.httpStatusCode, new AppResponse(error.code, error.response, error.errors)));
         } else {
             console.log('Unkown type of error ocurred: ', error);
-            return next(response.json(500, new AppResponse(ResponseCode.UNKNOWN_ERROR, `Unkown error ocurred. Check server console log. Timestamp: ${Date.now()}`, [])));
+            return next(response.json(500, new AppResponse(ResponseCode.UNKNOWN_ERROR, {"errorMessage":`Unkown error ocurred. Check server console log. Timestamp: ${Date.now()}`}, [])));
         }
     }
 

@@ -1,11 +1,9 @@
-var config = require('../config/config.json');
 const ParseUtils = require('./../services/parseUtils');
 const availableServices = require('../config/requireServices').services;
 const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
-const PurchaseResponse = require('./../models/PurchaseResponse');
-const PagaClient = require('./../services/pagaClient');
 const servicesMapper = require('./../pagaHelpers/servicesMapper');
+const PagaRequestHandler = require('../pagaHelpers/pagaRequestHandler');
 /* istanbul ignore next */
 
 /*--get service destination---*/
@@ -81,10 +79,6 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error getting destination.`, []));
             }
 
-            if (body.service === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
-            }
-
 
             var amount, service;
             if (configServiceData.has_cascade) {
@@ -126,7 +120,6 @@ module.exports = {
             }
 
             const generatedReference = `jone${Date.now()}`;
-            const url = config.paga.business_endpoint + config.paga.merchant_payment;
 
             const args = {
                 referenceNumber: generatedReference,
@@ -137,19 +130,17 @@ module.exports = {
             };
 
             const tohash = generatedReference + amountValue + linetype + destinationRef;
-            PagaClient.getSuccessMessage(url, args, tohash)
-                .then(result => {
-                    try {
-                        let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
-                        let purchaseResponse = new PurchaseResponse(transactionReference, result, '');
-                        return resolve(purchaseResponse);
-                    } catch (error) {
-                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error building purchase response from successfull purchase request to Paga`, []));
-                    }
+            PagaRequestHandler.requestServicePurchase(serviceKey, args, tohash)
+                .then(purchaseResponse => {
+                    return resolve(purchaseResponse);
+
                 })
                 .catch(appError => {
+
                     return reject(appError);
                 });
+
+
         });
     }
 }

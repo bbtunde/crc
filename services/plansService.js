@@ -9,16 +9,16 @@ const ResponseCode = require('./../models/ResponseCode');
 
 var getPlans = (linetype) => {
     return new Promise((resolve, reject) => {
-        const url = config.paga.business_endpoint+config.paga.merchant_service;
+        const url = config.paga.business_endpoint + config.paga.merchant_service;
         const generatedReference = `jone${Date.now()}`;
         const args = {
-            referenceNumber:generatedReference,
-            merchantPublicId:linetype         
+            referenceNumber: generatedReference,
+            merchantPublicId: linetype
         };
-        const tohash=generatedReference+args.merchantPublicId;
-        PagaClient.getSuccessMessage(url,args,tohash)
+        const tohash = generatedReference + args.merchantPublicId;
+        PagaClient.getSuccessMessage(url, args, tohash)
             .then(result => {
-                let services=result.services;
+                let services = result.services;
                 return resolve(services.sort(sortPlansByPrice));
 
             })
@@ -32,19 +32,18 @@ var parsePlansToOptions = (plans) => {
     try {
         let options = [];
         for (let i = 0; i < plans.length; i++) {
-           let price=plans[i].price;
-           if(price==0)
-           {
-               price="";
-           }
+            let price = plans[i].price;
+            if (price == 0) {
+                price = "";
+            }
             let option = new Option(
-                                    plans[i].name, 
-                                    "", 
-                                    `NGN_${price}.${plans[i].name}`, 
-                                    `NGN ${price}`, 
-                                    "", 
-                                    false, 
-                                    []);
+                plans[i].name,
+                "",
+                `NGN_${price}.${plans[i].name}`,
+                `NGN ${price}`,
+                "",
+                false,
+                []);
             options.push(option);
         }
 
@@ -54,22 +53,20 @@ var parsePlansToOptions = (plans) => {
     }
 }
 
-var sortPlansByPrice = (a,b) => {
-    if (a.price < b.price)
-    {
+var sortPlansByPrice = (a, b) => {
+    if (a.price < b.price) {
         return -1;
     }
-   
-    if (a.price > b.price)
-    {
+
+    if (a.price > b.price) {
         return 1;
     }
-    
-     return 0;
+
+    return 0;
 }
 
 /* istanbul ignore next */
-var getOptionsAndCachePlans = (key,linetype) => {
+var getOptionsAndCachePlans = (key, linetype) => {
     return new Promise((resolve, reject) => {
         getPlans(linetype)
             .then(plans => {

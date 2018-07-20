@@ -36,13 +36,7 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
             }
 
-            if (body.customer_id === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "customer_id" in body`, []));
-            }
-            if (body.service === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
-            }
-            
+           
             //initial random amount
             var amount="NGN_100";
             var service=body.service;

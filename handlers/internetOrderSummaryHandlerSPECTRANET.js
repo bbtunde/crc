@@ -16,11 +16,11 @@ const getPrevalidationErrorMessage = (matchingServiceKey) => {
         let mapper = servicesMapper.mapper;
 
         switch (matchingServiceKey) {
-        
+
             case mapper.INTERNET_PAGA_SPECTRANET.service_key:
                 return mapper.INTERNET_PAGA_SPECTRANET.prevalidation_error_message;
-            
-        } 
+
+        }
         throw new Error(`Pre Validation error message was not handled because there is no clause for key ${matchingServiceKey}`);
     } catch (error) {
         throw new Error(error.message);
@@ -35,9 +35,9 @@ module.exports = {
             let configServiceData = {
                 lynetype: null,
                 service_key: null,
-                has_plans:null,
-                has_cascade:null,
-                cascade_name:null,
+                has_plans: null,
+                has_cascade: null,
+                cascade_name: null,
                 destination: null,
                 message_missing_destination: null,
                 order_summary_needs_prevalidation: null
@@ -63,36 +63,28 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
             }
 
-            if (body.customer_id === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "customer_id" in body`, []));
-            }
-            if (body.service === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "service" in body`, []));
-            }
-     
+           
             var amount;
-            var service=body.service;
-            if(configServiceData.has_cascade)
-            {
-                if(body.service==configServiceData.cascade_name)
-                {
-                   
+            var service = body.service;
+            if (configServiceData.has_cascade) {
+                if (body.service == configServiceData.cascade_name) {
+
                     if (body.amount === undefined) {
                         return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
                     }
-                    else{
-                       amount=body.amount;
-                      
+                    else {
+                        amount = body.amount;
+
                     }
-        
+
                 }
-                else{
+                else {
                     //use an initial random amount
-                    amount="NGN_5000"
+                    amount = "NGN_5000"
                 }
-                
+
             }
-           
+
             try {
                 if (!amount.includes("_")) {
                     return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));
@@ -105,23 +97,22 @@ module.exports = {
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
             }
-        
+
             const generatedReference = `jone${Date.now()}`;
-            const url= config.paga.business_endpoint+config.paga.merchant_account;
+            const url = config.paga.business_endpoint + config.paga.merchant_account;
             const args = {
-                referenceNumber:generatedReference,
-                merchantAccount:linetype,
-                merchantReferenceNumber:body.customer_id,
-                merchantServiceProductCode:service
+                referenceNumber: generatedReference,
+                merchantAccount: linetype,
+                merchantReferenceNumber: body.customer_id,
+                merchantServiceProductCode: service
             };
-            const  tohash=generatedReference+linetype+body.customer_id+service
-                
-            PagaClient.getSuccessMessage(url,args,tohash)
+            const tohash = generatedReference + linetype + body.customer_id + service
+
+            PagaClient.getSuccessMessage(url, args, tohash)
                 .then(result => {
                     try {
-                        let customerName=result.customerName;
-                        if(customerName===null)
-                        {
+                        let customerName = result.customerName;
+                        if (customerName === null) {
                             let errorMessage = null;
                             try {
                                 errorMessage = getPrevalidationErrorMessage(serviceKey);
@@ -129,17 +120,15 @@ module.exports = {
                                 errorMessage = 'Call to distributor resulted in error with provided order details.'
                             }
 
-                                let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                            let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
                             reject(appError);
                         }
                         let additionalDetail = new AdditionalDetailItem('Customer Name', customerName);
-                        if(body.service=="Renew")
-                        {
+                        if (body.service == "Renew") {
                             //get current plan amount
-                            PagaClient.getSpectranetPlanDetails(linetype,body.customer_id)
-                                .then(actualAmount=>
-                                {
-                                    amountValue=actualAmount;
+                            PagaClient.getSpectranetPlanDetails(linetype, body.customer_id)
+                                .then(actualAmount => {
+                                    amountValue = actualAmount;
                                     let quoteResponse = new QuoteResponse(
                                         availableServices[serviceKey].destination,
                                         [additionalDetail],
@@ -151,10 +140,10 @@ module.exports = {
                                 .catch(appError => {
                                     return reject(appError);
                                 });
-                                
-                                
+
+
                         }
-                        else{
+                        else {
                             let quoteResponse = new QuoteResponse(
                                 availableServices[serviceKey].destination,
                                 [additionalDetail],
@@ -162,9 +151,9 @@ module.exports = {
                             );
                             return resolve(quoteResponse);
                         }
-                        
+
                     } catch (error) {
-    
+
                         let errorMessage = null;
                         try {
                             errorMessage = getPrevalidationErrorMessage(serviceKey);
@@ -177,23 +166,22 @@ module.exports = {
                     }
                 })
                 .catch(appError => {
-                    if(appError.response=="Merchant account not found.")
-                        {
-                            let errorMessage = null;
-                            try {
-                                errorMessage = getPrevalidationErrorMessage(serviceKey);
-                            } catch (error) {
-                                errorMessage = 'Call to distributor resulted in error with provided order details.'
-                            }
-
-                            let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
-                            reject(appError);
-
+                    if (appError.response == "Merchant account not found.") {
+                        let errorMessage = null;
+                        try {
+                            errorMessage = getPrevalidationErrorMessage(serviceKey);
+                        } catch (error) {
+                            errorMessage = 'Call to distributor resulted in error with provided order details.'
                         }
+
+                        let appError = new AppError(400, 'PREVALIDATION_FAILED', errorMessage, []);
+                        reject(appError);
+
+                    }
 
                     return reject(appError);
                 });
-           
+
         });
     }
 }

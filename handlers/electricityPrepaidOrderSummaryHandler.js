@@ -63,15 +63,7 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
             }
 
-            if (body.meter_number === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "meter_number" in body`, []));
-            }
-
-
-            if (body.amount === undefined) {
-                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
-            }
-
+           
             try {
                 if (!body.amount.includes("_")) {
                     return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_100`, []));

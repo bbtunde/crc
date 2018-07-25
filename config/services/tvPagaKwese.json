@@ -1,5 +1,5 @@
 {
-  "tv.paga.kwese": {
+  "tv.prepaid.kwese": {
     "orderSummaryHandler": "orderSummaryHandler",
     "purchaseHandler": "purchaseHandler",
     "definition": {

@@ -1,5 +1,5 @@
 {
-    "tv.paga.montage": {
+    "tv.prepaid.montage": {
         "orderSummaryHandler": "tvOrderSummaryHandler",
         "purchaseHandler": "tvPurchaseHandler",
       "definition": {

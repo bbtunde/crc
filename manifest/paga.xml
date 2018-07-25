@@ -11,18 +11,19 @@
         <services>
     
              <!--TV -->
-            <service key="tv.paga.dstv">TV  Paga Dstv</service>
-            <service key="tv.paga.gotv">TV  Paga Gotv</service>
-            <service key="tv.paga.startimes">TV  Paga startimes</service>
-            <service key="tv.paga.montage">TV  Paga Montage</service>
-            <service key="tv.paga.metrodigital">TV  Paga Metrodigital</service>
+           
+            <service key="tv.prepaid.dstv">Tv Prepaid Dstv</service>
+            <service key="tv.prepaid.gotv">Tv Prepaid Gotv</service>
+            <service key="tv.prepaid.startimes">Tv Prepaid Startimes</service>
+            <service key="tv.prepaid.montage">Tv Prepaid Montage</service>
+            <service key="tv.prepaid.metrodigital">Tv Prepaid Metrodigital</service>
 
             <!--INTERNET-->
-            <service key="internet.paga.smile">Internet  Paga Smile</service>
+           
 
-            <service key="internet.paga.swift">Internet  Paga Swift</service>
-
-            <service key="internet.paga.spectranet">Internet  Paga Spectranet</service>
+            <service key="internet.prepaid.smile">Internet Prepaid Smile</service>
+            <service key="internet.prepaid.swift">Internet Prepaid Swift</service>
+            <service key="internet.prepaid.spectranet">Internet Prepaid Spectranet</service>
 
             <!--TOLL-->
             <service key="toll.ltc">Toll Ltc</service>
@@ -48,7 +49,7 @@
             <service key="electricity.postpaid.eko">Electricity Postpaid Eko</service>
 
             <!-- INSURANCE-->
-            <service key="insurance.paga.leadway"> Insurance Paga Leadway</service>
+            <service key="insurance.leadway"> Insurance Leadway</service>
             
 
 

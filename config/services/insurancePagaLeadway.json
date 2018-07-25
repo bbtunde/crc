@@ -1,5 +1,5 @@
 {
-    "insurance.paga.leadway": {
+    "insurance.leadway": {
         "orderSummaryHandler": "orderSummaryHandler",
         "purchaseHandler": "purchaseHandler",
       "definition": {

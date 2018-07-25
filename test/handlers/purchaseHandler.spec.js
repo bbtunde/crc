@@ -11,7 +11,7 @@ const ResponseCode = require('./../../models/ResponseCode');
 
 describe('purchase Handler',function()
 {
-	var serviceKey="tv.paga.dstv";
+	var serviceKey="tv.prepaid.dstv";
 	const requestHandlers = require('./../../config/requireHandlers').handlers;
 	
 	it('purchase -with transaction reference', async function()
@@ -24,7 +24,7 @@ describe('purchase Handler',function()
                 status: 'Success',
                 balance: 0
             };
-            let expectedResult = new PurchaseResponse('mock_reference', mockDistributorResponse, 'mock_message');
+            let expectedResult = new PurchaseResponse('mock_reference', mockDistributorResponse, 'mock_message','mock_generated_reference');
        
 		let result = requestHandlers['noPurchaseHandler'](serviceKey, body);
         const testResult = await result;

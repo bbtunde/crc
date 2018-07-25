@@ -4,7 +4,7 @@ const mapper = {
 
     TV_PAGA_DSTV: {
         lynetype: 'A3878DC1-F07D-48E7-AA59-8276C3C26647',
-        service_key: 'tv.paga.dstv',
+        service_key: 'tv.prepaid.dstv',
         destination: 'smart_card_number',
         has_plans:true,
         has_cascade:true,
@@ -17,7 +17,7 @@ const mapper = {
 
     TV_PAGA_GOTV: {
         lynetype: 'D66C40A6-CA65-4CF7-88A1-BDF748CF0627',
-        service_key: 'tv.paga.gotv',
+        service_key: 'tv.prepaid.gotv',
         destination: 'uic_number',
         has_plans:true,
         has_cascade:false,
@@ -28,7 +28,7 @@ const mapper = {
     },
     TV_PAGA_STARTIMES: {
         lynetype: '39BA1DC-5CE2-4EBC-B355-6011716192C8',
-        service_key: 'tv.paga.startimes',
+        service_key: 'tv.prepaid.startimes',
         destination: 'smart_card_number',
         has_plans:true,
         has_cascade:false,
@@ -40,7 +40,7 @@ const mapper = {
 
     TV_PAGA_MONTAGE: {
         lynetype: 'C9076638-9974-41BF-9D33-47A0008AA21B',
-        service_key: 'tv.paga.montage',
+        service_key: 'tv.prepaid.montage',
         destination: 'smart_card_number',
         has_plans:true,
         has_cascade:false,
@@ -53,7 +53,7 @@ const mapper = {
 
     TV_PAGA_KWESE: {
         lynetype: '6A4E66C7-4E46-4CFB-A58D-CB7EB96CF5E6',
-        service_key: 'tv.paga.kwese',
+        service_key: 'tv.prepaid.kwese',
         destination: 'account_number',
         has_plans:false,
         has_cascade:false,
@@ -65,7 +65,7 @@ const mapper = {
 
     TV_PAGA_METRODIGITAL: {
         lynetype: 'bd6d6165-5c2f-44f2-8f7b-f5306df3466d',
-        service_key: 'tv.paga.metrodigital',
+        service_key: 'tv.prepaid.metrodigital',
         destination: 'account_number',
         has_plans:true,
         has_cascade:false,
@@ -79,7 +79,7 @@ const mapper = {
 
     INTERNET_PAGA_SWIFT: {
         lynetype: '21e818c7-db0a-4042-bc7a-a18da33ec3e5',
-        service_key: 'internet.paga.swift',
+        service_key: 'internet.prepaid.swift',
         destination: 'customer_id',
         has_plans:false,
         has_cascade:false,
@@ -91,7 +91,7 @@ const mapper = {
      INTERNET_PAGA_SMILE: {
 
         lynetype: 'E5E5CF1D-3F53-4273-83A7-6E678EBD7C15',
-        service_key: 'internet.paga.smile',
+        service_key: 'internet.prepaid.smile',
         destination: 'customer_id',
         has_plans:true,
         has_cascade:true,
@@ -104,7 +104,7 @@ const mapper = {
     INTERNET_PAGA_SPECTRANET: {
 
         lynetype: 'E5E5CF1D-3F53-4273-83A7-6E678EBD7C15',
-        service_key: 'internet.paga.spectranet',
+        service_key: 'internet.prepaid.spectranet',
         destination: 'customer_id',
         has_plans:false,
         has_cascade:true,
@@ -291,7 +291,7 @@ const mapper = {
     //INSURANCE
     INSURANCE_PAGA_LEADWAY: {
         lynetype: '600B29BD-D0BB-4353-A9CD-7A6C4D137C4D',
-        service_key: 'insurance.paga.leadway',
+        service_key: 'insurance.leadway',
         destination: 'account_number',
         has_plans:true,
         has_cascade:false,

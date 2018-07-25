@@ -1,5 +1,5 @@
 {
-    "tv.paga.metrodigital": {
+    "tv.prepaid.metrodigital": {
         "orderSummaryHandler": "tvOrderSummaryHandler",
         "purchaseHandler": "tvPurchaseHandler",
       "definition": {

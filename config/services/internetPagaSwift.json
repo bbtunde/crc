@@ -1,5 +1,5 @@
 {
-  "internet.paga.swift": {
+  "internet.prepaid.swift": {
     "orderSummaryHandler": "internetOrderSummaryHandler",
     "purchaseHandler": "internetPurchaseHandler",
     "definition": {

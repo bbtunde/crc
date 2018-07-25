@@ -9,7 +9,7 @@ module.exports = {
                 status: 'Success',
                 balance: 0
             };
-            let purchaseResponse = new PurchaseResponse('mock_reference', mockDistributorResponse, 'mock_message');
+            let purchaseResponse = new PurchaseResponse('mock_reference', mockDistributorResponse, 'mock_message','mock_generated_reference');
             return resolve(purchaseResponse);
         });
     }

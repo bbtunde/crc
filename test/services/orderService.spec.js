@@ -69,7 +69,8 @@ describe('Order Service', function () {
                     }
                 ],
                 httpStatusCode: 400,
-                response: "Form values are incorrect. Invalid fields at step 1 of 3."
+                response: "Form values are incorrect. Invalid fields at step 1 of 3.",
+                extraInfo:[]
             };
 
             expect(error).to.deep.equal(expectedResult);
@@ -100,7 +101,7 @@ describe('Order Service', function () {
             try {
                 const testResult = await result;
             } catch (error) {
-                let expectedResult = { "httpStatusCode": 500, "code": "UNKNOWN_ERROR", "response": "Error building order summary from handler", "errors": [] };
+                let expectedResult = { "httpStatusCode": 500, "code": "UNKNOWN_ERROR", "response": "Error building order summary from handler", "errors": [],extraInfo:[] };
 
                 expect(JSON.stringify(error)).to.deep.equal(JSON.stringify(expectedResult));
                 TestHelper.resetStubAndSpys([testOrderSummaryHandlerStub]);
@@ -175,7 +176,7 @@ describe('Order Service', function () {
             try {
                 const testResult = await result;
             } catch (error) {
-                let expectedResult = { "httpStatusCode": 500, "code": "UNKNOWN_ERROR", "response": "Order summary handler is not defined.", "errors": [] };
+                let expectedResult = { "httpStatusCode": 500, "code": "UNKNOWN_ERROR", "response": "Order summary handler is not defined.", "errors": [],extraInfo:[] };
 
                 expect(JSON.stringify(error)).to.deep.equal(JSON.stringify(expectedResult));
                 TestHelper.resetStubAndSpys([validateAndGetNextStepStub]);
@@ -222,7 +223,8 @@ describe('Order Service', function () {
                 balance: 0,
                 status: "Success"
             },
-            extra_info: 'mock_message'
+            extra_info: 'mock_message',
+            generated_reference:"mock_generated_reference"
         };
 
         expect(testResult).to.deep.equal(expectedResult);
@@ -250,7 +252,9 @@ describe('Order Service', function () {
                 }
             ],
             "httpStatusCode": 400,
-            "response": "Form values are incorrect. Invalid fields at step 2 of 3."
+            "response": "Form values are incorrect. Invalid fields at step 2 of 3.",
+            "extraInfo":[]
+            
         };
 
         let result = OrderService.makePurchase(serviceKey, body)
@@ -305,7 +309,8 @@ describe('Order Service', function () {
                 httpStatusCode: 500,
                 code: 'UNKNOWN_ERROR',
                 response: `Error ocurred while processing purchase request from handler`,
-                errors: []
+                errors: [],
+                extraInfo:[]
             };
 
             expect(error).to.deep.equal(expected);
@@ -322,7 +327,8 @@ describe('Order Service', function () {
                 httpStatusCode: 500,
                 code: 'UNKNOWN_ERROR',
                 response: `Error ocurred while processing purchase request from handler`,
-                errors: []
+                errors: [],
+                extraInfo:[]
             };
 
             expect(error).to.deep.equal(expected);
@@ -354,7 +360,7 @@ describe('Order Service', function () {
             try {
                 const testResult = await result;
             } catch (error) {
-                let expectedResult = { "httpStatusCode": 500, "code": "INVALID_PURCHASE_HANDLER", "response": "No valid purchase handler for multistep.form", "errors": [] };
+                let expectedResult = { "httpStatusCode": 500, "code": "INVALID_PURCHASE_HANDLER", "response": "No valid purchase handler for multistep.form", "errors": [],"extraInfo":[] };
 
                 expect(JSON.stringify(error)).to.deep.equal(JSON.stringify(expectedResult));
                 TestHelper.resetStubAndSpys([validateAndGetNextStepStub]);

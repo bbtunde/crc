@@ -1,5 +1,5 @@
 {
-    "tv.paga.startimes": {
+    "tv.prepaid.startimes": {
       "orderSummaryHandler": "tvOrderSummaryHandler",
       "purchaseHandler": "tvPurchaseHandler",
       "definition": {

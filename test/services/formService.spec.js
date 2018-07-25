@@ -155,7 +155,7 @@ describe('Form Service', function () {
     });
     
     it('getForm - bad handler', function (done) {
-        let serviceKey = 'tv.paga.dstv';
+        let serviceKey = 'tv.prepaid.dstv';
         let body = {};
 
         var validateAndGetNextStepStub = sinon.stub(FormService, 'validateAndGetNextStep');

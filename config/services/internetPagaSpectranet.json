@@ -1,5 +1,5 @@
 {
-    "internet.paga.spectranet": {
+    "internet.prepaid.spectranet": {
       "orderSummaryHandler": "internetOrderSummaryHandlerSPECTRANET",
       "purchaseHandler": "internetPurchaseHandlerSPECTRANET",
       "definition": {

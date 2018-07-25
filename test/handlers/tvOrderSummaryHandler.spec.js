@@ -16,7 +16,8 @@ const ResponseCode = require('./../../models/ResponseCode');
 
 describe('Order Summary Handler',function()
 {
-	var serviceKey="tv.paga.dstv";
+	console.log(availableServices);
+	var serviceKey="tv.prepaid.dstv";
 	
 	it('order summary- resolves with quoteResponse',async function()
 	{

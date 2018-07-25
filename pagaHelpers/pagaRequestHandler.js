@@ -15,12 +15,14 @@ module.exports = class pagaRequestHandler {
         try {
             let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
             let extraInfo = availableServices[serviceKey].extra_info ? pagaHelpers.getMeterTokenExtraInfo(result) : '';
+
             if (availableServices[serviceKey].extra_info) {
                 if (extraInfo == "" || extraInfo == undefined) {
                     return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Empty  extra info (token) returned by Paga`, [{ generatedReference }]);
                 }
 
             }
+            extraInfo = "Your meter token number is " + extraInfo;
             let purchaseResponse = new PurchaseResponse(transactionReference, result, extraInfo, generatedReference);
             return purchaseResponse;
         } catch (error) {
@@ -79,7 +81,7 @@ module.exports = class pagaRequestHandler {
 
                 })
                 .catch(_appError => {
-        
+
                     //check transaction status on distributor api b4 sending failed response
                     requestHandler.requestTransactionQuery(args.referenceNumber)
                         .then(result => {

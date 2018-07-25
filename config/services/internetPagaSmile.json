@@ -1,5 +1,5 @@
 {
-  "internet.paga.smile": {
+  "internet.prepaid.smile": {
     "orderSummaryHandler": "internetOrderSummaryHandlerSMILE",
     "purchaseHandler": "internetPurchaseHandlerSMILE",
     "definition": {

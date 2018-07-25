@@ -11,20 +11,20 @@ const AppResponse = require('./../../models/AppResponse');
 describe('ControllerUtils', function () {
 
     it('sendErrorResponse', function () {
-        let appError = new AppError(500,'UNKNOWN_ERROR', "Internal server error", []);
-        let payload = new AppResponse('UNKNOWN_ERROR', appError.response, appError.errors);
+        let appError = new AppError(500, 'UNKNOWN_ERROR', "Internal server error", [], []);
 
         var args = {
             appError: appError,
             response: { json: function () { } },
             next: function () { }
         }
-    
+
         var logErrorSpy = sinon.spy(Utils, 'logError');
         var nextSpy = sinon.spy(args, 'next');
         var jsonSpy = sinon.spy(args.response, 'json');
 
         ControllerUtils.sendErrorResponse(args.appError, args.response, args.next);
+        let payload = new AppResponse('UNKNOWN_ERROR', appError.response, appError.errors);
 
         assert.isTrue(nextSpy.called);
         assert.isTrue(jsonSpy.calledWith(500, payload));
@@ -68,10 +68,10 @@ describe('ControllerUtils', function () {
     it('isRequestWithValidServiceKey', function () {
         let args = {
             request: {
-                params: {'service-key' : 'tv.paga.dstv'}
+                params: { 'service-key': 'tv.prepaid.dstv' }
             },
             request2: {
-                params: {'service-key' : 'dummy'}
+                params: { 'service-key': 'dummy' }
             }
         }
 
@@ -85,7 +85,7 @@ describe('ControllerUtils', function () {
     it('isRequestWithValidBody', function () {
         let args = {
             request: {
-                body: {key : "value"}
+                body: { key: "value" }
             },
             request2: null,
             request3: {

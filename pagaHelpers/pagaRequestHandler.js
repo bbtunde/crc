@@ -13,12 +13,15 @@ module.exports = class pagaRequestHandler {
 
     static getPurchaseResponse(serviceKey, result, generatedReference) {
         try {
-            let transactionReference = (undefined == result.transactionId) ? null : result.transactionId;
+            let transactionReference = (undefined === result.transactionId) ? null : result.transactionId;
+            transactionReference = transactionReference + `, Generated Ref : ${transactionReference}`;
+            
             let extraInfo = availableServices[serviceKey].extra_info ? pagaHelpers.getMeterTokenExtraInfo(result) : '';
 
             if (availableServices[serviceKey].extra_info) {
-                if (extraInfo == "" || extraInfo == undefined) {
-                    return new AppError(500, ResponseCode.UNKNOWN_ERROR, `Empty  extra info (token) returned by Paga`, [{ generatedReference }]);
+                if (extraInfo == "" || extraInfo === undefined) {
+                    //Force core to refund customer because empty token is been returned(INVALID_REQUEST)
+                    return new AppError(500, ResponseCode.INVALID_REQUEST, `Empty  extra info (token) returned by Paga`, [{ generatedReference }]);
                 }
 
             }

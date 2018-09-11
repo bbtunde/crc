@@ -14,8 +14,8 @@ module.exports = class pagaRequestHandler {
     static getPurchaseResponse(serviceKey, result, generatedReference) {
         try {
             let transactionReference = (undefined === result.transactionId) ? null : result.transactionId;
-            transactionReference = transactionReference + `, Generated Ref : ${transactionReference}`;
-            
+            transactionReference = transactionReference + `, Generated Ref : ${generatedReference}`;
+
             let extraInfo = availableServices[serviceKey].extra_info ? pagaHelpers.getMeterTokenExtraInfo(result) : '';
 
             if (availableServices[serviceKey].extra_info) {

@@ -17,6 +17,7 @@
             <service key="tv.prepaid.startimes">Tv Prepaid Startimes</service>
             <service key="tv.prepaid.montage">Tv Prepaid Montage</service>
             <service key="tv.prepaid.metrodigital">Tv Prepaid Metrodigital</service>
+            <service key="tv.prepaid.kwese">Tv Prepaid Kwese</service>
 
             <!--INTERNET-->
            

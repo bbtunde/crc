@@ -1,28 +1,35 @@
 FROM node:alpine
-  
-MAINTAINER Nuno Lima <nuno.lima@jumia.com>
+
+LABEL maintainer="Jumia SRE MDS <sre.mds@jumia.com>"
+
+ENV LINUX alpine
+ENV APP paga
+
+RUN apk add --no-cache --force-refresh \
+            curl \
+            net-tools \
+            lsof \
+            vim \
+            curl \
+            wget \
+            tcpdump \
+            libstdc++ \
+            binutils-gold \
+            g++ \
+            gcc \
+            gnupg \
+            libgcc \
+            linux-headers \
+            make \
+            python
+
+RUN /usr/local/bin/npm --prefix /var/www/paga install
 
 # Create applicatin folder and adjust persmissions
-RUN mkdir -p /var/www/paga
+RUN mkdir -p /var/www/paga && chown -Rf nobody:nobody /var/www/paga
 COPY --chown=nobody:nobody . /var/www/paga
 
-RUN apk update && \
-  apk upgrade && \
-  apk add --no-cache \
-    libstdc++ \
-    binutils-gold \
-    curl \
-    g++ \
-    gcc \
-    gnupg \
-    libgcc \
-    linux-headers \
-    make \
-    python && \
-  /usr/local/bin/npm --prefix /var/www/paga install
-
 WORKDIR /var/www/paga
-
 EXPOSE 8080
 
 CMD [ "/usr/local/bin/npm", \

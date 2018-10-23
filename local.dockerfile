@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:8.12.0-alpine
 
 LABEL maintainer="Jumia SRE MDS <sre.mds@jumia.com>"
 

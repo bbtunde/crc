@@ -13,7 +13,7 @@ node {
             buildTag = tools.getCommitHash('paga')
             dir('paga') {
                 sh 'npm install'
-                sh 'docker build --no-cache -t paga . -f Dockerfile'
+                sh 'docker build --rm --no-cache -t paga . -f Dockerfile'
             }
             tools.pushImageToECR('paga', buildTag)
         }

@@ -1,0 +1,11 @@
+# .dockerignore
+.dockerignore
+.git*
+.vscode
+.editorconfig
+Dockerfile*
+*.dockerfile
+Jenkinsfile*
+README.md
+CHANGELOG.md
+

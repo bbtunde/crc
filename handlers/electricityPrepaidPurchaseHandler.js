@@ -46,6 +46,7 @@ module.exports = {
             const tohash = generatedReference + amountValue + linetype + merchantReferenceNumber;
             PagaRequestHandler.requestServicePurchase(serviceKey, args, tohash)
                 .then(purchaseResponse => {
+                    console.log("PAGA-PURCHASE-RESP",purchaseResponse);
                     return resolve(purchaseResponse);
 
                 })

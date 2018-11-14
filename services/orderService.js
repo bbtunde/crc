@@ -60,7 +60,7 @@ module.exports = class OrderService {
                         if (error instanceof AppError) {
                             return reject(error);
                         }                       
-                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error ocurred while processing purchase request from handler`, []));
+                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error ocurred while processing purchase request from handler ${error}`, []));
                     });
             } else {
                 return reject(new AppError(500, ResponseCode.INVALID_PURCHASE_HANDLER, 'No valid purchase handler for ' + serviceKey, []));

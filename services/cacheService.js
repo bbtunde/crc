@@ -1,8 +1,6 @@
-var plansService = require('./plansService');
-const config = require('../config/config.json');
 
+const config = require('../config/config.json');
 var couchbase = require('couchbase');
-var N1qlQuery = couchbase.N1qlQuery;
 var cluster = new couchbase.Cluster(config.couchbase.cluster);
 
 if (config.couchbase.username && config.couchbase.password) {
@@ -51,6 +49,7 @@ module.exports = class CacheService {
      * Loads cached from configured services
      */
     static async load(plansToCache) {
+        var plansService = require('./plansService');
         for (const planToCache of plansToCache) {
             try {
                 let plans = await plansService.getPlans(planToCache.linetype);

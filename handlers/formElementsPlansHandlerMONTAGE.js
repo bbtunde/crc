@@ -7,6 +7,25 @@ const ResponseCode = require('./../models/ResponseCode');
 const pagaHelpers = require('./../pagaHelpers/pagaHelpers');
 
 /* istanbul ignore next */
+
+module.exports = {
+
+    formElementsPlansHandlerMONTAGE: (formElement, serviceKey, body) => {
+        return new Promise((resolve, reject) => {
+            plansService.plansHandler('MONTAGE', serviceKey)
+                .then(options => {
+
+                    formElement.elements[1].options = options;
+                    resolve(formElement);
+                })
+                .catch(error => reject(error)
+                );
+        });
+    }
+}
+
+
+
 module.exports = {
     formElementsPlansHandlerMONTAGE: (formElement, serviceKey, body) => {
         return new Promise((resolve, reject) => {

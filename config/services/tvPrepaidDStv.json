@@ -3,7 +3,8 @@
     "orderSummaryHandler": "tvOrderSummaryHandler",
     "purchaseHandler": "tvPurchaseHandler",
     "definition": {
-      "linetype": "A3878DC1-F07D-48E7-AA59-8276C3C26647"
+      "linetype": "A3878DC1-F07D-48E7-AA59-8276C3C26647",
+      "service_name": "DSTV"
     },
     "extra_info": false,
     "destination": "smart_card_number",
@@ -55,7 +56,7 @@
             "options": []
           }
         ],
-        "requestHandler":"formElementsPlansHandlerDSTV"
+        "requestHandler": "formElementsPlansHandlerDSTV"
       }
     ]
   }

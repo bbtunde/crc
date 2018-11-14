@@ -3,7 +3,8 @@
         "orderSummaryHandler": "tvOrderSummaryHandler",
         "purchaseHandler": "tvPurchaseHandler",
       "definition": {
-        "linetype": "bd6d6165-5c2f-44f2-8f7b-f5306df3466d"
+        "linetype": "bd6d6165-5c2f-44f2-8f7b-f5306df3466d",
+        "service_name": "METRODIGITAL"
       },
       "extra_info": false,
       "destination": "account_number",

@@ -4,6 +4,7 @@ const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
 const servicesMapper = require('./../pagaHelpers/servicesMapper');
 const PagaRequestHandler = require('../pagaHelpers/pagaRequestHandler');
+const plansService = require('./../services/plansService');
 /* istanbul ignore next */
 
 /*--get service destination---*/
@@ -62,8 +63,9 @@ module.exports = {
             }
             try {
                 var linetype = availableServices[serviceKey].definition.linetype;
+                var serviceName = availableServices[serviceKey].definition.service_name;
             } catch (error) {
-                return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
+                return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" and "service_name" within root level object "definition".`, []));
             }
 
             //check if destination is present in body 
@@ -79,8 +81,14 @@ module.exports = {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error getting destination.`, []));
             }
 
+            plansService.plansHandler(serviceName, serviceKey)
+            .then(options => {
+                let exist = options.find(option => option.option_value == body.service)
+                if (exist === undefined) {
+                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'This plan is no more available, kindly initiate a new transaction', []));
+                }
 
-            var amount, service;
+                var amount, service;
             if (configServiceData.has_cascade) {
                 if (body.service == configServiceData.cascade_name) {
 
@@ -89,20 +97,20 @@ module.exports = {
                     }
                     else {
                         amount = body.amount;
-                        let amount_service = body.service.split('.');
+                        let amount_service = body.service.split('/');
                         service = amount_service[1];
                     }
 
                 }
                 else {
 
-                    let amount_service = body.service.split('.');
+                    let amount_service = body.service.split('/');
                     amount = amount_service[0];
                     service = amount_service[1];
                 }
             }
             else {
-                let amount_service = body.service.split('.');
+                let amount_service = body.service.split('/');
                 amount = amount_service[0];
                 service = amount_service[1];
             }
@@ -128,7 +136,6 @@ module.exports = {
                 merchantReferenceNumber: destinationRef,
                 merchantService: [service]
             };
-
             const tohash = generatedReference + amountValue + linetype + destinationRef;
             PagaRequestHandler.requestServicePurchase(serviceKey, args, tohash)
                 .then(purchaseResponse => {
@@ -139,6 +146,12 @@ module.exports = {
 
                     return reject(appError);
                 });
+
+
+            })
+            .catch(appError => reject(appError))
+
+            
 
 
         });

@@ -3,7 +3,8 @@
     "orderSummaryHandler": "orderSummaryHandler",
     "purchaseHandler": "purchaseHandler",
     "definition": {
-      "linetype": "6A4E66C7-4E46-4CFB-A58D-CB7EB96CF5E6"
+      "linetype": "6A4E66C7-4E46-4CFB-A58D-CB7EB96CF5E6",
+      "service_name": "KWESE"
     },
     "extra_info": false,
     "destination": "account_number",

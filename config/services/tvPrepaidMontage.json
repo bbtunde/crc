@@ -3,7 +3,8 @@
         "orderSummaryHandler": "tvOrderSummaryHandler",
         "purchaseHandler": "tvPurchaseHandler",
       "definition": {
-        "linetype": "C9076638-9974-41BF-9D33-47A0008AA21B"
+        "linetype": "C9076638-9974-41BF-9D33-47A0008AA21B",
+        "service_name": "MONTAGE"
       },
       "extra_info": false,
       "destination": "smart_card_number",

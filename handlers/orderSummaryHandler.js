@@ -151,7 +151,7 @@ module.exports = {
                 if(configServiceData.has_plans)
                 {
     
-                    let amount_plan=amount.split('.');
+                    let amount_plan=amount.split('/');
                     amount=amount_plan[0];
                     plan=amount_plan[1];
                 }

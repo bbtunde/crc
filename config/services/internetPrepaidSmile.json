@@ -3,7 +3,8 @@
     "orderSummaryHandler": "internetOrderSummaryHandlerSMILE",
     "purchaseHandler": "internetPurchaseHandlerSMILE",
     "definition": {
-      "linetype": "E5E5CF1D-3F53-4273-83A7-6E678EBD7C15"
+      "linetype": "E5E5CF1D-3F53-4273-83A7-6E678EBD7C15",
+      "service_name": "SMILE"
     },
     "extra_info": false,
     "destination": "customer_id",

@@ -3,7 +3,8 @@
       "orderSummaryHandler": "tvOrderSummaryHandler",
       "purchaseHandler": "tvPurchaseHandler",
       "definition": {
-        "linetype": "39BA1DC-5CE2-4EBC-B355-6011716192C8"
+        "linetype": "39BA1DC-5CE2-4EBC-B355-6011716192C8",
+        "service_name": "STARTIMES"
       },
       "extra_info": false,
       "destination": "smart_card_number",

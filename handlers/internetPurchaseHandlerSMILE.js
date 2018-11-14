@@ -3,10 +3,9 @@ const ParseUtils = require('./../services/parseUtils');
 const availableServices = require('../config/requireServices').services;
 const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
-const PurchaseResponse = require('./../models/PurchaseResponse');
-const PagaClient = require('./../services/pagaClient');
 const servicesMapper = require('./../pagaHelpers/servicesMapper');
 const PagaRequestHandler = require('../pagaHelpers/pagaRequestHandler');
+const plansService = require('./../services/plansService');
 /* istanbul ignore next */
 module.exports = {
 
@@ -36,62 +35,73 @@ module.exports = {
 
             try {
                 var linetype = availableServices[serviceKey].definition.linetype;
+                var serviceName = availableServices[serviceKey].definition.service_name;
             } catch (error) {
                 return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Config file from service "${serviceKey}" must have set property "linetype" within root level object "definition".`, []));
             }
 
-            var amount;
-            var service = body.service;
-            if (configServiceData.has_cascade) {
-                if (body.service == configServiceData.cascade_name) {
-
-                    if (body.amount === undefined) {
-                        return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
+            plansService.plansHandler(serviceName, serviceKey)
+                .then(options => {
+                    let exist = options.find(option => option.option_value == body.service)
+                    if (exist === undefined) {
+                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'This plan is no more available, kindly initiate a new transaction', []));
                     }
-                    else {
-                        amount = body.amount;
-                        let amount_service = body.service.split('.');
-                        service = amount_service[1];
+                    var amount;
+                    var service = body.service;
+                    if (configServiceData.has_cascade) {
+                        if (body.service == configServiceData.cascade_name) {
+
+                            if (body.amount === undefined) {
+                                return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Missing "amount" in body`, []));
+                            }
+                            else {
+                                amount = body.amount;
+                                let amount_service = body.service.split('/');
+                                service = amount_service[1];
+                            }
+
+                        }
+                        else {
+
+                            let amount_service = body.service.split('/');
+                            amount = amount_service[0];
+                            service = amount_service[1];
+                        }
                     }
 
-                }
-                else {
+                    try {
+                        if (!amount.includes("_")) {
+                            return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_1000.2GB MidNite Pla`, []));
+                        }
+                        var amountValue = ParseUtils.parseMoneyAmountValue(amount);
+                        if (typeof amountValue != "number") {
+                            return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_1000.2GB MidNite Pla`, []));
+                        }
+                    } catch (error) {
+                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
+                    }
 
-                    let amount_service = body.service.split('.');
-                    amount = amount_service[0];
-                    service = amount_service[1];
-                }
-            }
+                    const generatedReference = `jone${Date.now()}`;
+                    const args = {
+                        referenceNumber: generatedReference,
+                        amount: amountValue,
+                        merchantAccount: linetype,
+                        merchantReferenceNumber: body.customer_id,
+                        merchantService: [service]
+                    };
+                    const tohash = generatedReference + amountValue + linetype + body.customer_id;
+                    PagaRequestHandler.requestServicePurchase(serviceKey, args, tohash)
+                        .then(purchaseResponse => {
+                            return resolve(purchaseResponse);
 
-            try {
-                if (!amount.includes("_")) {
-                    return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_1000.2GB MidNite Pla`, []));
-                }
-                var amountValue = ParseUtils.parseMoneyAmountValue(amount);
-                if (typeof amountValue != "number") {
-                    return reject(new AppError(400, ResponseCode.INVALID_REQUEST, `Amount is not properly formatted. It should be like: NGN_1000.2GB MidNite Pla`, []));
-                }
-            } catch (error) {
-                return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error parsing amount from body', []));
-            }
-
-            const generatedReference = `jone${Date.now()}`;
-            const args = {
-                referenceNumber: generatedReference,
-                amount: amountValue,
-                merchantAccount: linetype,
-                merchantReferenceNumber: body.customer_id,
-                merchantService: [service]
-            };
-            const tohash = generatedReference + amountValue + linetype + body.customer_id;
-            PagaRequestHandler.requestServicePurchase(serviceKey, args, tohash)
-                .then(purchaseResponse => {
-                    return resolve(purchaseResponse);
+                        })
+                        .catch(appError => {
+                            return reject(appError);
+                        });
 
                 })
-                .catch(appError => {
-                    return reject(appError);
-                });
+                .catch(appError => reject(appError))
+
 
         });
     }

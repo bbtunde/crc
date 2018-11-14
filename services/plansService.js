@@ -4,8 +4,7 @@ const Option = require('./../models/Option');
 const PagaClient = require('./pagaClient');
 const AppError = require('./../models/AppError');
 const ResponseCode = require('./../models/ResponseCode');
-
-
+const availableServices = require('../config/requireServices').services;
 
 var getPlans = (linetype) => {
     return new Promise((resolve, reject) => {
@@ -39,7 +38,7 @@ var parsePlansToOptions = (plans) => {
             let option = new Option(
                 plans[i].name,
                 "",
-                `NGN_${price}.${plans[i].name}`,
+                `NGN_${plans[i].price}/${plans[i].name}`,
                 `NGN ${price}`,
                 "",
                 false,
@@ -54,15 +53,56 @@ var parsePlansToOptions = (plans) => {
 }
 
 var sortPlansByPrice = (a, b) => {
-    if (a.price < b.price) {
-        return -1;
-    }
+    return a.price - b.price
+}
 
-    if (a.price > b.price) {
-        return 1;
-    }
-
-    return 0;
+var plansHandler = (key, serviceKey) => {
+    return new Promise((resolve, reject) => {
+        let linetype = availableServices[serviceKey].definition.linetype;
+        if (config.couchbase && config.couchbase.enabled) {
+            try {
+                cacheService.get(key, (cachedPlans) => {
+                    if (!cachedPlans) {
+                        getOptionsAndCachePlans(key, linetype)
+                            .then(options => {
+                                resolve(options)
+                            })
+                            .catch(appError => { reject(appError) });
+                    } else {
+                        try {
+                            parsePlansToOptions(cachedPlans)
+                                .then(options => {
+                                    resolve(options)
+                                })
+                                .catch(appError => reject(appError))
+                        } catch (error) {
+                            return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred on parsing plans to options', []));
+                        }
+                    }
+                });
+            } catch (error) {
+                return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred retrieving plans', []));
+            }
+        } else {
+            getPlans()
+                .then(plans => {
+                    try {
+                        parsePlansToOptions(plans)
+                            .then(options => {
+                                resolve(options);
+                            })
+                            .catch(appError => {
+                                reject(appError)
+                            })
+                    } catch (error) {
+                        return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, 'Error ocurred on parsing plans to options', []));
+                    }
+                })
+                .catch(err => {
+                    return reject(new AppError(500, ResponseCode.UNKNOWN_ERROR, `Error retrieving plans${err}`, []));
+                });
+        }
+    });
 }
 
 /* istanbul ignore next */
@@ -93,4 +133,4 @@ var getOptionsAndCachePlans = (key, linetype) => {
 module.exports.getPlans = getPlans;
 module.exports.getOptionsAndCachePlans = getOptionsAndCachePlans;
 module.exports.parsePlansToOptions = parsePlansToOptions;
-module.exports.sortPlansByPrice = sortPlansByPrice;
+module.exports.plansHandler = plansHandler;

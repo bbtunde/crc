@@ -3,7 +3,8 @@
         "orderSummaryHandler": "tvOrderSummaryHandler",
         "purchaseHandler": "tvPurchaseHandler",
       "definition": {
-        "linetype": "D66C40A6-CA65-4CF7-88A1-BDF748CF0627"
+        "linetype": "D66C40A6-CA65-4CF7-88A1-BDF748CF0627",
+        "service_name": "GOTV"
       },
       "extra_info": false,
       "destination": "uic_number",

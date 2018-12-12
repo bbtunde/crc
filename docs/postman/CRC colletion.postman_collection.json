@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "bb01742c-2d62-4641-bc52-9cff6905eddf",
+		"name": "CRC colletion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET USER WITH PHONE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MAC",
+						"value": "945d8b2c1044fdffc0cfaf46b95a899f49e3853b2b26ed50de9c19bdfab30d5e",
+						"disabled": true
+					},
+					{
+						"key": "CLIENT_CODE",
+						"value": "JUMIA-DE217EF874CEB",
+						"disabled": true
+					},
+					{
+						"key": "x-ms-date",
+						"value": "Fri, 13 Jul 2018 08:03:40 GMT",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "someuser",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "somepassword",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"search_type\":\"normal\",\"dob\":\"13-JULY-1983\",\"name\":\"YEKINI OJO ISKILU\",\"gender\":\"001\"}"
+				},
+				"url": {
+					"raw": "http://localhost:7334/api/get_user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7334",
+					"path": [
+						"api",
+						"get_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET USER WITH NAME",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MAC",
+						"value": "945d8b2c1044fdffc0cfaf46b95a899f49e3853b2b26ed50de9c19bdfab30d5e",
+						"disabled": true
+					},
+					{
+						"key": "CLIENT_CODE",
+						"value": "JUMIA-DE217EF874CEB",
+						"disabled": true
+					},
+					{
+						"key": "x-ms-date",
+						"value": "Fri, 13 Jul 2018 08:03:40 GMT",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "someuser",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "somepassword",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"search_type\":\"phone_number\",\"telephone\":\"08072090611\"}"
+				},
+				"url": {
+					"raw": "http://localhost:7334/api/get_user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7334",
+					"path": [
+						"api",
+						"get_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET USER WITH PHONE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MAC",
+						"value": "945d8b2c1044fdffc0cfaf46b95a899f49e3853b2b26ed50de9c19bdfab30d5e",
+						"disabled": true
+					},
+					{
+						"key": "CLIENT_CODE",
+						"value": "JUMIA-DE217EF874CEB",
+						"disabled": true
+					},
+					{
+						"key": "x-ms-date",
+						"value": "Fri, 13 Jul 2018 08:03:40 GMT",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "someuser",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "somepassword",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"search_type\":\"phone_number\",\"telephone\":\"08072090611\"}"
+				},
+				"url": {
+					"raw": "http://localhost:7334/api/get_user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7334",
+					"path": [
+						"api",
+						"get_user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

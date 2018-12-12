@@ -1,43 +1,53 @@
 /**
- * @apiDefine FormTypeErrorResponse100
- * @apiSuccessExample Error-Response Invalid Service
- * HTTP/1.1 400 Bad Request
- {
-    "code": "INVALID_SERVICE_KEY",
-    "errors": [],
-    "response": "Request URL must contain a valid service key"
- }
- */
-
-/**
- * @apiDefine FailedDeliveryErrorResponse100
- * @apiSuccessExample Error-Response Failed Delivery
- * HTTP/1.1 400 Bad Request
- {
-    "code": "FAILED_DELIVERY",
-    "errors": [],
-    "response": "Service Error Occured"
- }
- */
-
- /**
- * @apiDefine GenericErrorResponse100
- * @apiSuccessExample Error-Response Server Error
- * HTTP/1.1 500 Server Error
- {
-    "code": "SERVER_ERROR",
-    "errors": [],
-    "response": "Internal server error"
- }
- */
-
-/**
- * @apiDefine InvalidRequestErrorResponse100
+ * @apiDefine GetUserErrorResponse
  * @apiSuccessExample Error-Response Invalid Request
- * HTTP/1.1 500 Server Error
+ * HTTP/1.1 400 Bad Request
  {
     "code": "INVALID_REQUEST",
-    "response": "Invalid request message",
-    "errors": [ ]
+    "response": "dob is required for search_type normal ",
+    "errors": [
+        {
+            "dob": "Date of birth is required"
+        }
+    ]
 }
  */
+
+
+ /**
+ * @apiDefine GetUserError
+ * @apiSuccessExample Error-Response Invalid search_type
+ * HTTP/1.1 400 Bad Request
+ {
+    "code": "INVALID_REQUEST",
+    "response": " Invalid Search type can only be ['bvn','phone_number','account','normal'] ",
+    "errors": [
+        {
+            "search_type": "Invalid search type"
+        }
+    ]
+}
+ */
+
+  /**
+ * @apiDefine GetUserError1
+ * @apiSuccessExample Error-Response User not found
+ * HTTP/1.1 500 Bad Request
+ {
+    "code": "UNKNOWN_ERROR",
+    "response": "Error retrieving user details",
+    "errors": {
+        "ERROR-LIST": [
+            {
+                "ERROR-CODE": [
+                    "57"
+                ]
+            }
+        ]
+    }
+}
+ */
+
+
+
+ 

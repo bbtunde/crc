@@ -1,4 +1,3 @@
-var nr = require('newrelic');
 var morgan = require('morgan');
 var restify = require('restify');
 var restifyValidator = require('restify-validator');
@@ -20,25 +19,7 @@ var server = {};
 
 if (env !== 'test') {
 
-  // activate cron
-  if (((undefined != config.cron_active) && config.cron_active) &&
-    ((undefined != config.couchbase) && config.couchbase.enabled)) {
-    const cronService = require('./services/cronService');
-    cronService.cronTaskPlansDSTV.start();
-    cronService.cronTaskPlansGOTV.start();
-    cronService.cronTaskPlansSTARTIMES.start();
-    cronService.cronTaskPlansSMILE.start();
-    cronService.cronTaskPlansMONTAGE.start();
-    cronService.cronTaskPlansMETRODIGITAL.start();
-    cronService.cronTaskPlansLEADWAY.start();
-  }
-
-  // activate cache
- if ((undefined != config.couchbase) && config.couchbase.enabled && (undefined != config.plans_to_cache)) {
-    const cacheService = require('./services/cacheService');
-    cacheService.load(config.plans_to_cache);
-  }
-
+  
   server = restify.createServer();
 
   server.use(restify.plugins.bodyParser());
@@ -82,7 +63,7 @@ if (env !== 'test') {
   routes(server);
 
   server.listen(config.serverPort, function () {
-    console.log(`Paga Adapter REST server listening at http://localhost:${config.serverPort}`);
+    console.log(`CRC REST server listening at http://localhost:${config.serverPort}`);
   });
 }
 

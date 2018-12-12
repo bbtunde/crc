@@ -1,8 +1,8 @@
 {
-  "name": "Paga API doc",
+  "name": "Vas2Nets API doc",
   "version": "1.0.0",
-  "description": "Jumia One adapter to Paga distributor",
-  "title": "Paga API doc",
+  "description": "Jumia One adapter to Vas2Nets distributor",
+  "title": "Vas2Nets API doc",
   "header": {
     "title": "Overview",
     "filename": "docs/apidoc/header.md"
@@ -10,10 +10,6 @@
   "footer": {
     "filename": "docs/apidoc/footer.md"
   },
-  "order":[
-    "Health Check",
-    "Forms"
-  ],
   "pluginJsonExample": {
     "json_samples_base_path" : "docs/apidoc/definitions/"
   }
